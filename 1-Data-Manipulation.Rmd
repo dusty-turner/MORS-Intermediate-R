@@ -9,34 +9,34 @@ library(janitor)
 ## Read in Data
 
 ```{r}
-read_csv("Batting.csv")
+read_csv("data_files/Batting.csv")
 ```
 
 ### Fix Read In Errors {-}
 
 ```{r}
-read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
+read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
 ```
 
 ```{r}
-read_csv("Batting.csv", guess_max = 10000)
+read_csv("data_files/Batting.csv", guess_max = 10000)
 ```
 
 ### Clean Column Names {-}
 
 ```{r}
-read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
 ## Analysis with `dplyr`
 
-Who has the highest career slugging percentage
+Who has the highest career slugging percentage?
 
 ### Select {-}
 
 ```{r}
-data = read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
@@ -124,11 +124,11 @@ slgdata
 ### Player ID Data {-}
 
 ```{r}
-read_csv("Master.csv") 
+read_csv("data_files/Master.csv") 
 ```
 
 ```{r}
-read_csv("Master.csv") %>% 
+read_csv("data_files/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = paste(nameFirst,nameLast)) %>% 
   select(-starts_with("name"))
@@ -137,7 +137,7 @@ read_csv("Master.csv") %>%
 
 ```{r}
 master = 
-read_csv("Master.csv") %>% 
+read_csv("data_files/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = paste(nameFirst,nameLast)) %>% 
   select(-starts_with("name"))

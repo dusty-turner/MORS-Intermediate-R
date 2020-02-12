@@ -14,7 +14,7 @@ classoption: oneside
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 # Class Introduction
@@ -81,4 +81,20 @@ Data Science
 
 ## Get Course Documents
 
-ADD REPO LOCATION HERE
+[github repo]https://github.com/dusty-turner/MORS-Intermediate-R
+
+SSH:
+
+$git@github.com:dusty-turner/MORS-Intermediate-R.git$
+
+HTTPS:
+
+https://github.com/dusty-turner/MORS-Intermediate-R.git
+
+## Tidy Ecosystem
+
+![](images/tidyverse.png)
+
+
+![](images/tidymodels.png)
+

@@ -23,10 +23,10 @@ library(janitor)
 ## Read Data
 
 ```{r}
-data = read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
+data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
   clean_names()
 
-hofdata = read_csv("HallOfFame.csv") %>% 
+hofdata = read_csv("data_files/HallOfFame.csv") %>% 
   clean_names() %>% 
   select(player_id, inducted) %>% 
   mutate(hof = ifelse(inducted=="Y",1,0)) %>% 
@@ -38,6 +38,7 @@ retiredyear =
 data %>% 
   group_by(player_id) %>% 
   summarise(lastyear = max(year_id))
+retiredyear
 
 hof =
 data %>% 
@@ -53,7 +54,11 @@ data %>%
   select(-hof)
 
 hof
+```
 
+### Filter for HOF Eligable Players {-}
+
+```{r}
 hof %>% 
   filter(lastyear <= 2012) %>% 
   count(inducted) 
@@ -88,14 +93,14 @@ hofmod %>%
 
 ```{r}
 set.seed(as.numeric(as.factor("beatnavy")))
-hof_initial_split <- initial_split(hofmod, prop = 0.80)
+hof_initial_split = initial_split(hofmod, prop = 0.80)
 hof_initial_split
 ```
 
 ## Preprocess Data
 
 ```{r}
-preprocessing_recipe <-
+preprocessing_recipe =
   recipe(inducted ~ ., data = training(hof_initial_split)) %>%
   step_knnimpute(all_numeric()) %>% 
   step_center(all_numeric()) %>% 
@@ -164,7 +169,7 @@ glmnet_params = parameters(penalty(), mixture())
 glmnet_params
 
 set.seed(as.numeric(as.factor("beatnavy")))
-glmnet_grid <- grid_max_entropy(glmnet_params, size = 20)
+glmnet_grid = grid_max_entropy(glmnet_params, size = 20)
 glmnet_grid
 
 glmnet_grid %>%
@@ -177,11 +182,11 @@ glmnet_grid %>%
 ### Random Forest Model {-}
 
 ```{r}
-forest_params <- parameters(mtry(c(2,6)), trees(), min_n())
+forest_params = parameters(mtry(c(2,6)), trees(), min_n())
 forest_params
 
 set.seed(as.numeric(as.factor("beatnavy")))
-forest_grid <- grid_max_entropy(forest_params, size = 30)
+forest_grid = grid_max_entropy(forest_params, size = 30)
 forest_grid
 
 ```
@@ -192,7 +197,7 @@ forest_grid
 
 ```{r message=FALSE, warning=FALSE}
 library(tune)
-glmnet_stage_1_cv_results_tbl <- tune_grid(
+glmnet_stage_1_cv_results_tbl = tune_grid(
     formula   = inducted ~ .,
     model     = glmnet_model,
     resamples = hof_cv_folds,
@@ -209,7 +214,7 @@ glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
 ### Random Forest Model {-}
 
 ```{r message=FALSE, warning=FALSE}
-forest_stage_1_cv_results_tbl <- tune_grid(
+forest_stage_1_cv_results_tbl = tune_grid(
     formula   = inducted ~ .,
     model     = forest_model,
     resamples = hof_cv_folds,
@@ -227,11 +232,11 @@ forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
 ## Select Best Parameters
 
 ```{r}
-params_glmnet_best <- glmnet_stage_1_cv_results_tbl %>% 
+params_glmnet_best = glmnet_stage_1_cv_results_tbl %>% 
     select_best("roc_auc", maximize = FALSE)
 params_glmnet_best
 
-params_forest_best <- forest_stage_1_cv_results_tbl %>% 
+params_forest_best = forest_stage_1_cv_results_tbl %>% 
     select_best("roc_auc", maximize = FALSE)
 params_forest_best
 ```
@@ -239,14 +244,14 @@ params_forest_best
 ## Save Best Paramenters
 
 ```{r}
-glmnet_stage_2_model <- glmnet_model %>% 
+glmnet_stage_2_model = glmnet_model %>% 
     finalize_model(parameters = params_glmnet_best)
 
 glmnet_stage_2_model
 ```
 
 ```{r}
-forest_stage_2_model <- forest_model %>% 
+forest_stage_2_model = forest_model %>% 
     finalize_model(params_forest_best)
 
 forest_stage_2_model
@@ -255,15 +260,16 @@ forest_stage_2_model
 ## Compare Models
 
 ```{r}
-train_processed <- 
+train_processed = 
   training(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
 
-test_processed  <- 
+test_processed  = 
   testing(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
     
-target_expr <- preprocessing_recipe %>% 
+target_expr = 
+  preprocessing_recipe %>% 
     pluck("last_term_info") %>%
     filter(role == "outcome") %>%
     pull(variable) %>%
@@ -298,7 +304,7 @@ Looks like the Random Forest is the better model.
 ## Run Best Model on All Data
 
 ```{r}
-model_final <- forest_stage_2_model %>%
+model_final = forest_stage_2_model %>%
     fit(inducted ~ . , data = bake(preprocessing_recipe, new_data = hofmod))
 ```
 

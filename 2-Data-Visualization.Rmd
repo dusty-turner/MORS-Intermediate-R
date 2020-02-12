@@ -75,13 +75,17 @@ slgname %>%
   ggplot(aes(x=fct_reorder(player,hr), y = hr, fill = slg)) +
   geom_col() +
   coord_flip() +
-  labs(x = "Player", y = "Home Runs", title = "Top 20 Home Run Hitters", fill = "Slugging Percentage",
-       subtitle = "1871-2016", caption = "*Among Players Who've Played at least 1000 games")
+  labs(x = "Player", y = "Home Runs", 
+       title = "Top 20 Home Run Hitters", 
+       fill = "Slugging Percentage",
+       subtitle = "1871-2016", 
+       caption = "*Among Players Who've Played at least 1000 games")
 ```
 
 ## Scatter Plot {-}
 
 ```{r}
+scatterdat = 
 data %>% 
   filter(lg_id == "AL") %>% 
   mutate(team_id = fct_lump(team_id, n = 12)) %>% 
@@ -89,64 +93,110 @@ data %>%
   filter(complete.cases(.)) %>%
   filter(year_id>1990) %>% 
   group_by(team_id,year_id) %>% 
-  summarise_at(vars(g:gidp), ~sum(.)) %>% 
+  summarise_at(vars(g:gidp), ~sum(.))  
+
+scatterdat
+```
+
+### Canvas {-}
+
+```{r}
+scatterdat %>% 
+  ggplot() 
+```
+
+### Mapping {-}
+
+```{r}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr,color = fct_reorder(team_id,-hr)))
+```
+
+### Plot 'mechanism': geom_point() {-}
+
+```{r}
+scatterdat %>% 
   ggplot(aes(x=year_id,y=hr,color = fct_reorder(team_id,-hr))) +
   geom_point() 
+```
 
-data %>% 
-  filter(lg_id == "AL") %>% 
-  mutate(team_id = fct_lump(team_id, n = 12)) %>% 
-  filter(team_id != "Other") %>% 
-  filter(complete.cases(.)) %>%
-  filter(year_id>1990) %>% 
-  group_by(team_id,year_id) %>% 
-  summarise_at(vars(g:gidp), ~sum(.)) %>% 
+### Plot 'mechanism': geom_smooth() {-}
+
+```{r}
+scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
   geom_smooth()
+```
 
-data %>% 
-  filter(lg_id == "AL") %>% 
-  mutate(team_id = fct_lump(team_id, n = 12)) %>% 
-  filter(team_id != "Other") %>% 
-  filter(complete.cases(.)) %>%
-  filter(year_id>1990) %>% 
-  group_by(team_id,year_id) %>% 
-  summarise_at(vars(g:gidp), ~sum(.)) %>% 
+### Facet Plots {-}
+
+```{r}
+scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
   geom_smooth() +
   facet_wrap(~team_id)
+```
 
+### Update Labels {-}
 
+```{r}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr)) +
+  geom_point(aes(color = fct_reorder(team_id,-hr))) +
+  geom_smooth() +
+  facet_wrap(~team_id) +
+  labs(title = "Home Run Changes Over Time",
+       subtitle = paste("From", min(scatterdat$year_id), "to", max(scatterdat$year_id)),
+       color = "Team",
+       x = "Season", y = "Season Home Run Total")
+```
+
+### Change Smoothing Line {-}
+
+```{r}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr)) +
+  geom_point(aes(color = fct_reorder(team_id,-hr))) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~team_id) +
+  labs(title = "Home Run Changes Over Time",
+       subtitle = paste("From", min(scatterdat$year_id), "to", max(scatterdat$year_id)),
+       color = "Team",
+       x = "Season", y = "Season Home Run Total")
 ```
 
 ## Animation
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(gganimate)
-p =
-data %>%  
-  filter(!is.na(lg_id)) %>% 
-  group_by(year_id, team_id) %>% 
-  summarise_at(vars(hr,so,bb,ab), ~sum(., na.rm = TRUE)) %>%
-  ungroup() %>% 
-  inner_join(
-    data %>% 
-      select(year_id,team_id,lg_id) %>% 
-      distinct()) %>% 
-  # pivot_longer(cols = hr:so) %>% 
-  ggplot(aes(x=so,y=hr,color = bb,size = ab, group = year_id)) +
+
+animdata =
+  data %>%
+  filter(!is.na(lg_id)) %>%
+  group_by(year_id, team_id) %>%
+  summarise_at(vars(hr, so, bb, ab), ~ sum(., na.rm = TRUE)) %>%
+  ungroup() %>%
+  inner_join(data %>%
+               select(year_id, team_id, lg_id) %>%
+               distinct()) 
+
+animdata
+```
+
+
+```{r}
+p = animdata %>% 
+  ggplot(aes(x = so,y = hr, color = bb,size = ab,group = year_id)) +
   geom_point() +
-  facet_wrap(~lg_id) +
-  # labs(title = 'Year: {frame_time}') +
-  transition_states(year_id, transition_length=1, state_length=30) +
+  facet_wrap(~ lg_id) +
+  transition_states(year_id,transition_length = 1,state_length = 30) +
   labs(title = 'Year: {closest_state}') +
   enter_fade() +
-  exit_fade() 
+  exit_fade()
 
-animate(p,
-        nframes = length(unique(data$year_id))*2)
+animate(p,nframes = length(unique(data$year_id)) * 2)
 ```
 
 
