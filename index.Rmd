@@ -1,0 +1,84 @@
+---
+title: "Intermediate R"
+author: "MAJ Dusty Turner"
+date: "15 JUN 2020"
+output: bookdown::gitbook
+# output:
+#   bookdown::html_book:
+#     theme: united
+site: bookdown::bookdown_site
+always_allow_html: yes
+documentclass: memoir
+classoption: oneside
+# geometry: margin=.75in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Class Introduction
+
+Agenda
+
+1. Data Manipulation
+2. Data Visulaization
+3. Data Modeling
+
+Incorporateing Intermediate R Techniques
+
+## Expectations
+
+In taking this course, I'm assuming you have a working knowledge of the following...
+
+1. Base R and possibly 'tidy' concepts
+2. Computer Coding 
+3. Statistics
+4. Dad Jokes
+
+## Class Introductions
+
+Around the room:
+
+- Where you are from:
+- Who you work for:
+- How you are involved in Data Science:
+    (ie - statistics, coding, application buidling, manager, etc)
+- Why you sad in that seat:
+- Favorite sports team:
+
+## Instructor Introduction
+
+Army 
+
+- Combat Engineer
+- Platoon Leader / XO / Company Commander
+- Geospatial / Sapper / Route Clearance
+- Hawaii / White Sands Missile Range / Iraq / Afghanistan
+
+Education
+
+- West Point '07
+  - Operations Research, BS
+- Missouri University of Science and Technology '12
+  - Engineering Management, MS
+- THE Ohio State '16
+  - Integrated Systems Engineering, MS
+  - Applied Statistics, Graduate Minor
+
+Data Science
+
+- R User Since '14
+- Catch me on Twitter [`@dtdusty`](http://www.twitter.com/dtdusty)
+- <http://dusty-turner.netlify.com/>
+
+## Course Intent
+
+- Be interactive
+- Ask questions at any point
+- Don't let me move too fast (or too slow)
+- Run the code with me
+
+## Get Course Documents
+
+ADD REPO LOCATION HERE

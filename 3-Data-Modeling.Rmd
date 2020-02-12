@@ -1,0 +1,324 @@
+# Data Modeling
+
+## Load Packages
+
+```{r}
+library(tidymodels)
+library(tune)
+library(dials)
+library(parsnip)
+library(rsample)
+library(recipes)
+library(textrecipes)
+library(yardstick)
+library(vip)
+library(gghighlight)
+library(patchwork)
+library(tidyverse)
+library(tidyquant)
+library(knitr)
+library(janitor)
+```
+
+## Read Data
+
+```{r}
+data = read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
+  clean_names()
+
+hofdata = read_csv("HallOfFame.csv") %>% 
+  clean_names() %>% 
+  select(player_id, inducted) %>% 
+  mutate(hof = ifelse(inducted=="Y",1,0)) %>% 
+  filter(hof==1)
+
+hofdata %>%  count(inducted)
+
+retiredyear = 
+data %>% 
+  group_by(player_id) %>% 
+  summarise(lastyear = max(year_id))
+
+hof =
+data %>% 
+  group_by(player_id) %>% 
+  summarise_at(vars(g:gidp), list(~sum(.,na.rm = TRUE))) %>%
+  ungroup() %>%  
+  left_join(retiredyear) %>% 
+  left_join(hofdata) %>% 
+  mutate(inducted = if_else(inducted=="Y",1,0)) %>% 
+  mutate(inducted = replace_na(inducted, 0)) %>% 
+  filter(g>=1000) %>% 
+  mutate(inducted = as.factor(inducted)) %>% 
+  select(-hof)
+
+hof
+
+hof %>% 
+  filter(lastyear <= 2012) %>% 
+  count(inducted) 
+
+hofmod =
+hof %>% 
+  filter(lastyear <= 2012) %>% 
+  select(-lastyear)
+hofmod
+
+hoftest = 
+hof %>% 
+  filter(lastyear > 2012) %>% 
+  select(-lastyear,-inducted)
+hoftest
+
+```
+
+## Data Exploration
+
+```{r}
+hofmod %>% 
+  select(g:inducted) %>%  
+  pivot_longer(cols = g:gidp) %>% 
+  ggplot(aes(x=value,y=as.factor(inducted),color = name)) +
+  geom_point() +
+  theme(legend.position = "none") +
+  facet_wrap(~name, scales = "free")
+```
+
+## Split Data test/train
+
+```{r}
+set.seed(as.numeric(as.factor("beatnavy")))
+hof_initial_split <- initial_split(hofmod, prop = 0.80)
+hof_initial_split
+```
+
+## Preprocess Data
+
+```{r}
+preprocessing_recipe <-
+  recipe(inducted ~ ., data = training(hof_initial_split)) %>%
+  step_knnimpute(all_numeric()) %>% 
+  step_center(all_numeric()) %>% 
+  step_scale(all_numeric()) %>% 
+  step_rm(player_id) %>%
+  prep()
+preprocessing_recipe
+```
+
+## Apply Preprocessing
+
+```{r}
+hof_training_preprocessed_tbl = 
+  preprocessing_recipe %>% 
+  bake(training(hof_initial_split))
+
+hof_training_preprocessed_tbl
+```
+
+## Prepare Cross Validation
+
+```{r}
+set.seed(as.numeric(as.factor("beatnavy")))
+hof_cv_folds =
+  training(hof_initial_split) %>% 
+    bake(preprocessing_recipe, new_data = .) %>%
+    vfold_cv(v = 5)
+hof_cv_folds
+```
+
+## Specify Models 
+
+### GLM Model {-}
+
+```{r}
+glmnet_model =
+  logistic_reg(mode = "classification",
+    penalty = tune(),
+    mixture = tune()) %>%
+  set_engine("glmnet")
+
+glmnet_model
+```
+
+### Random Forest Model {-}
+
+```{r}
+forest_model =
+  rand_forest(
+    mode = "classification",
+    mtry = tune(),
+    trees = tune(),
+    min_n = tune()
+  ) %>%
+  set_engine("randomForest", objective = "reg:squarederror")
+
+forest_model
+```
+
+## Create Grid of Parameters to Validate Over
+
+### GLM Model {-}
+
+```{r}
+glmnet_params = parameters(penalty(), mixture())
+glmnet_params
+
+set.seed(as.numeric(as.factor("beatnavy")))
+glmnet_grid <- grid_max_entropy(glmnet_params, size = 20)
+glmnet_grid
+
+glmnet_grid %>%
+  ggplot(aes(penalty, mixture)) +
+  geom_point(size = 3) +
+  scale_x_log10() +
+  labs(title = "Max Entropy Grid", x = "Penalty (log scale)", y = "Mixture")
+```
+
+### Random Forest Model {-}
+
+```{r}
+forest_params <- parameters(mtry(c(2,6)), trees(), min_n())
+forest_params
+
+set.seed(as.numeric(as.factor("beatnavy")))
+forest_grid <- grid_max_entropy(forest_params, size = 30)
+forest_grid
+
+```
+
+## Execute Cross Validation
+
+### GLM Model {-}
+
+```{r message=FALSE, warning=FALSE}
+library(tune)
+glmnet_stage_1_cv_results_tbl <- tune_grid(
+    formula   = inducted ~ .,
+    model     = glmnet_model,
+    resamples = hof_cv_folds,
+    grid      = glmnet_grid,
+    metrics   = metric_set(accuracy, kap, roc_auc),
+    control   = control_grid(verbose = TRUE)
+)
+
+glmnet_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10, maximize = FALSE)
+glmnet_stage_1_cv_results_tbl %>% show_best("kap", n = 10, maximize = FALSE)
+glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
+```
+
+### Random Forest Model {-}
+
+```{r message=FALSE, warning=FALSE}
+forest_stage_1_cv_results_tbl <- tune_grid(
+    formula   = inducted ~ .,
+    model     = forest_model,
+    resamples = hof_cv_folds,
+    grid      = forest_grid,
+    metrics   = metric_set(accuracy, kap, roc_auc),
+    control   = control_grid(verbose = TRUE)
+)
+
+forest_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10, maximize = FALSE)
+forest_stage_1_cv_results_tbl %>% show_best("kap", n = 10, maximize = FALSE)
+forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
+
+```
+
+## Select Best Parameters
+
+```{r}
+params_glmnet_best <- glmnet_stage_1_cv_results_tbl %>% 
+    select_best("roc_auc", maximize = FALSE)
+params_glmnet_best
+
+params_forest_best <- forest_stage_1_cv_results_tbl %>% 
+    select_best("roc_auc", maximize = FALSE)
+params_forest_best
+```
+
+## Save Best Paramenters
+
+```{r}
+glmnet_stage_2_model <- glmnet_model %>% 
+    finalize_model(parameters = params_glmnet_best)
+
+glmnet_stage_2_model
+```
+
+```{r}
+forest_stage_2_model <- forest_model %>% 
+    finalize_model(params_forest_best)
+
+forest_stage_2_model
+```
+
+## Compare Models
+
+```{r}
+train_processed <- 
+  training(hof_initial_split) %>% 
+  bake(preprocessing_recipe, new_data = .)
+
+test_processed  <- 
+  testing(hof_initial_split) %>% 
+  bake(preprocessing_recipe, new_data = .)
+    
+target_expr <- preprocessing_recipe %>% 
+    pluck("last_term_info") %>%
+    filter(role == "outcome") %>%
+    pull(variable) %>%
+    sym()
+
+glmnet_stage_2_metrics =    
+  glmnet_stage_2_model %>%
+  fit(formula = inducted ~ ., data = train_processed) %>%
+  predict(new_data = test_processed) %>%
+  bind_cols(testing(hof_initial_split)) %>%
+  metrics(!! target_expr, .pred_class)
+
+forest_stage_2_metrics =    
+  forest_stage_2_model %>%
+  fit(formula = inducted ~ ., data = train_processed) %>%
+  predict(new_data = test_processed) %>%
+  bind_cols(testing(hof_initial_split)) %>%
+  metrics(!! target_expr, .pred_class)
+
+glmnet_stage_2_metrics %>% 
+  mutate(mod = "glmnet") %>% 
+  bind_rows(
+    forest_stage_2_metrics %>% 
+      mutate(mod = "forest")
+    ) %>% 
+  arrange(.metric,-.estimate)
+
+```
+
+Looks like the Random Forest is the better model.
+
+## Run Best Model on All Data
+
+```{r}
+model_final <- forest_stage_2_model %>%
+    fit(inducted ~ . , data = bake(preprocessing_recipe, new_data = hofmod))
+```
+
+## Run Model on New Data
+
+```{r}
+hoftest %>%
+  bake(preprocessing_recipe, new_data = .) %>%
+  predict(model_final, new_data = .) %>% 
+  bind_cols(hoftest %>% select(player_id)) %>% 
+  arrange(desc(.pred_class))
+```
+
+## Variable Importance
+
+```{r}
+vip(model_final) +
+    labs(title = "Random Forest Model Importance - HOF Prediction") 
+```
+
+
+[Many Thanks](https://www.r-bloggers.com/product-price-prediction-a-tidy-hyperparameter-tuning-and-cross-validation-tutorial/)
+

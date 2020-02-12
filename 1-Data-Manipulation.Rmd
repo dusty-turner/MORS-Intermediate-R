@@ -1,0 +1,232 @@
+# Data Manipulation
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(janitor)
+```
+
+## Read in Data
+
+```{r}
+read_csv("Batting.csv")
+```
+
+### Fix Read In Errors {-}
+
+```{r}
+read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
+```
+
+```{r}
+read_csv("Batting.csv", guess_max = 10000)
+```
+
+### Clean Column Names {-}
+
+```{r}
+read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+  clean_names()
+```
+
+## Analysis with `dplyr`
+
+Who has the highest career slugging percentage
+
+### Select {-}
+
+```{r}
+data = read_csv("Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+  clean_names()
+```
+
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g)
+```
+
+### Group_by {-}
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id)
+```
+
+### Summarise {-}
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) 
+```
+
+### Filter {-}
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) %>% 
+  filter(g>1000) 
+```
+
+### Mutate {-}
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) %>% 
+  filter(g>1000) %>% 
+  mutate(slg = (h + x2b + 2*x3b + 3*hr)/ab)
+```
+
+### Arrange {-}
+
+```{r}
+slgdata = 
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) %>% 
+  filter(g>1000) %>% 
+  mutate(slg = (h + x2b + 2*x3b + 3*hr)/ab) %>% 
+  arrange(desc(slg))
+
+slgdata
+```
+
+## Joins
+
+### Player ID Data {-}
+
+```{r}
+read_csv("Master.csv") 
+```
+
+```{r}
+read_csv("Master.csv") %>% 
+  select(playerID, nameFirst, nameLast) %>% 
+  mutate(player = paste(nameFirst,nameLast)) %>% 
+  select(-starts_with("name"))
+```
+
+
+```{r}
+master = 
+read_csv("Master.csv") %>% 
+  select(playerID, nameFirst, nameLast) %>% 
+  mutate(player = paste(nameFirst,nameLast)) %>% 
+  select(-starts_with("name"))
+```
+
+### Join the Data {-}
+
+```{r}
+slgdata %>% 
+  left_join(master, by = c("player_id" = "playerID"))
+```
+
+```{r}
+slgname = 
+slgdata %>% 
+  left_join(master, by = c("player_id" = "playerID"))
+```
+
+### Rename Columns {-}
+
+```{r}
+slgname %>% 
+  rename(doubles = x2b, triples = x3b)
+```
+
+
+```{r}
+slgname = 
+slgname %>% 
+  rename(doubles = x2b, triples = x3b)
+```
+
+### Reorder Columns {-}
+
+```{r}
+slgname %>% 
+  select(player_id, player, everything())
+```
+
+```{r}
+slgname =
+slgname %>% 
+  select(player_id, player, everything())
+```
+
+
+## Other dplyr Tricks
+
+### Count {-}
+
+```{r}
+data
+```
+
+```{r}
+data %>% 
+  count(player_id)
+```
+
+```{r}
+data %>% 
+  count(player_id, sort = TRUE)
+```
+
+### Uncount {-}
+
+```{r}
+slgname %>% 
+  uncount(triples)
+```
+
+### Summarise {-}
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) 
+```
+
+
+```{r}
+data %>% 
+  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  group_by(player_id) %>% 
+  summarise_at(vars(-year_id),~sum(.))
+```
