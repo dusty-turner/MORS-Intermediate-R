@@ -1,0 +1,232 @@
+# Text Analysis
+
+## The Adventures of Tom Sawyer
+
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(stringi)
+
+book = read_file("data_files//The-Adventures-of-Tom-Sawyer.txt") %>% enframe(name = "Book")
+book
+book %>% nchar()
+```
+
+## Find Chapter Splits
+
+```{r}
+book =
+book %>% separate_rows(value, sep = "\nCHAPTER") %>%
+  slice(-1) %>%
+  mutate(value = str_remove_all(string = value, pattern = "\n")) %>%
+  mutate(value = str_replace(value, "jpg", "HERE")) %>%
+  separate(col = "value", into = c("Chapter", "Text"), sep = "HERE") %>%
+  filter(!is.na(Text)) %>% 
+  mutate(Chapter = unlist(str_extract_all(Chapter, "[A-Z]+"))) %>%
+  mutate(Text = str_replace_all(Text, "[.]"," ")) %>% 
+  mutate(Chapter = as.numeric(as.roman(Chapter)))
+
+```
+
+## Tokenize the Book
+
+```{r}
+booktokens = book   %>%
+  unnest_tokens(word, Text)
+booktokens
+```
+
+## Remove 'stop words'
+
+```{r}
+bookstop = booktokens %>%
+  anti_join(stop_words)
+bookstop
+```
+
+## Join Sentiments
+
+```{r}
+get_sentiments(lexicon = "afinn")
+get_sentiments(lexicon = "bing")
+get_sentiments(lexicon = "loughran")
+get_sentiments(lexicon = "nrc")
+```
+
+```{r}
+booktokens %>%
+  left_join(get_sentiments("bing"))
+
+booktokens %>%
+  left_join(get_sentiments("bing")) %>%
+  filter(!is.na(sentiment))
+```
+
+## Descriptive Text Statistics
+
+```{r}
+booktokens %>%
+  left_join(get_sentiments("bing")) %>%
+  filter(!is.na(sentiment)) %>%
+  count(Chapter,sentiment)
+```
+
+## Visualizations
+
+```{r}
+booktokens %>%
+  left_join(get_sentiments("bing")) %>%
+  filter(!is.na(sentiment)) %>%
+  count(Chapter,sentiment) %>%
+  mutate(n = if_else(sentiment == "negative",n*-1,as.double(n))) %>%
+  group_by(Chapter) %>%
+  mutate(order = group_indices()) %>% 
+  summarise(n = sum(n)) %>%
+  mutate(pos = if_else(n>0,"pos","neg")) %>%
+  ungroup() %>% 
+  ggplot(aes(x=Chapter,y=n,fill = pos, color = pos)) +
+  geom_col() +
+  scale_fill_manual(values = c("red","green")) +
+  scale_color_manual(values = c("black","black")) +
+  theme(legend.position="none", axis.text.x = element_text(angle = 90)) +
+  labs(y = "Net Positive Words",
+       title = "Sentiment Analysis of 'The Adventures of Tom Sawyer'",
+       subtitle = "Net Positive Words by Chapter")
+```
+
+## Topic Modleing
+
+```{r}
+booktokens %>%
+  count(word, sort = TRUE)
+
+booktokens %>%
+  left_join(get_sentiments("bing")) %>%
+  filter(!is.na(sentiment)) %>%
+  count(word,sentiment, sort = TRUE)
+
+booktokens %>%
+  left_join(get_sentiments("bing")) %>%
+  filter(!is.na(sentiment)) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  group_by(sentiment) %>%
+  top_n(10) %>%
+  ungroup() %>%
+  ggplot(aes(x=fct_reorder(word,n), y = n, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~sentiment, scales = "free_y") +
+  coord_flip() +
+  labs(x="Word")
+```  
+
+## Term Frequency
+
+Term Frequency: The number of times that a term occurs in the book.
+
+Inverse Document Frequency: $\ln(\frac{Total Number of Documents}{Total Number of Documents Containing Specified Word})$: Measure of how much information the word provides.
+
+Term Frequency - Inverse Document Frequency: Term Frequency * Inverse Document Frequency
+
+```{r, fig.height=25, fig.width=12}
+booktokens %>%
+  count(Chapter, word, sort = TRUE, name = "count") %>%
+  add_count(word) %>%
+  spread(Chapter, count) %>%
+  arrange(desc(n))
+
+booktokens %>%
+  count(Chapter, word, sort = TRUE, name = "Chapter_Total") %>%
+  left_join(
+    booktokens %>%
+      count(word, sort = TRUE, name = "Book_Total")
+    )
+
+booktokens %>%
+  count(Chapter, word, sort = TRUE, name = "Chapter_Total") %>%
+  left_join(
+    booktokens %>%
+      count(word, sort = TRUE, name = "Book_Total")
+    ) %>%
+  bind_tf_idf(word, Chapter, Chapter_Total) %>%
+  filter(Chapter_Total!=Book_Total) %>%
+  filter(tf<1) %>%
+  arrange(-tf_idf)
+
+booktokens %>%
+  count(Chapter, word, sort = TRUE, name = "Chapter_Total") %>%
+  left_join(
+    booktokens %>%
+      count(word, sort = TRUE, name = "Book_Total")
+    ) %>%
+  bind_tf_idf(word, Chapter, Chapter_Total) %>%
+  filter(Chapter_Total!=Book_Total) %>%
+  filter(tf<1) %>%
+  arrange(-tf_idf) %>%
+  group_by(Chapter) %>% top_n(4) %>% ungroup() %>%
+  mutate(word = fct_reorder(word, tf_idf)) %>%
+  ggplot(aes(x = word,y = tf_idf, fill = Chapter)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~Chapter, scales = "free", ncol = 4) +
+  coord_flip()
+```
+
+## Topic Modeling
+
+```{r}
+library(topicmodels)
+
+bookdtm =
+booktokens %>% 
+  left_join(get_sentiments("nrc")) %>% 
+  filter(!is.na(sentiment)) %>% 
+  select(Chapter,word) %>% 
+  count(Chapter,word) %>%
+  rename(document = Chapter, term = word, count = n) %>% 
+  mutate(document = as.integer(document), count = as.double(count))  %>% 
+  cast_dtm(document, term, count)
+
+# set a seed so that the output of the model is predictable
+ap_lda <- LDA(bookdtm, k = 2, control = list(seed = 1234))
+ap_lda
+
+ap_topics <- tidy(ap_lda, matrix = "beta")
+ap_topics
+
+ap_top_terms <- ap_topics %>%
+  group_by(topic) %>%
+  top_n(10, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+ap_top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered()
+
+beta_spread <- ap_topics %>%
+  mutate(topic = paste0("topic", topic)) %>%
+  spread(topic, beta) %>%
+  filter(topic1 > .001 | topic2 > .001) %>%
+  mutate(log_ratio = log2(topic2 / topic1))
+
+beta_spread
+
+ap_documents <- tidy(ap_lda, matrix = "gamma")
+ap_documents
+
+booktokens %>% 
+  left_join(get_sentiments("nrc")) %>% 
+  filter(!is.na(sentiment)) %>% 
+  select(Chapter,word) %>% 
+  count(Chapter,word) %>%
+  rename(document = Chapter, term = word, count = n) %>% 
+  mutate(document = as.integer(document), count = as.double(count)) %>%
+  filter(document == 6) %>%
+  arrange(desc(count))
+
+```
+
