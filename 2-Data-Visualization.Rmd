@@ -2,27 +2,27 @@
 
 ## Bar Chart
 
-```{r}
+```{r, cache = TRUE}
 slgname
 ```
 
 ### Canvas {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   ggplot()
 ```
 
 ### Mapping {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   ggplot(aes(x=player, y = hr))
 ```
 
 ### Filter Data {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=player, y = hr)) 
@@ -30,7 +30,7 @@ slgname %>%
 
 ### Plot 'mechanism' {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=player, y = hr)) +
@@ -39,7 +39,7 @@ slgname %>%
 
 ### Coordinate Flip {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=player, y = hr)) +
@@ -49,7 +49,7 @@ slgname %>%
 
 ### Reorder Factors {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=fct_reorder(player,hr), y = hr)) +
@@ -59,7 +59,7 @@ slgname %>%
 
 ### Color Bars {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=fct_reorder(player,hr), y = hr, fill = slg)) +
@@ -69,7 +69,7 @@ slgname %>%
 
 ### Update Labels {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   top_n(20, h) %>% 
   ggplot(aes(x=fct_reorder(player,hr), y = hr, fill = slg)) +
@@ -84,7 +84,7 @@ slgname %>%
 
 ## Scatter Plot {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat = 
 data %>% 
   filter(lg_id == "AL") %>% 
@@ -100,21 +100,21 @@ scatterdat
 
 ### Canvas {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot() 
 ```
 
 ### Mapping {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr,color = fct_reorder(team_id,-hr)))
 ```
 
 ### Plot 'mechanism': geom_point() {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr,color = fct_reorder(team_id,-hr))) +
   geom_point() 
@@ -122,7 +122,7 @@ scatterdat %>%
 
 ### Plot 'mechanism': geom_smooth() {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -131,7 +131,7 @@ scatterdat %>%
 
 ### Facet Plots {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -141,7 +141,7 @@ scatterdat %>%
 
 ### Update Labels {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -155,7 +155,7 @@ scatterdat %>%
 
 ### Change Smoothing Line {-}
 
-```{r}
+```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -169,7 +169,7 @@ scatterdat %>%
 
 ## Animation
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE, cache = TRUE}
 library(gganimate)
 
 animdata =
@@ -186,13 +186,13 @@ animdata
 ```
 
 
-```{r}
+```{r, cache = TRUE}
 p = animdata %>% 
   ggplot(aes(x = so,y = hr, color = bb,size = ab,group = year_id)) +
   geom_point() +
   facet_wrap(~ lg_id) +
   transition_states(year_id,transition_length = 1,state_length = 30) +
-  labs(title = 'Year: {closest_state}') +
+  labs(title = 'Year: {closest_state, cache = TRUE}') +
   enter_fade() +
   exit_fade()
 
@@ -201,7 +201,7 @@ animate(p,nframes = length(unique(data$year_id)) * 2)
 
 
 
-<!-- ```{r} -->
+<!-- ```{r, cache = TRUE} -->
 <!-- library(gapminder) -->
 
 <!-- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) + -->
@@ -211,7 +211,7 @@ animate(p,nframes = length(unique(data$year_id)) * 2)
 <!--   scale_x_log10() + -->
 <!--   facet_wrap(~continent) + -->
 <!--   # Here comes the gganimate specific bits -->
-<!--   labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') + -->
+<!--   labs(title = 'Year: {frame_time, cache = TRUE}', x = 'GDP per capita', y = 'life expectancy') + -->
 <!--   transition_time(year) + -->
 <!--   ease_aes('linear') -->
 

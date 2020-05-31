@@ -13,7 +13,7 @@ classoption: oneside
 # geometry: margin=.75in
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache = TRUE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -23,7 +23,9 @@ Agenda
 
 1. Data Manipulation
 2. Data Visulaization
-3. Data Modeling
+3. Functional Programming
+4. Data Modeling
+5. Text Analysis
 
 Incorporateing Intermediate R Techniques
 
@@ -47,7 +49,9 @@ Around the room:
 - Why you sad in that seat:
 - Favorite sports team:
 
-## Instructor Introduction
+## Instructors Introduction
+
+### MAJ Dusty Turner
 
 Army 
 
@@ -71,6 +75,9 @@ Data Science
 - R User Since '14
 - Catch me on Twitter [`@dtdusty`](http://www.twitter.com/dtdusty)
 - <http://dusty-turner.netlify.com/>
+
+### Robert Ward
+
 
 ## Course Intent
 
@@ -97,4 +104,10 @@ https://github.com/dusty-turner/MORS-Intermediate-R.git
 
 
 ![](images/tidymodels.png)
+
+## Prerequisite Packages
+
+```{r}
+
+```
 

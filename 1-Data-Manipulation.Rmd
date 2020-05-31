@@ -1,6 +1,6 @@
 # Data Manipulation
 
-```{r}
+```{r, cache = TRUE}
 library(tidyverse)
 library(tidymodels)
 library(janitor)
@@ -8,23 +8,23 @@ library(janitor)
 
 ## Read in Data
 
-```{r}
+```{r, cache=TRUE, cache = TRUE}
 read_csv("data_files/Batting.csv")
 ```
 
 ### Fix Read In Errors {-}
 
-```{r}
+```{r, cache = TRUE}
 read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
 ```
 
-```{r}
+```{r, cache = TRUE}
 read_csv("data_files/Batting.csv", guess_max = 10000)
 ```
 
 ### Clean Column Names {-}
 
-```{r}
+```{r, cache = TRUE}
 read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
@@ -35,20 +35,20 @@ Who has the highest career slugging percentage?
 
 ### Select {-}
 
-```{r}
+```{r, cache = TRUE}
 data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g)
 ```
 
 ### Group_by {-}
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id)
@@ -56,7 +56,7 @@ data %>%
 
 ### Summarise {-}
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 
@@ -70,7 +70,7 @@ data %>%
 
 ### Filter {-}
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 
@@ -85,7 +85,7 @@ data %>%
 
 ### Mutate {-}
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 
@@ -101,7 +101,7 @@ data %>%
 
 ### Arrange {-}
 
-```{r}
+```{r, cache = TRUE}
 slgdata = 
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
@@ -123,11 +123,11 @@ slgdata
 
 ### Player ID Data {-}
 
-```{r}
+```{r, cache = TRUE}
 read_csv("data_files/Master.csv") 
 ```
 
-```{r}
+```{r, cache = TRUE}
 read_csv("data_files/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = paste(nameFirst,nameLast)) %>% 
@@ -135,7 +135,7 @@ read_csv("data_files/Master.csv") %>%
 ```
 
 
-```{r}
+```{r, cache = TRUE}
 master = 
 read_csv("data_files/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
@@ -145,12 +145,12 @@ read_csv("data_files/Master.csv") %>%
 
 ### Join the Data {-}
 
-```{r}
+```{r, cache = TRUE}
 slgdata %>% 
   left_join(master, by = c("player_id" = "playerID"))
 ```
 
-```{r}
+```{r, cache = TRUE}
 slgname = 
 slgdata %>% 
   left_join(master, by = c("player_id" = "playerID"))
@@ -158,13 +158,13 @@ slgdata %>%
 
 ### Rename Columns {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   rename(doubles = x2b, triples = x3b)
 ```
 
 
-```{r}
+```{r, cache = TRUE}
 slgname = 
 slgname %>% 
   rename(doubles = x2b, triples = x3b)
@@ -172,12 +172,12 @@ slgname %>%
 
 ### Reorder Columns {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   select(player_id, player, everything())
 ```
 
-```{r}
+```{r, cache = TRUE}
 slgname =
 slgname %>% 
   select(player_id, player, everything())
@@ -188,30 +188,30 @@ slgname %>%
 
 ### Count {-}
 
-```{r}
+```{r, cache = TRUE}
 data
 ```
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   count(player_id)
 ```
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   count(player_id, sort = TRUE)
 ```
 
 ### Uncount {-}
 
-```{r}
+```{r, cache = TRUE}
 slgname %>% 
   uncount(triples)
 ```
 
 ### Summarise {-}
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 
@@ -224,7 +224,7 @@ data %>%
 ```
 
 
-```{r}
+```{r, cache = TRUE}
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 

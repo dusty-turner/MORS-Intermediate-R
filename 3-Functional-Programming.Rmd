@@ -1,0 +1,114 @@
+# Functional Programming
+
+## Iteration
+
+```{r, cache = TRUE}
+library(tidyverse)
+# library(here)
+# here()
+# hitters <- read_csv("_bookdown_files/data_files/Batting.csv", guess_max = 10000)
+hitters <- read_csv("data_files/Batting.csv", guess_max = 10000)
+# hitters <- read_csv(here("_bookdown_files/data_files","Batting.csv"), guess_max = 10000)
+
+# hitters <- read_csv("data_files/Batting.csv", guess_max = 10000) %>%
+#   janitor::clean_names()
+# hitters
+```
+
+## An Interesting Question
+
+Who played the most games and hit the most Home Runs in the 90s in Texas?
+
+```{r, cache = TRUE}
+
+hitters %>% 
+  filter(yearID %in% 1990:1999) %>% 
+  filter(teamID %in% c("HOU","TEX")) %>% 
+  select(playerID,teamID, G,HR) %>% 
+  group_by(playerID, teamID) %>% 
+  summarise_all(.funs = sum) %>% 
+  arrange(desc(G,HR))
+
+```
+
+## A More General Question
+
+Who, from any team over any number of years in any subset of tams had the most of any statistical category?
+
+```{r, cache = TRUE}
+min_year <- 1990
+max_year <- 1999
+teamID <- c("HOU","TEX")
+category <- c("G", "HR")
+
+hitters %>% 
+  filter(yearID %in% min_year:max_year) %>% 
+  filter(teamID %in% !!enquo(teamID)) %>% 
+  select(playerID, teamID, category) %>% 
+  group_by(playerID, teamID) %>% 
+  summarise_all(.funs = sum) %>% 
+  arrange_at(desc({{ category }}))
+
+var_quo = rlang::parse_quosures(category)
+
+library(dplyr)
+library(rlang)
+
+test_func = function(var){
+    var_quo = parse_quosure(var)
+    mtcars %>%
+      select(!!var_quo) %>%
+      arrange(!!var_quo)
+}
+
+test_func2 = function(var){
+  var_quo = enquo(var)
+  mtcars %>%
+    select(!!var_quo) %>%
+    arrange(!!var_quo)
+}
+```
+
+## Even more Genarally
+
+```{r, cache = TRUE}
+min_year <- 1990
+max_year <- 1999
+teamID <- c("HOU","TEX")
+category <- c("G", "HR")
+
+baseball_fun <- function(min_year = 1990,
+                         max_year = 1999,
+                         teamID = c("HOU","TEX"),
+                         category = c("G", "HR")){
+hitters %>% 
+  filter(yearID %in% min_year:max_year) %>% 
+  filter(teamID %in% !!enquo(teamID)) %>% 
+  select(playerID,teamID, category) %>% 
+  group_by(playerID, teamID) %>% 
+  summarise_all(.funs = sum) %>% 
+  arrange_at(desc(category))
+}
+
+baseball_fun()
+
+```
+
+## Even more Genarally
+
+```{r, cache = TRUE}
+hitters$teamID %>% unique() %>% sort()
+baseball_fun(min_year = 2000,max_year = 2009, teamID = "NYA") %>% 
+  arrange(desc(HR))
+```
+
+## PURRR
+
+```{r}
+library(purrr)
+
+map(c("TEX","NYA"), ~baseball_fun(teamID = .)) %>% 
+  map(~arrange(.x))
+
+```
+

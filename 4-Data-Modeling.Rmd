@@ -2,7 +2,7 @@
 
 ## Load Packages
 
-```{r}
+```{r, cache=TRUE, warning=FALSE, message=FALSE}
 library(tidymodels)
 library(tune)
 library(dials)
@@ -22,7 +22,7 @@ library(janitor)
 
 ## Read Data
 
-```{r}
+```{r, cache=TRUE}
 data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
   clean_names()
 
@@ -58,7 +58,7 @@ hof
 
 ### Filter for HOF Eligable Players {-}
 
-```{r}
+```{r, cache=TRUE}
 hof %>% 
   filter(lastyear <= 2012) %>% 
   count(inducted) 
@@ -79,7 +79,7 @@ hoftest
 
 ## Data Exploration
 
-```{r}
+```{r, cache=TRUE}
 hofmod %>% 
   select(g:inducted) %>%  
   pivot_longer(cols = g:gidp) %>% 
@@ -91,7 +91,7 @@ hofmod %>%
 
 ## Split Data test/train
 
-```{r}
+```{r, cache=TRUE}
 set.seed(as.numeric(as.factor("beatnavy")))
 hof_initial_split = initial_split(hofmod, prop = 0.80)
 hof_initial_split
@@ -99,7 +99,7 @@ hof_initial_split
 
 ## Preprocess Data
 
-```{r}
+```{r, cache=TRUE}
 preprocessing_recipe =
   recipe(inducted ~ ., data = training(hof_initial_split)) %>%
   step_knnimpute(all_numeric()) %>% 
@@ -112,7 +112,7 @@ preprocessing_recipe
 
 ## Apply Preprocessing
 
-```{r}
+```{r, cache=TRUE}
 hof_training_preprocessed_tbl = 
   preprocessing_recipe %>% 
   bake(training(hof_initial_split))
@@ -122,7 +122,7 @@ hof_training_preprocessed_tbl
 
 ## Prepare Cross Validation
 
-```{r}
+```{r, cache=TRUE}
 set.seed(as.numeric(as.factor("beatnavy")))
 hof_cv_folds =
   training(hof_initial_split) %>% 
@@ -135,7 +135,7 @@ hof_cv_folds
 
 ### GLM Model {-}
 
-```{r}
+```{r, cache=TRUE}
 glmnet_model =
   logistic_reg(mode = "classification",
     penalty = tune(),
@@ -147,7 +147,7 @@ glmnet_model
 
 ### Random Forest Model {-}
 
-```{r}
+```{r, cache=TRUE}
 forest_model =
   rand_forest(
     mode = "classification",
@@ -164,7 +164,7 @@ forest_model
 
 ### GLM Model {-}
 
-```{r}
+```{r, cache=TRUE}
 glmnet_params = parameters(penalty(), mixture())
 glmnet_params
 
@@ -181,7 +181,7 @@ glmnet_grid %>%
 
 ### Random Forest Model {-}
 
-```{r}
+```{r, cache=TRUE}
 forest_params = parameters(mtry(c(2,6)), trees(), min_n())
 forest_params
 
@@ -193,10 +193,24 @@ forest_grid
 
 ## Execute Cross Validation
 
+### Parallel Processing
+
+```{r message=FALSE, warning=FALSE, cache=TRUE}
+all_cores <- parallel::detectCores(logical = FALSE)
+
+library(doFuture)
+registerDoFuture()
+cl <- makeCluster(all_cores)
+plan(cluster, workers = cl)
+```
+
 ### GLM Model {-}
 
-```{r message=FALSE, warning=FALSE}
+
+```{r message=FALSE, warning=FALSE, cache=TRUE}
+
 library(tune)
+
 glmnet_stage_1_cv_results_tbl = tune_grid(
     formula   = inducted ~ .,
     model     = glmnet_model,
@@ -213,7 +227,7 @@ glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
 
 ### Random Forest Model {-}
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, cache=TRUE}
 forest_stage_1_cv_results_tbl = tune_grid(
     formula   = inducted ~ .,
     model     = forest_model,
@@ -231,7 +245,7 @@ forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
 
 ## Select Best Parameters
 
-```{r}
+```{r, cache=TRUE}
 params_glmnet_best = glmnet_stage_1_cv_results_tbl %>% 
     select_best("roc_auc", maximize = FALSE)
 params_glmnet_best
@@ -243,14 +257,14 @@ params_forest_best
 
 ## Save Best Paramenters
 
-```{r}
+```{r, cache=TRUE}
 glmnet_stage_2_model = glmnet_model %>% 
     finalize_model(parameters = params_glmnet_best)
 
 glmnet_stage_2_model
 ```
 
-```{r}
+```{r, cache=TRUE}
 forest_stage_2_model = forest_model %>% 
     finalize_model(params_forest_best)
 
@@ -259,7 +273,7 @@ forest_stage_2_model
 
 ## Compare Models
 
-```{r}
+```{r, cache=TRUE}
 train_processed = 
   training(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
@@ -303,14 +317,14 @@ Looks like the Random Forest is the better model.
 
 ## Run Best Model on All Data
 
-```{r}
+```{r, cache=TRUE}
 model_final = forest_stage_2_model %>%
     fit(inducted ~ . , data = bake(preprocessing_recipe, new_data = hofmod))
 ```
 
 ## Run Model on New Data
 
-```{r}
+```{r, cache=TRUE}
 hoftest %>%
   bake(preprocessing_recipe, new_data = .) %>%
   predict(model_final, new_data = .) %>% 
@@ -320,7 +334,7 @@ hoftest %>%
 
 ## Variable Importance
 
-```{r}
+```{r, cache=TRUE}
 vip(model_final) +
     labs(title = "Random Forest Model Importance - HOF Prediction") 
 ```
