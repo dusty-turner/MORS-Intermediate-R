@@ -23,10 +23,10 @@ library(janitor)
 ## Read Data
 
 ```{r, cache=TRUE}
-data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
+data = read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
   clean_names()
 
-hofdata = read_csv("data_files/HallOfFame.csv") %>% 
+hofdata = read_csv("data_sources/HallOfFame.csv") %>% 
   clean_names() %>% 
   select(player_id, inducted) %>% 
   mutate(hof = ifelse(inducted=="Y",1,0)) %>% 

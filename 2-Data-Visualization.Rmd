@@ -169,7 +169,7 @@ scatterdat %>%
 
 ## Animation
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, cache = TRUE}
+```{r animate_data, echo=TRUE, message=FALSE, warning=FALSE, cache = TRUE}
 library(gganimate)
 
 animdata =
@@ -186,7 +186,7 @@ animdata
 ```
 
 
-```{r, cache = TRUE}
+```{r animate_run, eval=FALSE}
 p = animdata %>% 
   ggplot(aes(x = so,y = hr, color = bb,size = ab,group = year_id)) +
   geom_point() +

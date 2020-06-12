@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Text Analysis | Intermediate R</title>
   <meta name="description" content="6 Text Analysis | Intermediate R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Text Analysis | Intermediate R" />
   <meta property="og:type" content="book" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -132,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href = "/">Tutorial Home</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> output:</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Class Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i><b>1.1</b> Expectations</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#class-introductions"><i class="fa fa-check"></i><b>1.2</b> Class Introductions</a></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#instructors-introduction"><i class="fa fa-check"></i><b>1.3</b> Instructors Introduction</a></li>
@@ -211,37 +209,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">6</span> Text Analysis</h1>
 <div id="the-adventures-of-tom-sawyer" class="section level2">
 <h2><span class="header-section-number">6.1</span> The Adventures of Tom Sawyer</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="6-text-analysis.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="6-text-analysis.html#cb1-2"></a><span class="kw">library</span>(tidytext)</span>
-<span id="cb1-3"><a href="6-text-analysis.html#cb1-3"></a><span class="kw">library</span>(stringi)</span>
-<span id="cb1-4"><a href="6-text-analysis.html#cb1-4"></a></span>
-<span id="cb1-5"><a href="6-text-analysis.html#cb1-5"></a>book =<span class="st"> </span><span class="kw">read_file</span>(<span class="st">&quot;data_files//The-Adventures-of-Tom-Sawyer.txt&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">enframe</span>(<span class="dt">name =</span> <span class="st">&quot;Book&quot;</span>)</span>
-<span id="cb1-6"><a href="6-text-analysis.html#cb1-6"></a><span class="co"># book = read_file(&quot;_bookdown_files/data_files/The-Adventures-of-Tom-Sawyer.txt&quot;) %&gt;% enframe(name = &quot;Book&quot;)</span></span>
-<span id="cb1-7"><a href="6-text-analysis.html#cb1-7"></a>book</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb181-2" title="2"><span class="kw">library</span>(tidytext)</a>
+<a class="sourceLine" id="cb181-3" title="3"><span class="kw">library</span>(stringi)</a>
+<a class="sourceLine" id="cb181-4" title="4"></a>
+<a class="sourceLine" id="cb181-5" title="5">book =<span class="st"> </span><span class="kw">read_file</span>(<span class="st">&quot;data_sources//The-Adventures-of-Tom-Sawyer.txt&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">enframe</span>(<span class="dt">name =</span> <span class="st">&quot;Book&quot;</span>)</a>
+<a class="sourceLine" id="cb181-6" title="6"><span class="co"># book = read_file(&quot;_bookdown_files/data_sources/The-Adventures-of-Tom-Sawyer.txt&quot;) %&gt;% enframe(name = &quot;Book&quot;)</span></a>
+<a class="sourceLine" id="cb181-7" title="7">book</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##    Book value                                                                   
 ##   &lt;int&gt; &lt;chr&gt;                                                                   
 ## 1     1 &quot;The Project Gutenberg EBook of The Adventures of Tom Sawyer, Complete\~</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="6-text-analysis.html#cb3-1"></a>book <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nchar</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" title="1">book <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nchar</span>()</a></code></pre></div>
 <pre><code>##   Book  value 
 ##      1 423754</code></pre>
 </div>
 <div id="find-chapter-splits" class="section level2">
 <h2><span class="header-section-number">6.2</span> Find Chapter Splits</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="6-text-analysis.html#cb5-1"></a>book =</span>
-<span id="cb5-2"><a href="6-text-analysis.html#cb5-2"></a>book <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(value, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">CHAPTER&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb5-3"><a href="6-text-analysis.html#cb5-3"></a><span class="st">  </span><span class="kw">slice</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
-<span id="cb5-4"><a href="6-text-analysis.html#cb5-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="kw">str_remove_all</span>(<span class="dt">string =</span> value, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb5-5"><a href="6-text-analysis.html#cb5-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="kw">str_replace</span>(value, <span class="st">&quot;jpg&quot;</span>, <span class="st">&quot;HERE&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb5-6"><a href="6-text-analysis.html#cb5-6"></a><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;Chapter&quot;</span>, <span class="st">&quot;Text&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;HERE&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb5-7"><a href="6-text-analysis.html#cb5-7"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Text)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-8"><a href="6-text-analysis.html#cb5-8"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Chapter =</span> <span class="kw">unlist</span>(<span class="kw">str_extract_all</span>(Chapter, <span class="st">&quot;[A-Z]+&quot;</span>))) <span class="op">%&gt;%</span></span>
-<span id="cb5-9"><a href="6-text-analysis.html#cb5-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Text =</span> <span class="kw">str_replace_all</span>(Text, <span class="st">&quot;[.]&quot;</span>,<span class="st">&quot; &quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-10"><a href="6-text-analysis.html#cb5-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Chapter =</span> <span class="kw">as.numeric</span>(<span class="kw">as.roman</span>(Chapter)))</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1">book =</a>
+<a class="sourceLine" id="cb185-2" title="2">book <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(value, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">CHAPTER&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-3" title="3"><span class="st">  </span><span class="kw">slice</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="kw">str_remove_all</span>(<span class="dt">string =</span> value, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="kw">str_replace</span>(value, <span class="st">&quot;jpg&quot;</span>, <span class="st">&quot;HERE&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-6" title="6"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;Chapter&quot;</span>, <span class="st">&quot;Text&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;HERE&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-7" title="7"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(Text)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb185-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Chapter =</span> <span class="kw">unlist</span>(<span class="kw">str_extract_all</span>(Chapter, <span class="st">&quot;[A-Z]+&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Text =</span> <span class="kw">str_replace_all</span>(Text, <span class="st">&quot;[.]&quot;</span>,<span class="st">&quot; &quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb185-10" title="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Chapter =</span> <span class="kw">as.numeric</span>(<span class="kw">as.roman</span>(Chapter)))</a></code></pre></div>
 <pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 2 rows [55, 60].</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 35 rows [1, 2, 3,
 ## 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="6-text-analysis.html#cb8-1"></a>book</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" title="1">book</a></code></pre></div>
 <pre><code>## # A tibble: 35 x 3
 ##     Book Chapter Text                                                           
 ##    &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                                                          
@@ -259,9 +257,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="tokenize-the-book" class="section level2">
 <h2><span class="header-section-number">6.3</span> Tokenize the Book</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="6-text-analysis.html#cb10-1"></a>booktokens =<span class="st"> </span>book   <span class="op">%&gt;%</span></span>
-<span id="cb10-2"><a href="6-text-analysis.html#cb10-2"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, Text)</span>
-<span id="cb10-3"><a href="6-text-analysis.html#cb10-3"></a>booktokens</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" title="1">booktokens =<span class="st"> </span>book   <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb190-2" title="2"><span class="st">  </span><span class="kw">unnest_tokens</span>(word, Text)</a>
+<a class="sourceLine" id="cb190-3" title="3">booktokens</a></code></pre></div>
 <pre><code>## # A tibble: 70,882 x 3
 ##     Book Chapter word  
 ##    &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt; 
@@ -279,10 +277,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="remove-stop-words" class="section level2">
 <h2><span class="header-section-number">6.4</span> Remove ‘stop words’</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="6-text-analysis.html#cb12-1"></a>bookstop =<span class="st"> </span>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb12-2"><a href="6-text-analysis.html#cb12-2"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" title="1">bookstop =<span class="st"> </span>booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb192-2" title="2"><span class="st">  </span><span class="kw">anti_join</span>(stop_words)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="6-text-analysis.html#cb14-1"></a>bookstop</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" title="1">bookstop</a></code></pre></div>
 <pre><code>## # A tibble: 26,251 x 3
 ##     Book Chapter word  
 ##    &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt; 
@@ -300,7 +298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="join-sentiments" class="section level2">
 <h2><span class="header-section-number">6.5</span> Join Sentiments</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="6-text-analysis.html#cb16-1"></a><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;afinn&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" title="1"><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;afinn&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 2,477 x 2
 ##    word       value
 ##    &lt;chr&gt;      &lt;dbl&gt;
@@ -315,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abhorrent     -3
 ## 10 abhors        -3
 ## # ... with 2,467 more rows</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="6-text-analysis.html#cb18-1"></a><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;bing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" title="1"><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;bing&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 6,786 x 2
 ##    word        sentiment
 ##    &lt;chr&gt;       &lt;chr&gt;    
@@ -330,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 aborted     negative 
 ## 10 aborts      negative 
 ## # ... with 6,776 more rows</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="6-text-analysis.html#cb20-1"></a><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;loughran&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" title="1"><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;loughran&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4,150 x 2
 ##    word         sentiment
 ##    &lt;chr&gt;        &lt;chr&gt;    
@@ -345,7 +343,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abdicating   negative 
 ## 10 abdication   negative 
 ## # ... with 4,140 more rows</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="6-text-analysis.html#cb22-1"></a><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;nrc&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="kw">get_sentiments</span>(<span class="dt">lexicon =</span> <span class="st">&quot;nrc&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 13,901 x 2
 ##    word        sentiment
 ##    &lt;chr&gt;       &lt;chr&gt;    
@@ -360,8 +358,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abandonment anger    
 ## 10 abandonment fear     
 ## # ... with 13,891 more rows</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="6-text-analysis.html#cb24-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb24-2"><a href="6-text-analysis.html#cb24-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>))</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## # A tibble: 70,882 x 4
 ##     Book Chapter word   sentiment
@@ -377,9 +375,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     1       1 gone   &lt;NA&gt;     
 ## 10     1       1 with   &lt;NA&gt;     
 ## # ... with 70,872 more rows</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="6-text-analysis.html#cb27-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb27-2"><a href="6-text-analysis.html#cb27-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb27-3"><a href="6-text-analysis.html#cb27-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment))</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment))</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## # A tibble: 4,778 x 4
 ##     Book Chapter word      sentiment
@@ -398,10 +396,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="descriptive-text-statistics" class="section level2">
 <h2><span class="header-section-number">6.6</span> Descriptive Text Statistics</h2>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="6-text-analysis.html#cb30-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb30-2"><a href="6-text-analysis.html#cb30-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb30-3"><a href="6-text-analysis.html#cb30-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></span>
-<span id="cb30-4"><a href="6-text-analysis.html#cb30-4"></a><span class="st">  </span><span class="kw">count</span>(Chapter,sentiment)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-4" title="4"><span class="st">  </span><span class="kw">count</span>(Chapter,sentiment)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## # A tibble: 64 x 3
 ##    Chapter sentiment     n
@@ -420,33 +418,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="visualizations" class="section level2">
 <h2><span class="header-section-number">6.7</span> Visualizations</h2>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="6-text-analysis.html#cb33-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb33-2"><a href="6-text-analysis.html#cb33-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb33-3"><a href="6-text-analysis.html#cb33-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></span>
-<span id="cb33-4"><a href="6-text-analysis.html#cb33-4"></a><span class="st">  </span><span class="kw">count</span>(Chapter,sentiment) <span class="op">%&gt;%</span></span>
-<span id="cb33-5"><a href="6-text-analysis.html#cb33-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="kw">if_else</span>(sentiment <span class="op">==</span><span class="st"> &quot;negative&quot;</span>,n<span class="op">*-</span><span class="dv">1</span>,<span class="kw">as.double</span>(n))) <span class="op">%&gt;%</span></span>
-<span id="cb33-6"><a href="6-text-analysis.html#cb33-6"></a><span class="st">  </span><span class="kw">group_by</span>(Chapter) <span class="op">%&gt;%</span></span>
-<span id="cb33-7"><a href="6-text-analysis.html#cb33-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">order =</span> <span class="kw">group_indices</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-8"><a href="6-text-analysis.html#cb33-8"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">sum</span>(n)) <span class="op">%&gt;%</span></span>
-<span id="cb33-9"><a href="6-text-analysis.html#cb33-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pos =</span> <span class="kw">if_else</span>(n<span class="op">&gt;</span><span class="dv">0</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb33-10"><a href="6-text-analysis.html#cb33-10"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-11"><a href="6-text-analysis.html#cb33-11"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Chapter,<span class="dt">y=</span>n,<span class="dt">fill =</span> pos, <span class="dt">color =</span> pos)) <span class="op">+</span></span>
-<span id="cb33-12"><a href="6-text-analysis.html#cb33-12"></a><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></span>
-<span id="cb33-13"><a href="6-text-analysis.html#cb33-13"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></span>
-<span id="cb33-14"><a href="6-text-analysis.html#cb33-14"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="op">+</span></span>
-<span id="cb33-15"><a href="6-text-analysis.html#cb33-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>)) <span class="op">+</span></span>
-<span id="cb33-16"><a href="6-text-analysis.html#cb33-16"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Net Positive Words&quot;</span>,</span>
-<span id="cb33-17"><a href="6-text-analysis.html#cb33-17"></a>       <span class="dt">title =</span> <span class="st">&quot;Sentiment Analysis of &#39;The Adventures of Tom Sawyer&#39;&quot;</span>,</span>
-<span id="cb33-18"><a href="6-text-analysis.html#cb33-18"></a>       <span class="dt">subtitle =</span> <span class="st">&quot;Net Positive Words by Chapter&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-4" title="4"><span class="st">  </span><span class="kw">count</span>(Chapter,sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="kw">if_else</span>(sentiment <span class="op">==</span><span class="st"> &quot;negative&quot;</span>,n<span class="op">*-</span><span class="dv">1</span>,<span class="kw">as.double</span>(n))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-6" title="6"><span class="st">  </span><span class="kw">group_by</span>(Chapter) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">order =</span> <span class="kw">group_indices</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb213-8" title="8"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">sum</span>(n)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pos =</span> <span class="kw">if_else</span>(n<span class="op">&gt;</span><span class="dv">0</span>,<span class="st">&quot;pos&quot;</span>,<span class="st">&quot;neg&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-10" title="10"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb213-11" title="11"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Chapter,<span class="dt">y=</span>n,<span class="dt">fill =</span> pos, <span class="dt">color =</span> pos)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb213-12" title="12"><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb213-13" title="13"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb213-14" title="14"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb213-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb213-16" title="16"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;Net Positive Words&quot;</span>,</a>
+<a class="sourceLine" id="cb213-17" title="17">       <span class="dt">title =</span> <span class="st">&quot;Sentiment Analysis of &#39;The Adventures of Tom Sawyer&#39;&quot;</span>,</a>
+<a class="sourceLine" id="cb213-18" title="18">       <span class="dt">subtitle =</span> <span class="st">&quot;Net Positive Words by Chapter&quot;</span>)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre><code>## Warning: `group_indices()` is deprecated as of dplyr 1.0.0.
+## Please use `cur_group_id()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
 </div>
 <div id="n-gram-analysis" class="section level2">
 <h2><span class="header-section-number">6.8</span> N-Gram Analysis</h2>
 <div id="uni-grams" class="section level3">
 <h3><span class="header-section-number">6.8.1</span> Uni-Grams</h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="6-text-analysis.html#cb35-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb35-2"><a href="6-text-analysis.html#cb35-2"></a><span class="st">  </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb217-2" title="2"><span class="st">  </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 7,774 x 2
 ##    word      n
 ##    &lt;chr&gt; &lt;int&gt;
@@ -464,10 +467,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="remove-stop-words-1" class="section level3">
 <h3><span class="header-section-number">6.8.2</span> Remove Stop Words</h3>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="6-text-analysis.html#cb37-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb37-2"><a href="6-text-analysis.html#cb37-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb37-3"><a href="6-text-analysis.html#cb37-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></span>
-<span id="cb37-4"><a href="6-text-analysis.html#cb37-4"></a><span class="st">  </span><span class="kw">count</span>(word,sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-4" title="4"><span class="st">  </span><span class="kw">count</span>(word,sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## # A tibble: 1,358 x 3
 ##    word   sentiment     n
@@ -486,27 +489,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="visualize" class="section level3">
 <h3><span class="header-section-number">6.8.3</span> Visualize</h3>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="6-text-analysis.html#cb40-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb40-2"><a href="6-text-analysis.html#cb40-2"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb40-3"><a href="6-text-analysis.html#cb40-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></span>
-<span id="cb40-4"><a href="6-text-analysis.html#cb40-4"></a><span class="st">  </span><span class="kw">count</span>(word, sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb40-5"><a href="6-text-analysis.html#cb40-5"></a><span class="st">  </span><span class="kw">group_by</span>(sentiment) <span class="op">%&gt;%</span></span>
-<span id="cb40-6"><a href="6-text-analysis.html#cb40-6"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></span>
-<span id="cb40-7"><a href="6-text-analysis.html#cb40-7"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
-<span id="cb40-8"><a href="6-text-analysis.html#cb40-8"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">fct_reorder</span>(word,n), <span class="dt">y =</span> n, <span class="dt">fill =</span> sentiment)) <span class="op">+</span></span>
-<span id="cb40-9"><a href="6-text-analysis.html#cb40-9"></a><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb40-10"><a href="6-text-analysis.html#cb40-10"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>sentiment, <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span></span>
-<span id="cb40-11"><a href="6-text-analysis.html#cb40-11"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb40-12"><a href="6-text-analysis.html#cb40-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Word&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-4" title="4"><span class="st">  </span><span class="kw">count</span>(word, sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-5" title="5"><span class="st">  </span><span class="kw">group_by</span>(sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-6" title="6"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-7" title="7"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-8" title="8"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">fct_reorder</span>(word,n), <span class="dt">y =</span> n, <span class="dt">fill =</span> sentiment)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-9" title="9"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-10" title="10"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>sentiment, <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-11" title="11"><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-12" title="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Word&quot;</span>)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## Selecting by n</code></pre>
-<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
 </div>
 <div id="bigrams" class="section level3">
 <h3><span class="header-section-number">6.8.4</span> Bigrams</h3>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="6-text-analysis.html#cb43-1"></a>bookbitokens =<span class="st"> </span>book   <span class="op">%&gt;%</span></span>
-<span id="cb43-2"><a href="6-text-analysis.html#cb43-2"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(bigram, Text, <span class="dt">token =</span> <span class="st">&quot;ngrams&quot;</span>, <span class="dt">n =</span> <span class="dv">2</span>, <span class="dt">n_min =</span> <span class="dv">2</span>)</span>
-<span id="cb43-3"><a href="6-text-analysis.html#cb43-3"></a>bookbitokens</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" title="1">bookbitokens =<span class="st"> </span>book   <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-2" title="2"><span class="st">  </span><span class="kw">unnest_tokens</span>(bigram, Text, <span class="dt">token =</span> <span class="st">&quot;ngrams&quot;</span>, <span class="dt">n =</span> <span class="dv">2</span>, <span class="dt">n_min =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb225-3" title="3">bookbitokens</a></code></pre></div>
 <pre><code>## # A tibble: 70,848 x 3
 ##     Book Chapter bigram       
 ##    &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;        
@@ -521,8 +524,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     1       1 gone with    
 ## 10     1       1 with that    
 ## # ... with 70,838 more rows</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="6-text-analysis.html#cb45-1"></a>bookbitokens <span class="op">%&gt;%</span></span>
-<span id="cb45-2"><a href="6-text-analysis.html#cb45-2"></a><span class="st">  </span><span class="kw">count</span>(bigram, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" title="1">bookbitokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb227-2" title="2"><span class="st">  </span><span class="kw">count</span>(bigram, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 41,080 x 2
 ##    bigram        n
 ##    &lt;chr&gt;     &lt;int&gt;
@@ -540,8 +543,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="remove-stop-words-in-bigrams" class="section level3">
 <h3><span class="header-section-number">6.8.5</span> Remove Stop Words in Bigrams</h3>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="6-text-analysis.html#cb47-1"></a>bookbitokens <span class="op">%&gt;%</span></span>
-<span id="cb47-2"><a href="6-text-analysis.html#cb47-2"></a><span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" title="1">bookbitokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb229-2" title="2"><span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 70,848 x 4
 ##     Book Chapter word1  word2 
 ##    &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
@@ -556,14 +559,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     1       1 gone   with  
 ## 10     1       1 with   that  
 ## # ... with 70,838 more rows</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="6-text-analysis.html#cb49-1"></a>bigrams =<span class="st"> </span></span>
-<span id="cb49-2"><a href="6-text-analysis.html#cb49-2"></a>bookbitokens <span class="op">%&gt;%</span></span>
-<span id="cb49-3"><a href="6-text-analysis.html#cb49-3"></a><span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb49-4"><a href="6-text-analysis.html#cb49-4"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word1 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word) <span class="op">%&gt;%</span></span>
-<span id="cb49-5"><a href="6-text-analysis.html#cb49-5"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word2 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word)</span>
-<span id="cb49-6"><a href="6-text-analysis.html#cb49-6"></a></span>
-<span id="cb49-7"><a href="6-text-analysis.html#cb49-7"></a>bigrams <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb49-8"><a href="6-text-analysis.html#cb49-8"></a><span class="st">  </span><span class="kw">count</span>(word1, word2, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1">bigrams =<span class="st"> </span></a>
+<a class="sourceLine" id="cb231-2" title="2">bookbitokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb231-3" title="3"><span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb231-4" title="4"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word1 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb231-5" title="5"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word2 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word)</a>
+<a class="sourceLine" id="cb231-6" title="6"></a>
+<a class="sourceLine" id="cb231-7" title="7">bigrams <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb231-8" title="8"><span class="st">  </span><span class="kw">count</span>(word1, word2, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 6,910 x 3
 ##    word1     word2          n
 ##    &lt;chr&gt;     &lt;chr&gt;      &lt;int&gt;
@@ -581,16 +584,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="visualize-bigrams" class="section level3">
 <h3><span class="header-section-number">6.8.6</span> Visualize Bigrams</h3>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="6-text-analysis.html#cb51-1"></a>bigrams <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb51-2"><a href="6-text-analysis.html#cb51-2"></a><span class="st">  </span><span class="kw">unite</span>(<span class="dt">col =</span> <span class="st">&quot;bigram&quot;</span>, word1,word2, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb51-3"><a href="6-text-analysis.html#cb51-3"></a><span class="st">  </span><span class="kw">count</span>(bigram, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb51-4"><a href="6-text-analysis.html#cb51-4"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">20</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb51-5"><a href="6-text-analysis.html#cb51-5"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">fct_reorder</span>(bigram,n),<span class="dt">y =</span> n)) <span class="op">+</span></span>
-<span id="cb51-6"><a href="6-text-analysis.html#cb51-6"></a><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></span>
-<span id="cb51-7"><a href="6-text-analysis.html#cb51-7"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb51-8"><a href="6-text-analysis.html#cb51-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Bigram&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Top Bigrams&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" title="1">bigrams <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-2" title="2"><span class="st">  </span><span class="kw">unite</span>(<span class="dt">col =</span> <span class="st">&quot;bigram&quot;</span>, word1,word2, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-3" title="3"><span class="st">  </span><span class="kw">count</span>(bigram, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-4" title="4"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">20</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb233-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">fct_reorder</span>(bigram,n),<span class="dt">y =</span> n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb233-6" title="6"><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb233-7" title="7"><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb233-8" title="8"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Bigram&quot;</span>,<span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Top Bigrams&quot;</span>)</a></code></pre></div>
 <pre><code>## Selecting by n</code></pre>
-<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 </div>
 </div>
 <div id="term-frequency" class="section level2">
@@ -601,11 +604,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="build-tf-idf-data" class="section level3">
 <h3><span class="header-section-number">6.9.1</span> Build TF-IDF Data</h3>
 <p>Words By Chapter</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="6-text-analysis.html#cb53-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb53-2"><a href="6-text-analysis.html#cb53-2"></a><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;count&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb53-3"><a href="6-text-analysis.html#cb53-3"></a><span class="st">  </span><span class="kw">add_count</span>(word) <span class="op">%&gt;%</span></span>
-<span id="cb53-4"><a href="6-text-analysis.html#cb53-4"></a><span class="st">  </span><span class="kw">spread</span>(Chapter, count) <span class="op">%&gt;%</span></span>
-<span id="cb53-5"><a href="6-text-analysis.html#cb53-5"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-2" title="2"><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;count&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-3" title="3"><span class="st">  </span><span class="kw">add_count</span>(word) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-4" title="4"><span class="st">  </span><span class="kw">spread</span>(Chapter, count) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-5" title="5"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a></code></pre></div>
 <pre><code>## # A tibble: 7,774 x 36
 ##    word      n   `1`   `2`   `3`   `4`   `5`   `6`   `7`   `8`   `9`  `10`  `11`
 ##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
@@ -625,12 +628,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #   `27` &lt;int&gt;, `28` &lt;int&gt;, `29` &lt;int&gt;, `30` &lt;int&gt;, `31` &lt;int&gt;, `32` &lt;int&gt;,
 ## #   `33` &lt;int&gt;, `34` &lt;int&gt;, `35` &lt;int&gt;</code></pre>
 <p>Word Frequency Per Chapter and Book</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="6-text-analysis.html#cb55-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb55-2"><a href="6-text-analysis.html#cb55-2"></a><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Chapter_Total&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb55-3"><a href="6-text-analysis.html#cb55-3"></a><span class="st">  </span><span class="kw">left_join</span>(</span>
-<span id="cb55-4"><a href="6-text-analysis.html#cb55-4"></a>    booktokens <span class="op">%&gt;%</span></span>
-<span id="cb55-5"><a href="6-text-analysis.html#cb55-5"></a><span class="st">      </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Book_Total&quot;</span>)</span>
-<span id="cb55-6"><a href="6-text-analysis.html#cb55-6"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb237-2" title="2"><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Chapter_Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb237-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(</a>
+<a class="sourceLine" id="cb237-4" title="4">    booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb237-5" title="5"><span class="st">      </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Book_Total&quot;</span>)</a>
+<a class="sourceLine" id="cb237-6" title="6">    )</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## # A tibble: 24,205 x 4
 ##    Chapter word  Chapter_Total Book_Total
@@ -651,52 +654,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="visualize-tf-idf" class="section level3">
 <h3><span class="header-section-number">6.9.2</span> Visualize TF-IDF</h3>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="6-text-analysis.html#cb58-1"></a>booktokens <span class="op">%&gt;%</span></span>
-<span id="cb58-2"><a href="6-text-analysis.html#cb58-2"></a><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Chapter_Total&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb58-3"><a href="6-text-analysis.html#cb58-3"></a><span class="st">  </span><span class="kw">left_join</span>(</span>
-<span id="cb58-4"><a href="6-text-analysis.html#cb58-4"></a>    booktokens <span class="op">%&gt;%</span></span>
-<span id="cb58-5"><a href="6-text-analysis.html#cb58-5"></a><span class="st">      </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Book_Total&quot;</span>)</span>
-<span id="cb58-6"><a href="6-text-analysis.html#cb58-6"></a>    ) <span class="op">%&gt;%</span></span>
-<span id="cb58-7"><a href="6-text-analysis.html#cb58-7"></a><span class="st">  </span><span class="kw">bind_tf_idf</span>(word, Chapter, Chapter_Total) <span class="op">%&gt;%</span></span>
-<span id="cb58-8"><a href="6-text-analysis.html#cb58-8"></a><span class="st">  </span><span class="kw">filter</span>(Chapter_Total<span class="op">!=</span>Book_Total) <span class="op">%&gt;%</span></span>
-<span id="cb58-9"><a href="6-text-analysis.html#cb58-9"></a><span class="st">  </span><span class="kw">filter</span>(tf<span class="op">&lt;</span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
-<span id="cb58-10"><a href="6-text-analysis.html#cb58-10"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>tf_idf) <span class="op">%&gt;%</span></span>
-<span id="cb58-11"><a href="6-text-analysis.html#cb58-11"></a><span class="st">  </span><span class="kw">group_by</span>(Chapter) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">top_n</span>(<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
-<span id="cb58-12"><a href="6-text-analysis.html#cb58-12"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word =</span> <span class="kw">fct_reorder</span>(word, tf_idf)) <span class="op">%&gt;%</span></span>
-<span id="cb58-13"><a href="6-text-analysis.html#cb58-13"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> word,<span class="dt">y =</span> tf_idf, <span class="dt">fill =</span> Chapter)) <span class="op">+</span></span>
-<span id="cb58-14"><a href="6-text-analysis.html#cb58-14"></a><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb58-15"><a href="6-text-analysis.html#cb58-15"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Chapter, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="dt">ncol =</span> <span class="dv">4</span>) <span class="op">+</span></span>
-<span id="cb58-16"><a href="6-text-analysis.html#cb58-16"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" title="1">booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-2" title="2"><span class="st">  </span><span class="kw">count</span>(Chapter, word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Chapter_Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(</a>
+<a class="sourceLine" id="cb240-4" title="4">    booktokens <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-5" title="5"><span class="st">      </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Book_Total&quot;</span>)</a>
+<a class="sourceLine" id="cb240-6" title="6">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-7" title="7"><span class="st">  </span><span class="kw">bind_tf_idf</span>(word, Chapter, Chapter_Total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-8" title="8"><span class="st">  </span><span class="kw">filter</span>(Chapter_Total<span class="op">!=</span>Book_Total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-9" title="9"><span class="st">  </span><span class="kw">filter</span>(tf<span class="op">&lt;</span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-10" title="10"><span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>tf_idf) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-11" title="11"><span class="st">  </span><span class="kw">group_by</span>(Chapter) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">top_n</span>(<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-12" title="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word =</span> <span class="kw">fct_reorder</span>(word, tf_idf)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-13" title="13"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> word,<span class="dt">y =</span> tf_idf, <span class="dt">fill =</span> Chapter)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb240-14" title="14"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb240-15" title="15"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Chapter, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="dt">ncol =</span> <span class="dv">4</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb240-16" title="16"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <pre><code>## Selecting by tf_idf</code></pre>
-<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
 </div>
 </div>
 <div id="topic-modeling" class="section level2">
 <h2><span class="header-section-number">6.10</span> Topic Modeling</h2>
 <p>Create Document Term Matrix</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="6-text-analysis.html#cb61-1"></a><span class="kw">library</span>(topicmodels)</span>
-<span id="cb61-2"><a href="6-text-analysis.html#cb61-2"></a></span>
-<span id="cb61-3"><a href="6-text-analysis.html#cb61-3"></a>bookdtm =</span>
-<span id="cb61-4"><a href="6-text-analysis.html#cb61-4"></a>booktokens <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-5"><a href="6-text-analysis.html#cb61-5"></a><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-6"><a href="6-text-analysis.html#cb61-6"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-7"><a href="6-text-analysis.html#cb61-7"></a><span class="st">  </span><span class="kw">select</span>(Chapter,word) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-8"><a href="6-text-analysis.html#cb61-8"></a><span class="st">  </span><span class="kw">count</span>(Chapter,word) <span class="op">%&gt;%</span></span>
-<span id="cb61-9"><a href="6-text-analysis.html#cb61-9"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">document =</span> Chapter, <span class="dt">term =</span> word, <span class="dt">count =</span> n) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-10"><a href="6-text-analysis.html#cb61-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">document =</span> <span class="kw">as.integer</span>(document), <span class="dt">count =</span> <span class="kw">as.double</span>(count))  <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb61-11"><a href="6-text-analysis.html#cb61-11"></a><span class="st">  </span><span class="kw">cast_dtm</span>(document, term, count)</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb243-1" title="1"><span class="kw">library</span>(topicmodels)</a>
+<a class="sourceLine" id="cb243-2" title="2"></a>
+<a class="sourceLine" id="cb243-3" title="3">bookdtm =</a>
+<a class="sourceLine" id="cb243-4" title="4">booktokens <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-5" title="5"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-6" title="6"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(sentiment)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-7" title="7"><span class="st">  </span><span class="kw">select</span>(Chapter,word) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-8" title="8"><span class="st">  </span><span class="kw">count</span>(Chapter,word) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb243-9" title="9"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">document =</span> Chapter, <span class="dt">term =</span> word, <span class="dt">count =</span> n) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-10" title="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">document =</span> <span class="kw">as.integer</span>(document), <span class="dt">count =</span> <span class="kw">as.double</span>(count))  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb243-11" title="11"><span class="st">  </span><span class="kw">cast_dtm</span>(document, term, count)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
 <p>Create a reproducable example of two topics</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="6-text-analysis.html#cb63-1"></a>lda &lt;-<span class="st"> </span><span class="kw">LDA</span>(bookdtm, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">seed =</span> <span class="dv">1234</span>))</span>
-<span id="cb63-2"><a href="6-text-analysis.html#cb63-2"></a>lda</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" title="1">lda &lt;-<span class="st"> </span><span class="kw">LDA</span>(bookdtm, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">seed =</span> <span class="dv">1234</span>))</a>
+<a class="sourceLine" id="cb245-2" title="2">lda</a></code></pre></div>
 <pre><code>## A LDA_VEM topic model with 2 topics.</code></pre>
 <p>Extract Topics and ‘Beta’ of each topic.</p>
 <p>Beta represents topic-word density.</p>
 <p>Beta: In each topic, how dense is this word?</p>
 <p>Higher is more dense. Lower is less dense</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="6-text-analysis.html#cb65-1"></a>topics &lt;-<span class="st"> </span><span class="kw">tidy</span>(lda, <span class="dt">matrix =</span> <span class="st">&quot;beta&quot;</span>)</span>
-<span id="cb65-2"><a href="6-text-analysis.html#cb65-2"></a>topics</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb247-1" title="1">topics &lt;-<span class="st"> </span><span class="kw">tidy</span>(lda, <span class="dt">matrix =</span> <span class="st">&quot;beta&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.
+## Please use `tibble::as_tibble()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" title="1">topics</a></code></pre></div>
 <pre><code>## # A tibble: 3,526 x 3
 ##    topic term            beta
 ##    &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
@@ -711,7 +718,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     1 astronomer  4.14e- 4
 ## 10     2 astronomer  4.49e-78
 ## # ... with 3,516 more rows</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="6-text-analysis.html#cb67-1"></a>topics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>beta)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" title="1">topics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>beta)</a></code></pre></div>
 <pre><code>## # A tibble: 3,526 x 3
 ##    topic term    beta
 ##    &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -727,12 +734,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10     2 boy   0.0106
 ## # ... with 3,516 more rows</code></pre>
 <p>Top Terms</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="6-text-analysis.html#cb69-1"></a>top_terms &lt;-<span class="st"> </span>topics <span class="op">%&gt;%</span></span>
-<span id="cb69-2"><a href="6-text-analysis.html#cb69-2"></a><span class="st">  </span><span class="kw">group_by</span>(topic) <span class="op">%&gt;%</span></span>
-<span id="cb69-3"><a href="6-text-analysis.html#cb69-3"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>, beta) <span class="op">%&gt;%</span></span>
-<span id="cb69-4"><a href="6-text-analysis.html#cb69-4"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
-<span id="cb69-5"><a href="6-text-analysis.html#cb69-5"></a><span class="st">  </span><span class="kw">arrange</span>(topic, <span class="op">-</span>beta)</span>
-<span id="cb69-6"><a href="6-text-analysis.html#cb69-6"></a>top_terms</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" title="1">top_terms &lt;-<span class="st"> </span>topics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb253-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(topic) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb253-3" title="3"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>, beta) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb253-4" title="4"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb253-5" title="5"><span class="st">  </span><span class="kw">arrange</span>(topic, <span class="op">-</span>beta)</a>
+<a class="sourceLine" id="cb253-6" title="6">top_terms</a></code></pre></div>
 <pre><code>## # A tibble: 20 x 3
 ##    topic term      beta
 ##    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -756,24 +763,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 18     2 devil  0.00911
 ## 19     2 young  0.00895
 ## 20     2 murder 0.00820</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="6-text-analysis.html#cb71-1"></a>top_terms <span class="op">%&gt;%</span></span>
-<span id="cb71-2"><a href="6-text-analysis.html#cb71-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">reorder_within</span>(term, beta, topic)) <span class="op">%&gt;%</span></span>
-<span id="cb71-3"><a href="6-text-analysis.html#cb71-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(term, beta, <span class="dt">fill =</span> <span class="kw">factor</span>(topic))) <span class="op">+</span></span>
-<span id="cb71-4"><a href="6-text-analysis.html#cb71-4"></a><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb71-5"><a href="6-text-analysis.html#cb71-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>topic, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></span>
-<span id="cb71-6"><a href="6-text-analysis.html#cb71-6"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb71-7"><a href="6-text-analysis.html#cb71-7"></a><span class="st">  </span><span class="kw">scale_x_reordered</span>()</span></code></pre></div>
-<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" title="1">top_terms <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb255-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">reorder_within</span>(term, beta, topic)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb255-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(term, beta, <span class="dt">fill =</span> <span class="kw">factor</span>(topic))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb255-4" title="4"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb255-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>topic, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb255-6" title="6"><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb255-7" title="7"><span class="st">  </span><span class="kw">scale_x_reordered</span>()</a></code></pre></div>
+<p><img src="Intermediate_R_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
 <div id="comparison-of-use-between-topics" class="section level3">
 <h3><span class="header-section-number">6.10.1</span> Comparison of Use Between Topics</h3>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="6-text-analysis.html#cb72-1"></a>beta_spread &lt;-<span class="st"> </span>topics <span class="op">%&gt;%</span></span>
-<span id="cb72-2"><a href="6-text-analysis.html#cb72-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">topic =</span> <span class="kw">paste0</span>(<span class="st">&quot;topic&quot;</span>, topic)) <span class="op">%&gt;%</span></span>
-<span id="cb72-3"><a href="6-text-analysis.html#cb72-3"></a><span class="st">  </span><span class="kw">spread</span>(topic, beta) <span class="op">%&gt;%</span></span>
-<span id="cb72-4"><a href="6-text-analysis.html#cb72-4"></a><span class="st">  </span><span class="kw">filter</span>(topic1 <span class="op">&gt;</span><span class="st"> </span><span class="fl">.001</span> <span class="op">|</span><span class="st"> </span>topic2 <span class="op">&gt;</span><span class="st"> </span><span class="fl">.001</span>) <span class="op">%&gt;%</span></span>
-<span id="cb72-5"><a href="6-text-analysis.html#cb72-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">log_ratio =</span> <span class="kw">log2</span>(topic2 <span class="op">/</span><span class="st"> </span>topic1)) </span>
-<span id="cb72-6"><a href="6-text-analysis.html#cb72-6"></a></span>
-<span id="cb72-7"><a href="6-text-analysis.html#cb72-7"></a>beta_spread <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb72-8"><a href="6-text-analysis.html#cb72-8"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>, log_ratio) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>log_ratio)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" title="1">beta_spread &lt;-<span class="st"> </span>topics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb256-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">topic =</span> <span class="kw">paste0</span>(<span class="st">&quot;topic&quot;</span>, topic)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb256-3" title="3"><span class="st">  </span><span class="kw">spread</span>(topic, beta) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb256-4" title="4"><span class="st">  </span><span class="kw">filter</span>(topic1 <span class="op">&gt;</span><span class="st"> </span><span class="fl">.001</span> <span class="op">|</span><span class="st"> </span>topic2 <span class="op">&gt;</span><span class="st"> </span><span class="fl">.001</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb256-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">log_ratio =</span> <span class="kw">log2</span>(topic2 <span class="op">/</span><span class="st"> </span>topic1)) </a>
+<a class="sourceLine" id="cb256-6" title="6"></a>
+<a class="sourceLine" id="cb256-7" title="7">beta_spread <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb256-8" title="8"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>, log_ratio) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>log_ratio)</a></code></pre></div>
 <pre><code>## # A tibble: 10 x 4
 ##    term          topic1  topic2 log_ratio
 ##    &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
@@ -787,8 +794,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  8 agreement   8.21e-84 0.00547      268.
 ##  9 provide     3.84e-84 0.00213      268.
 ## 10 information 2.79e-84 0.00122      268.</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="6-text-analysis.html#cb74-1"></a>beta_spread <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb74-2"><a href="6-text-analysis.html#cb74-2"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="op">-</span><span class="dv">10</span>, log_ratio) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(log_ratio)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" title="1">beta_spread <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb258-2" title="2"><span class="st">  </span><span class="kw">top_n</span>(<span class="op">-</span><span class="dv">10</span>, log_ratio) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(log_ratio)</a></code></pre></div>
 <pre><code>## # A tibble: 10 x 4
 ##    term          topic1   topic2 log_ratio
 ##    &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -805,8 +812,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>“Gamma”: From the documentation:</p>
 <p>Each of these values is an estimated proportion of words from that document that are generated from that topic.</p>
 <p>For example, the model estimates that about 41.7% of the words in document 6 were generated from topic 1. 58.3% of the words in document 6 were generated by topic 2.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="6-text-analysis.html#cb76-1"></a>documents &lt;-<span class="st"> </span><span class="kw">tidy</span>(lda, <span class="dt">matrix =</span> <span class="st">&quot;gamma&quot;</span>)</span>
-<span id="cb76-2"><a href="6-text-analysis.html#cb76-2"></a>documents <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">as.numeric</span>(document)) </span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" title="1">documents &lt;-<span class="st"> </span><span class="kw">tidy</span>(lda, <span class="dt">matrix =</span> <span class="st">&quot;gamma&quot;</span>)</a>
+<a class="sourceLine" id="cb260-2" title="2">documents <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">as.numeric</span>(document)) </a></code></pre></div>
 <pre><code>## # A tibble: 64 x 3
 ##    document topic     gamma
 ##    &lt;chr&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -821,7 +828,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 5            1 1.00     
 ## 10 5            2 0.0000702
 ## # ... with 54 more rows</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="6-text-analysis.html#cb78-1"></a>documents <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(document<span class="op">==</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" title="1">documents <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(document<span class="op">==</span><span class="dv">6</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##   document topic gamma
 ##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;

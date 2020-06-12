@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Functional Programming | Intermediate R</title>
   <meta name="description" content="4 Functional Programming | Intermediate R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Functional Programming | Intermediate R" />
   <meta property="og:type" content="book" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -132,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href = "/">Tutorial Home</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> output:</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Class Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#expectations"><i class="fa fa-check"></i><b>1.1</b> Expectations</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#class-introductions"><i class="fa fa-check"></i><b>1.2</b> Class Introductions</a></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#instructors-introduction"><i class="fa fa-check"></i><b>1.3</b> Instructors Introduction</a></li>
@@ -211,11 +209,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">4</span> Functional Programming</h1>
 <div id="iteration" class="section level2">
 <h2><span class="header-section-number">4.1</span> Iteration</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="4-functional-programming.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="4-functional-programming.html#cb1-2"></a><span class="co"># library(here)</span></span>
-<span id="cb1-3"><a href="4-functional-programming.html#cb1-3"></a><span class="co"># here()</span></span>
-<span id="cb1-4"><a href="4-functional-programming.html#cb1-4"></a><span class="co"># hitters &lt;- read_csv(&quot;_bookdown_files/data_files/Batting.csv&quot;, guess_max = 10000)</span></span>
-<span id="cb1-5"><a href="4-functional-programming.html#cb1-5"></a>hitters &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb88-2" title="2"><span class="co"># library(here)</span></a>
+<a class="sourceLine" id="cb88-3" title="3"><span class="co"># here()</span></a>
+<a class="sourceLine" id="cb88-4" title="4"><span class="co"># hitters &lt;- read_csv(&quot;_bookdown_files/data_sources/Batting.csv&quot;, guess_max = 10000)</span></a>
+<a class="sourceLine" id="cb88-5" title="5">hitters &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -224,22 +222,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   lgID = col_character()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="4-functional-programming.html#cb4-1"></a><span class="co"># hitters &lt;- read_csv(here(&quot;_bookdown_files/data_files&quot;,&quot;Batting.csv&quot;), guess_max = 10000)</span></span>
-<span id="cb4-2"><a href="4-functional-programming.html#cb4-2"></a></span>
-<span id="cb4-3"><a href="4-functional-programming.html#cb4-3"></a><span class="co"># hitters &lt;- read_csv(&quot;data_files/Batting.csv&quot;, guess_max = 10000) %&gt;%</span></span>
-<span id="cb4-4"><a href="4-functional-programming.html#cb4-4"></a><span class="co">#   janitor::clean_names()</span></span>
-<span id="cb4-5"><a href="4-functional-programming.html#cb4-5"></a><span class="co"># hitters</span></span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1"><span class="co"># hitters &lt;- read_csv(here(&quot;_bookdown_files/data_sources&quot;,&quot;Batting.csv&quot;), guess_max = 10000)</span></a>
+<a class="sourceLine" id="cb91-2" title="2"></a>
+<a class="sourceLine" id="cb91-3" title="3"><span class="co"># hitters &lt;- read_csv(&quot;data_sources/Batting.csv&quot;, guess_max = 10000) %&gt;%</span></a>
+<a class="sourceLine" id="cb91-4" title="4"><span class="co">#   janitor::clean_names()</span></a>
+<a class="sourceLine" id="cb91-5" title="5"><span class="co"># hitters</span></a></code></pre></div>
 </div>
 <div id="an-interesting-question" class="section level2">
 <h2><span class="header-section-number">4.2</span> An Interesting Question</h2>
 <p>Who played the most games and hit the most Home Runs in the 90s in Texas?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="4-functional-programming.html#cb5-1"></a>hitters <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-2"><a href="4-functional-programming.html#cb5-2"></a><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span><span class="dv">1990</span><span class="op">:</span><span class="dv">1999</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-3"><a href="4-functional-programming.html#cb5-3"></a><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-4"><a href="4-functional-programming.html#cb5-4"></a><span class="st">  </span><span class="kw">select</span>(playerID,teamID, G,HR) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-5"><a href="4-functional-programming.html#cb5-5"></a><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-6"><a href="4-functional-programming.html#cb5-6"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-7"><a href="4-functional-programming.html#cb5-7"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(G,HR))</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-2" title="2"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span><span class="dv">1990</span><span class="op">:</span><span class="dv">1999</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-3" title="3"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-4" title="4"><span class="st">  </span><span class="kw">select</span>(playerID,teamID, G,HR) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-5" title="5"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-6" title="6"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(G,HR))</a></code></pre></div>
 <pre><code>## # A tibble: 411 x 4
 ## # Groups:   playerID [398]
 ##    playerID  teamID     G    HR
@@ -259,18 +257,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a-more-general-question" class="section level2">
 <h2><span class="header-section-number">4.3</span> A More General Question</h2>
 <p>Who, from any team over any number of years in any subset of tams had the most of any statistical category?</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="4-functional-programming.html#cb7-1"></a>min_year &lt;-<span class="st"> </span><span class="dv">1990</span></span>
-<span id="cb7-2"><a href="4-functional-programming.html#cb7-2"></a>max_year &lt;-<span class="st"> </span><span class="dv">1999</span></span>
-<span id="cb7-3"><a href="4-functional-programming.html#cb7-3"></a>teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</span>
-<span id="cb7-4"><a href="4-functional-programming.html#cb7-4"></a>category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</span>
-<span id="cb7-5"><a href="4-functional-programming.html#cb7-5"></a></span>
-<span id="cb7-6"><a href="4-functional-programming.html#cb7-6"></a>hitters <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-7"><a href="4-functional-programming.html#cb7-7"></a><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-8"><a href="4-functional-programming.html#cb7-8"></a><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-9"><a href="4-functional-programming.html#cb7-9"></a><span class="st">  </span><span class="kw">select</span>(playerID, teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-10"><a href="4-functional-programming.html#cb7-10"></a><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-11"><a href="4-functional-programming.html#cb7-11"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-12"><a href="4-functional-programming.html#cb7-12"></a><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>({{ category }}))</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">min_year &lt;-<span class="st"> </span><span class="dv">1990</span></a>
+<a class="sourceLine" id="cb94-2" title="2">max_year &lt;-<span class="st"> </span><span class="dv">1999</span></a>
+<a class="sourceLine" id="cb94-3" title="3">teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</a>
+<a class="sourceLine" id="cb94-4" title="4">category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</a>
+<a class="sourceLine" id="cb94-5" title="5"></a>
+<a class="sourceLine" id="cb94-6" title="6">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-7" title="7"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-8" title="8"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-9" title="9"><span class="st">  </span><span class="kw">select</span>(playerID, teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-11" title="11"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-12" title="12"><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>({{ category }}))</a></code></pre></div>
 <pre><code>## Note: Using an external vector in selections is ambiguous.
 ## i Use `all_of(category)` instead of `category` to silence this message.
 ## i See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
@@ -290,48 +288,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 armstja01 TEX        2     0
 ## 10 balbost01 TEX        2     0
 ## # ... with 401 more rows</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="4-functional-programming.html#cb10-1"></a>var_quo =<span class="st"> </span>rlang<span class="op">::</span><span class="kw">parse_quosures</span>(category)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1">var_quo =<span class="st"> </span>rlang<span class="op">::</span><span class="kw">parse_quosures</span>(category)</a></code></pre></div>
 <pre><code>## Warning: `parse_quosures()` is deprecated as of rlang 0.2.0.
 ## Please use `parse_quos()` instead.
 ## This warning is displayed once per session.</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="4-functional-programming.html#cb12-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb12-2"><a href="4-functional-programming.html#cb12-2"></a><span class="kw">library</span>(rlang)</span>
-<span id="cb12-3"><a href="4-functional-programming.html#cb12-3"></a></span>
-<span id="cb12-4"><a href="4-functional-programming.html#cb12-4"></a>test_func =<span class="st"> </span><span class="cf">function</span>(var){</span>
-<span id="cb12-5"><a href="4-functional-programming.html#cb12-5"></a>    var_quo =<span class="st"> </span><span class="kw">parse_quosure</span>(var)</span>
-<span id="cb12-6"><a href="4-functional-programming.html#cb12-6"></a>    mtcars <span class="op">%&gt;%</span></span>
-<span id="cb12-7"><a href="4-functional-programming.html#cb12-7"></a><span class="st">      </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></span>
-<span id="cb12-8"><a href="4-functional-programming.html#cb12-8"></a><span class="st">      </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</span>
-<span id="cb12-9"><a href="4-functional-programming.html#cb12-9"></a>}</span>
-<span id="cb12-10"><a href="4-functional-programming.html#cb12-10"></a></span>
-<span id="cb12-11"><a href="4-functional-programming.html#cb12-11"></a>test_func2 =<span class="st"> </span><span class="cf">function</span>(var){</span>
-<span id="cb12-12"><a href="4-functional-programming.html#cb12-12"></a>  var_quo =<span class="st"> </span><span class="kw">enquo</span>(var)</span>
-<span id="cb12-13"><a href="4-functional-programming.html#cb12-13"></a>  mtcars <span class="op">%&gt;%</span></span>
-<span id="cb12-14"><a href="4-functional-programming.html#cb12-14"></a><span class="st">    </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></span>
-<span id="cb12-15"><a href="4-functional-programming.html#cb12-15"></a><span class="st">    </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</span>
-<span id="cb12-16"><a href="4-functional-programming.html#cb12-16"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb99-2" title="2"><span class="kw">library</span>(rlang)</a>
+<a class="sourceLine" id="cb99-3" title="3"></a>
+<a class="sourceLine" id="cb99-4" title="4">test_func =<span class="st"> </span><span class="cf">function</span>(var){</a>
+<a class="sourceLine" id="cb99-5" title="5">    var_quo =<span class="st"> </span><span class="kw">parse_quosure</span>(var)</a>
+<a class="sourceLine" id="cb99-6" title="6">    mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-7" title="7"><span class="st">      </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-8" title="8"><span class="st">      </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</a>
+<a class="sourceLine" id="cb99-9" title="9">}</a>
+<a class="sourceLine" id="cb99-10" title="10"></a>
+<a class="sourceLine" id="cb99-11" title="11">test_func2 =<span class="st"> </span><span class="cf">function</span>(var){</a>
+<a class="sourceLine" id="cb99-12" title="12">  var_quo =<span class="st"> </span><span class="kw">enquo</span>(var)</a>
+<a class="sourceLine" id="cb99-13" title="13">  mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-14" title="14"><span class="st">    </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-15" title="15"><span class="st">    </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</a>
+<a class="sourceLine" id="cb99-16" title="16">}</a></code></pre></div>
 </div>
 <div id="even-more-genarally" class="section level2">
 <h2><span class="header-section-number">4.4</span> Even more Genarally</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="4-functional-programming.html#cb13-1"></a>min_year &lt;-<span class="st"> </span><span class="dv">1990</span></span>
-<span id="cb13-2"><a href="4-functional-programming.html#cb13-2"></a>max_year &lt;-<span class="st"> </span><span class="dv">1999</span></span>
-<span id="cb13-3"><a href="4-functional-programming.html#cb13-3"></a>teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</span>
-<span id="cb13-4"><a href="4-functional-programming.html#cb13-4"></a>category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</span>
-<span id="cb13-5"><a href="4-functional-programming.html#cb13-5"></a></span>
-<span id="cb13-6"><a href="4-functional-programming.html#cb13-6"></a>baseball_fun &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">min_year =</span> <span class="dv">1990</span>,</span>
-<span id="cb13-7"><a href="4-functional-programming.html#cb13-7"></a>                         <span class="dt">max_year =</span> <span class="dv">1999</span>,</span>
-<span id="cb13-8"><a href="4-functional-programming.html#cb13-8"></a>                         <span class="dt">teamID =</span> <span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>),</span>
-<span id="cb13-9"><a href="4-functional-programming.html#cb13-9"></a>                         <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)){</span>
-<span id="cb13-10"><a href="4-functional-programming.html#cb13-10"></a>hitters <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-11"><a href="4-functional-programming.html#cb13-11"></a><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-12"><a href="4-functional-programming.html#cb13-12"></a><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-13"><a href="4-functional-programming.html#cb13-13"></a><span class="st">  </span><span class="kw">select</span>(playerID,teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-14"><a href="4-functional-programming.html#cb13-14"></a><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-15"><a href="4-functional-programming.html#cb13-15"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-16"><a href="4-functional-programming.html#cb13-16"></a><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>(category))</span>
-<span id="cb13-17"><a href="4-functional-programming.html#cb13-17"></a>}</span>
-<span id="cb13-18"><a href="4-functional-programming.html#cb13-18"></a></span>
-<span id="cb13-19"><a href="4-functional-programming.html#cb13-19"></a><span class="kw">baseball_fun</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1">min_year &lt;-<span class="st"> </span><span class="dv">1990</span></a>
+<a class="sourceLine" id="cb100-2" title="2">max_year &lt;-<span class="st"> </span><span class="dv">1999</span></a>
+<a class="sourceLine" id="cb100-3" title="3">teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</a>
+<a class="sourceLine" id="cb100-4" title="4">category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</a>
+<a class="sourceLine" id="cb100-5" title="5"></a>
+<a class="sourceLine" id="cb100-6" title="6">baseball_fun &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">min_year =</span> <span class="dv">1990</span>,</a>
+<a class="sourceLine" id="cb100-7" title="7">                         <span class="dt">max_year =</span> <span class="dv">1999</span>,</a>
+<a class="sourceLine" id="cb100-8" title="8">                         <span class="dt">teamID =</span> <span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>),</a>
+<a class="sourceLine" id="cb100-9" title="9">                         <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)){</a>
+<a class="sourceLine" id="cb100-10" title="10">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-11" title="11"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-12" title="12"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-13" title="13"><span class="st">  </span><span class="kw">select</span>(playerID,teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-14" title="14"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-15" title="15"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-16" title="16"><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>(category))</a>
+<a class="sourceLine" id="cb100-17" title="17">}</a>
+<a class="sourceLine" id="cb100-18" title="18"></a>
+<a class="sourceLine" id="cb100-19" title="19"><span class="kw">baseball_fun</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 411 x 4
 ## # Groups:   playerID [398]
 ##    playerID  teamID     G    HR
@@ -350,7 +348,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="even-more-genarally-1" class="section level2">
 <h2><span class="header-section-number">4.5</span> Even more Genarally</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="4-functional-programming.html#cb15-1"></a>hitters<span class="op">$</span>teamID <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sort</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1">hitters<span class="op">$</span>teamID <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sort</span>()</a></code></pre></div>
 <pre><code>##   [1] &quot;ALT&quot; &quot;ANA&quot; &quot;ARI&quot; &quot;ATL&quot; &quot;BAL&quot; &quot;BFN&quot; &quot;BFP&quot; &quot;BL1&quot; &quot;BL2&quot; &quot;BL3&quot; &quot;BL4&quot; &quot;BLA&quot;
 ##  [13] &quot;BLF&quot; &quot;BLN&quot; &quot;BLU&quot; &quot;BOS&quot; &quot;BR1&quot; &quot;BR2&quot; &quot;BR3&quot; &quot;BR4&quot; &quot;BRF&quot; &quot;BRO&quot; &quot;BRP&quot; &quot;BS1&quot;
 ##  [25] &quot;BS2&quot; &quot;BSN&quot; &quot;BSP&quot; &quot;BSU&quot; &quot;BUF&quot; &quot;CAL&quot; &quot;CH1&quot; &quot;CH2&quot; &quot;CHA&quot; &quot;CHF&quot; &quot;CHN&quot; &quot;CHP&quot;
@@ -364,8 +362,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [121] &quot;SL4&quot; &quot;SL5&quot; &quot;SLA&quot; &quot;SLF&quot; &quot;SLN&quot; &quot;SLU&quot; &quot;SPU&quot; &quot;SR1&quot; &quot;SR2&quot; &quot;TBA&quot; &quot;TEX&quot; &quot;TL1&quot;
 ## [133] &quot;TL2&quot; &quot;TOR&quot; &quot;TRN&quot; &quot;TRO&quot; &quot;WAS&quot; &quot;WIL&quot; &quot;WOR&quot; &quot;WS1&quot; &quot;WS2&quot; &quot;WS3&quot; &quot;WS4&quot; &quot;WS5&quot;
 ## [145] &quot;WS6&quot; &quot;WS7&quot; &quot;WS8&quot; &quot;WS9&quot; &quot;WSU&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="4-functional-programming.html#cb17-1"></a><span class="kw">baseball_fun</span>(<span class="dt">min_year =</span> <span class="dv">2000</span>,<span class="dt">max_year =</span> <span class="dv">2009</span>, <span class="dt">teamID =</span> <span class="st">&quot;NYA&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb17-2"><a href="4-functional-programming.html#cb17-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">baseball_fun</span>(<span class="dt">min_year =</span> <span class="dv">2000</span>,<span class="dt">max_year =</span> <span class="dv">2009</span>, <span class="dt">teamID =</span> <span class="st">&quot;NYA&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb104-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))</a></code></pre></div>
 <pre><code>## # A tibble: 247 x 4
 ## # Groups:   playerID [247]
 ##    playerID  teamID     G    HR
@@ -384,10 +382,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="purrr" class="section level2">
 <h2><span class="header-section-number">4.6</span> PURRR</h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="4-functional-programming.html#cb19-1"></a><span class="kw">library</span>(purrr)</span>
-<span id="cb19-2"><a href="4-functional-programming.html#cb19-2"></a></span>
-<span id="cb19-3"><a href="4-functional-programming.html#cb19-3"></a><span class="kw">map</span>(<span class="kw">c</span>(<span class="st">&quot;TEX&quot;</span>,<span class="st">&quot;NYA&quot;</span>), <span class="op">~</span><span class="kw">baseball_fun</span>(<span class="dt">teamID =</span> .)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-4"><a href="4-functional-programming.html#cb19-4"></a><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">arrange</span>(.x))</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb106-2" title="2"></a>
+<a class="sourceLine" id="cb106-3" title="3"><span class="kw">map</span>(<span class="kw">c</span>(<span class="st">&quot;TEX&quot;</span>,<span class="st">&quot;NYA&quot;</span>), <span class="op">~</span><span class="kw">baseball_fun</span>(<span class="dt">teamID =</span> .)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb106-4" title="4"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">arrange</span>(.x))</a></code></pre></div>
 <pre><code>## [[1]]
 ## # A tibble: 219 x 4
 ## # Groups:   playerID [219]
@@ -471,6 +469,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -8,8 +8,8 @@ library(tidyverse)
 library(tidytext)
 library(stringi)
 
-book = read_file("data_files//The-Adventures-of-Tom-Sawyer.txt") %>% enframe(name = "Book")
-# book = read_file("_bookdown_files/data_files/The-Adventures-of-Tom-Sawyer.txt") %>% enframe(name = "Book")
+book = read_file("data_sources//The-Adventures-of-Tom-Sawyer.txt") %>% enframe(name = "Book")
+# book = read_file("_bookdown_files/data_sources/The-Adventures-of-Tom-Sawyer.txt") %>% enframe(name = "Book")
 book
 book %>% nchar()
 ```
