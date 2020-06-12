@@ -186,7 +186,7 @@ animdata
 ```
 
 
-```{r, cache = TRUE}
+```{r eval=FALSE, cache=TRUE, include=TRUE}
 p = animdata %>% 
   ggplot(aes(x = so,y = hr, color = bb,size = ab,group = year_id)) +
   geom_point() +
