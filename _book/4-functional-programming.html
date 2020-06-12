@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Functional Programming | Intermediate R</title>
   <meta name="description" content="4 Functional Programming | Intermediate R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Functional Programming | Intermediate R" />
   <meta property="og:type" content="book" />
@@ -209,11 +209,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">4</span> Functional Programming</h1>
 <div id="iteration" class="section level2">
 <h2><span class="header-section-number">4.1</span> Iteration</h2>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb85-2" title="2"><span class="co"># library(here)</span></a>
 <a class="sourceLine" id="cb85-3" title="3"><span class="co"># here()</span></a>
 <a class="sourceLine" id="cb85-4" title="4"><span class="co"># hitters &lt;- read_csv(&quot;_bookdown_files/data_files/Batting.csv&quot;, guess_max = 10000)</span></a>
 <a class="sourceLine" id="cb85-5" title="5">hitters &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb88-2" title="2"><span class="co"># library(here)</span></a>
+<a class="sourceLine" id="cb88-3" title="3"><span class="co"># here()</span></a>
+<a class="sourceLine" id="cb88-4" title="4"><span class="co"># hitters &lt;- read_csv(&quot;_bookdown_files/data_sources/Batting.csv&quot;, guess_max = 10000)</span></a>
+<a class="sourceLine" id="cb88-5" title="5">hitters &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -222,15 +230,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   lgID = col_character()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1"><span class="co"># hitters &lt;- read_csv(here(&quot;_bookdown_files/data_files&quot;,&quot;Batting.csv&quot;), guess_max = 10000)</span></a>
 <a class="sourceLine" id="cb88-2" title="2"></a>
 <a class="sourceLine" id="cb88-3" title="3"><span class="co"># hitters &lt;- read_csv(&quot;data_files/Batting.csv&quot;, guess_max = 10000) %&gt;%</span></a>
 <a class="sourceLine" id="cb88-4" title="4"><span class="co">#   janitor::clean_names()</span></a>
 <a class="sourceLine" id="cb88-5" title="5"><span class="co"># hitters</span></a></code></pre></div>
+=======
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1"><span class="co"># hitters &lt;- read_csv(here(&quot;_bookdown_files/data_sources&quot;,&quot;Batting.csv&quot;), guess_max = 10000)</span></a>
+<a class="sourceLine" id="cb91-2" title="2"></a>
+<a class="sourceLine" id="cb91-3" title="3"><span class="co"># hitters &lt;- read_csv(&quot;data_sources/Batting.csv&quot;, guess_max = 10000) %&gt;%</span></a>
+<a class="sourceLine" id="cb91-4" title="4"><span class="co">#   janitor::clean_names()</span></a>
+<a class="sourceLine" id="cb91-5" title="5"><span class="co"># hitters</span></a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 </div>
 <div id="an-interesting-question" class="section level2">
 <h2><span class="header-section-number">4.2</span> An Interesting Question</h2>
 <p>Who played the most games and hit the most Home Runs in the 90s in Texas?</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb89-2" title="2"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span><span class="dv">1990</span><span class="op">:</span><span class="dv">1999</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb89-3" title="3"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -238,6 +255,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb89-5" title="5"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb89-6" title="6"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb89-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(G,HR))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-2" title="2"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span><span class="dv">1990</span><span class="op">:</span><span class="dv">1999</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-3" title="3"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-4" title="4"><span class="st">  </span><span class="kw">select</span>(playerID,teamID, G,HR) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-5" title="5"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-6" title="6"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-7" title="7"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(G,HR))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 411 x 4
 ## # Groups:   playerID [398]
 ##    playerID  teamID     G    HR
@@ -257,6 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a-more-general-question" class="section level2">
 <h2><span class="header-section-number">4.3</span> A More General Question</h2>
 <p>Who, from any team over any number of years in any subset of tams had the most of any statistical category?</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">min_year &lt;-<span class="st"> </span><span class="dv">1990</span></a>
 <a class="sourceLine" id="cb91-2" title="2">max_year &lt;-<span class="st"> </span><span class="dv">1999</span></a>
 <a class="sourceLine" id="cb91-3" title="3">teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</a>
@@ -269,6 +296,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb91-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb91-11" title="11"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb91-12" title="12"><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>({{ category }}))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">min_year &lt;-<span class="st"> </span><span class="dv">1990</span></a>
+<a class="sourceLine" id="cb94-2" title="2">max_year &lt;-<span class="st"> </span><span class="dv">1999</span></a>
+<a class="sourceLine" id="cb94-3" title="3">teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</a>
+<a class="sourceLine" id="cb94-4" title="4">category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</a>
+<a class="sourceLine" id="cb94-5" title="5"></a>
+<a class="sourceLine" id="cb94-6" title="6">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-7" title="7"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-8" title="8"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-9" title="9"><span class="st">  </span><span class="kw">select</span>(playerID, teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-10" title="10"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-11" title="11"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb94-12" title="12"><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>({{ category }}))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Note: Using an external vector in selections is ambiguous.
 ## i Use `all_of(category)` instead of `category` to silence this message.
 ## i See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
@@ -288,6 +329,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 armstja01 TEX        2     0
 ## 10 balbost01 TEX        2     0
 ## # ... with 401 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">var_quo =<span class="st"> </span>rlang<span class="op">::</span><span class="kw">parse_quosures</span>(category)</a></code></pre></div>
 <pre><code>## Warning: `parse_quosures()` is deprecated as of rlang 0.2.0.
 ## Please use `parse_quos()` instead.
@@ -330,6 +372,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb97-17" title="17">}</a>
 <a class="sourceLine" id="cb97-18" title="18"></a>
 <a class="sourceLine" id="cb97-19" title="19"><span class="kw">baseball_fun</span>()</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1">var_quo =<span class="st"> </span>rlang<span class="op">::</span><span class="kw">parse_quosures</span>(category)</a></code></pre></div>
+<pre><code>## Warning: `parse_quosures()` is deprecated as of rlang 0.2.0.
+## Please use `parse_quos()` instead.
+## This warning is displayed once per session.</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb99-2" title="2"><span class="kw">library</span>(rlang)</a>
+<a class="sourceLine" id="cb99-3" title="3"></a>
+<a class="sourceLine" id="cb99-4" title="4">test_func =<span class="st"> </span><span class="cf">function</span>(var){</a>
+<a class="sourceLine" id="cb99-5" title="5">    var_quo =<span class="st"> </span><span class="kw">parse_quosure</span>(var)</a>
+<a class="sourceLine" id="cb99-6" title="6">    mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-7" title="7"><span class="st">      </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-8" title="8"><span class="st">      </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</a>
+<a class="sourceLine" id="cb99-9" title="9">}</a>
+<a class="sourceLine" id="cb99-10" title="10"></a>
+<a class="sourceLine" id="cb99-11" title="11">test_func2 =<span class="st"> </span><span class="cf">function</span>(var){</a>
+<a class="sourceLine" id="cb99-12" title="12">  var_quo =<span class="st"> </span><span class="kw">enquo</span>(var)</a>
+<a class="sourceLine" id="cb99-13" title="13">  mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-14" title="14"><span class="st">    </span><span class="kw">select</span>(<span class="op">!!</span>var_quo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-15" title="15"><span class="st">    </span><span class="kw">arrange</span>(<span class="op">!!</span>var_quo)</a>
+<a class="sourceLine" id="cb99-16" title="16">}</a></code></pre></div>
+</div>
+<div id="even-more-genarally" class="section level2">
+<h2><span class="header-section-number">4.4</span> Even more Genarally</h2>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1">min_year &lt;-<span class="st"> </span><span class="dv">1990</span></a>
+<a class="sourceLine" id="cb100-2" title="2">max_year &lt;-<span class="st"> </span><span class="dv">1999</span></a>
+<a class="sourceLine" id="cb100-3" title="3">teamID &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>)</a>
+<a class="sourceLine" id="cb100-4" title="4">category &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)</a>
+<a class="sourceLine" id="cb100-5" title="5"></a>
+<a class="sourceLine" id="cb100-6" title="6">baseball_fun &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">min_year =</span> <span class="dv">1990</span>,</a>
+<a class="sourceLine" id="cb100-7" title="7">                         <span class="dt">max_year =</span> <span class="dv">1999</span>,</a>
+<a class="sourceLine" id="cb100-8" title="8">                         <span class="dt">teamID =</span> <span class="kw">c</span>(<span class="st">&quot;HOU&quot;</span>,<span class="st">&quot;TEX&quot;</span>),</a>
+<a class="sourceLine" id="cb100-9" title="9">                         <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&quot;G&quot;</span>, <span class="st">&quot;HR&quot;</span>)){</a>
+<a class="sourceLine" id="cb100-10" title="10">hitters <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-11" title="11"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">%in%</span><span class="st"> </span>min_year<span class="op">:</span>max_year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-12" title="12"><span class="st">  </span><span class="kw">filter</span>(teamID <span class="op">%in%</span><span class="st"> </span><span class="op">!!</span><span class="kw">enquo</span>(teamID)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-13" title="13"><span class="st">  </span><span class="kw">select</span>(playerID,teamID, category) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-14" title="14"><span class="st">  </span><span class="kw">group_by</span>(playerID, teamID) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-15" title="15"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb100-16" title="16"><span class="st">  </span><span class="kw">arrange_at</span>(<span class="kw">desc</span>(category))</a>
+<a class="sourceLine" id="cb100-17" title="17">}</a>
+<a class="sourceLine" id="cb100-18" title="18"></a>
+<a class="sourceLine" id="cb100-19" title="19"><span class="kw">baseball_fun</span>()</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 411 x 4
 ## # Groups:   playerID [398]
 ##    playerID  teamID     G    HR
@@ -348,6 +434,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="even-more-genarally-1" class="section level2">
 <h2><span class="header-section-number">4.5</span> Even more Genarally</h2>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1">hitters<span class="op">$</span>teamID <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sort</span>()</a></code></pre></div>
 <pre><code>##   [1] &quot;ALT&quot; &quot;ANA&quot; &quot;ARI&quot; &quot;ATL&quot; &quot;BAL&quot; &quot;BFN&quot; &quot;BFP&quot; &quot;BL1&quot; &quot;BL2&quot; &quot;BL3&quot; &quot;BL4&quot; &quot;BLA&quot; &quot;BLF&quot; &quot;BLN&quot; &quot;BLU&quot; &quot;BOS&quot; &quot;BR1&quot; &quot;BR2&quot; &quot;BR3&quot; &quot;BR4&quot; &quot;BRF&quot; &quot;BRO&quot; &quot;BRP&quot; &quot;BS1&quot; &quot;BS2&quot; &quot;BSN&quot; &quot;BSP&quot; &quot;BSU&quot; &quot;BUF&quot;
 ##  [30] &quot;CAL&quot; &quot;CH1&quot; &quot;CH2&quot; &quot;CHA&quot; &quot;CHF&quot; &quot;CHN&quot; &quot;CHP&quot; &quot;CHU&quot; &quot;CIN&quot; &quot;CL1&quot; &quot;CL2&quot; &quot;CL3&quot; &quot;CL4&quot; &quot;CL5&quot; &quot;CL6&quot; &quot;CLE&quot; &quot;CLP&quot; &quot;CN1&quot; &quot;CN2&quot; &quot;CN3&quot; &quot;CNU&quot; &quot;COL&quot; &quot;DET&quot; &quot;DTN&quot; &quot;ELI&quot; &quot;FLO&quot; &quot;FW1&quot; &quot;HAR&quot; &quot;HOU&quot;
@@ -357,6 +444,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [146] &quot;WS7&quot; &quot;WS8&quot; &quot;WS9&quot; &quot;WSU&quot;</code></pre>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1"><span class="kw">baseball_fun</span>(<span class="dt">min_year =</span> <span class="dv">2000</span>,<span class="dt">max_year =</span> <span class="dv">2009</span>, <span class="dt">teamID =</span> <span class="st">&quot;NYA&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb101-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1">hitters<span class="op">$</span>teamID <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sort</span>()</a></code></pre></div>
+<pre><code>##   [1] &quot;ALT&quot; &quot;ANA&quot; &quot;ARI&quot; &quot;ATL&quot; &quot;BAL&quot; &quot;BFN&quot; &quot;BFP&quot; &quot;BL1&quot; &quot;BL2&quot; &quot;BL3&quot; &quot;BL4&quot; &quot;BLA&quot;
+##  [13] &quot;BLF&quot; &quot;BLN&quot; &quot;BLU&quot; &quot;BOS&quot; &quot;BR1&quot; &quot;BR2&quot; &quot;BR3&quot; &quot;BR4&quot; &quot;BRF&quot; &quot;BRO&quot; &quot;BRP&quot; &quot;BS1&quot;
+##  [25] &quot;BS2&quot; &quot;BSN&quot; &quot;BSP&quot; &quot;BSU&quot; &quot;BUF&quot; &quot;CAL&quot; &quot;CH1&quot; &quot;CH2&quot; &quot;CHA&quot; &quot;CHF&quot; &quot;CHN&quot; &quot;CHP&quot;
+##  [37] &quot;CHU&quot; &quot;CIN&quot; &quot;CL1&quot; &quot;CL2&quot; &quot;CL3&quot; &quot;CL4&quot; &quot;CL5&quot; &quot;CL6&quot; &quot;CLE&quot; &quot;CLP&quot; &quot;CN1&quot; &quot;CN2&quot;
+##  [49] &quot;CN3&quot; &quot;CNU&quot; &quot;COL&quot; &quot;DET&quot; &quot;DTN&quot; &quot;ELI&quot; &quot;FLO&quot; &quot;FW1&quot; &quot;HAR&quot; &quot;HOU&quot; &quot;HR1&quot; &quot;IN1&quot;
+##  [61] &quot;IN2&quot; &quot;IN3&quot; &quot;IND&quot; &quot;KC1&quot; &quot;KC2&quot; &quot;KCA&quot; &quot;KCF&quot; &quot;KCN&quot; &quot;KCU&quot; &quot;KEO&quot; &quot;LAA&quot; &quot;LAN&quot;
+##  [73] &quot;LS1&quot; &quot;LS2&quot; &quot;LS3&quot; &quot;MIA&quot; &quot;MID&quot; &quot;MIL&quot; &quot;MIN&quot; &quot;ML1&quot; &quot;ML2&quot; &quot;ML3&quot; &quot;ML4&quot; &quot;MLA&quot;
+##  [85] &quot;MLU&quot; &quot;MON&quot; &quot;NEW&quot; &quot;NH1&quot; &quot;NY1&quot; &quot;NY2&quot; &quot;NY3&quot; &quot;NY4&quot; &quot;NYA&quot; &quot;NYN&quot; &quot;NYP&quot; &quot;OAK&quot;
+##  [97] &quot;PH1&quot; &quot;PH2&quot; &quot;PH3&quot; &quot;PH4&quot; &quot;PHA&quot; &quot;PHI&quot; &quot;PHN&quot; &quot;PHP&quot; &quot;PHU&quot; &quot;PIT&quot; &quot;PRO&quot; &quot;PT1&quot;
+## [109] &quot;PTF&quot; &quot;PTP&quot; &quot;RC1&quot; &quot;RC2&quot; &quot;RIC&quot; &quot;SDN&quot; &quot;SE1&quot; &quot;SEA&quot; &quot;SFN&quot; &quot;SL1&quot; &quot;SL2&quot; &quot;SL3&quot;
+## [121] &quot;SL4&quot; &quot;SL5&quot; &quot;SLA&quot; &quot;SLF&quot; &quot;SLN&quot; &quot;SLU&quot; &quot;SPU&quot; &quot;SR1&quot; &quot;SR2&quot; &quot;TBA&quot; &quot;TEX&quot; &quot;TL1&quot;
+## [133] &quot;TL2&quot; &quot;TOR&quot; &quot;TRN&quot; &quot;TRO&quot; &quot;WAS&quot; &quot;WIL&quot; &quot;WOR&quot; &quot;WS1&quot; &quot;WS2&quot; &quot;WS3&quot; &quot;WS4&quot; &quot;WS5&quot;
+## [145] &quot;WS6&quot; &quot;WS7&quot; &quot;WS8&quot; &quot;WS9&quot; &quot;WSU&quot;</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">baseball_fun</span>(<span class="dt">min_year =</span> <span class="dv">2000</span>,<span class="dt">max_year =</span> <span class="dv">2009</span>, <span class="dt">teamID =</span> <span class="st">&quot;NYA&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb104-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 247 x 4
 ## # Groups:   playerID [247]
 ##    playerID  teamID     G    HR
@@ -375,10 +480,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="purrr" class="section level2">
 <h2><span class="header-section-number">4.6</span> PURRR</h2>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1"><span class="kw">library</span>(purrr)</a>
 <a class="sourceLine" id="cb103-2" title="2"></a>
 <a class="sourceLine" id="cb103-3" title="3"><span class="kw">map</span>(<span class="kw">c</span>(<span class="st">&quot;TEX&quot;</span>,<span class="st">&quot;NYA&quot;</span>), <span class="op">~</span><span class="kw">baseball_fun</span>(<span class="dt">teamID =</span> .)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb103-4" title="4"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">arrange</span>(.x))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb106-2" title="2"></a>
+<a class="sourceLine" id="cb106-3" title="3"><span class="kw">map</span>(<span class="kw">c</span>(<span class="st">&quot;TEX&quot;</span>,<span class="st">&quot;NYA&quot;</span>), <span class="op">~</span><span class="kw">baseball_fun</span>(<span class="dt">teamID =</span> .)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb106-4" title="4"><span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">arrange</span>(.x))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## [[1]]
 ## # A tibble: 219 x 4
 ## # Groups:   playerID [219]

@@ -6,11 +6,11 @@
 library(tidyverse)
 # library(here)
 # here()
-# hitters <- read_csv("_bookdown_files/data_files/Batting.csv", guess_max = 10000)
-hitters <- read_csv("data_files/Batting.csv", guess_max = 10000)
-# hitters <- read_csv(here("_bookdown_files/data_files","Batting.csv"), guess_max = 10000)
+# hitters <- read_csv("_bookdown_files/data_sources/Batting.csv", guess_max = 10000)
+hitters <- read_csv("data_sources/Batting.csv", guess_max = 10000)
+# hitters <- read_csv(here("_bookdown_files/data_sources","Batting.csv"), guess_max = 10000)
 
-# hitters <- read_csv("data_files/Batting.csv", guess_max = 10000) %>%
+# hitters <- read_csv("data_sources/Batting.csv", guess_max = 10000) %>%
 #   janitor::clean_names()
 # hitters
 ```

@@ -9,23 +9,23 @@ library(janitor)
 ## Read in Data
 
 ```{r, cache=TRUE, cache = TRUE}
-read_csv("data_files/Batting.csv")
+read_csv("data_sources/Batting.csv")
 ```
 
 ### Fix Read In Errors {-}
 
 ```{r, cache = TRUE}
-read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
+read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
 ```
 
 ```{r, cache = TRUE}
-read_csv("data_files/Batting.csv", guess_max = 10000)
+read_csv("data_sources/Batting.csv", guess_max = 10000)
 ```
 
 ### Clean Column Names {-}
 
 ```{r, cache = TRUE}
-read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
@@ -36,7 +36,7 @@ Who has the highest career slugging percentage?
 ### Select {-}
 
 ```{r, cache = TRUE}
-data = read_csv("data_files/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+data = read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
@@ -60,12 +60,12 @@ data %>%
 data %>% 
   select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h), 
+  summarise(h = sum(h),
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
             ab = sum(ab),
-            g = sum(g)) 
+            g = sum(g))
 ```
 
 ### Filter {-}
@@ -124,11 +124,11 @@ slgdata
 ### Player ID Data {-}
 
 ```{r, cache = TRUE}
-read_csv("data_files/Master.csv") 
+read_csv("data_sources/Master.csv") 
 ```
 
 ```{r, cache = TRUE}
-read_csv("data_files/Master.csv") %>% 
+read_csv("data_sources/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = paste(nameFirst,nameLast)) %>% 
   select(-starts_with("name"))
@@ -137,7 +137,7 @@ read_csv("data_files/Master.csv") %>%
 
 ```{r, cache = TRUE}
 master = 
-read_csv("data_files/Master.csv") %>% 
+read_csv("data_sources/Master.csv") %>% 
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = paste(nameFirst,nameLast)) %>% 
   select(-starts_with("name"))

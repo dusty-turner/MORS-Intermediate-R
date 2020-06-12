@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Data Manipulation | Intermediate R</title>
   <meta name="description" content="2 Data Manipulation | Intermediate R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Data Manipulation | Intermediate R" />
   <meta property="og:type" content="book" />
@@ -212,7 +212,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(janitor)</a></code></pre></div>
 <div id="read-in-data" class="section level2">
 <h2><span class="header-section-number">2.1</span> Read in Data</h2>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -224,13 +228,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
 <pre><code>## Warning: 45441 parsing failures.
-##   row  col           expected actual                     file
-## 25015 GIDP 1/0/T/F/TRUE/FALSE     2  &#39;data_files/Batting.csv&#39;
-## 25016 GIDP 1/0/T/F/TRUE/FALSE     10 &#39;data_files/Batting.csv&#39;
-## 25018 GIDP 1/0/T/F/TRUE/FALSE     4  &#39;data_files/Batting.csv&#39;
-## 25028 GIDP 1/0/T/F/TRUE/FALSE     8  &#39;data_files/Batting.csv&#39;
-## 25030 GIDP 1/0/T/F/TRUE/FALSE     3  &#39;data_files/Batting.csv&#39;
-## ..... .... .................. ...... ........................
+##   row  col           expected actual                       file
+## 25015 GIDP 1/0/T/F/TRUE/FALSE     2  &#39;data_sources/Batting.csv&#39;
+## 25016 GIDP 1/0/T/F/TRUE/FALSE     10 &#39;data_sources/Batting.csv&#39;
+## 25018 GIDP 1/0/T/F/TRUE/FALSE     4  &#39;data_sources/Batting.csv&#39;
+## 25028 GIDP 1/0/T/F/TRUE/FALSE     8  &#39;data_sources/Batting.csv&#39;
+## 25030 GIDP 1/0/T/F/TRUE/FALSE     3  &#39;data_sources/Batting.csv&#39;
+## ..... .... .................. ...... ..........................
 ## See problems(...) for more details.</code></pre>
 <pre><code>## # A tibble: 102,816 x 22
 ##    playerID  yearID stint teamID lgID      G    AB     R     H  `2B`  `3B`    HR   RBI    SB    CS    BB    SO   IBB   HBP    SH SF    GIDP 
@@ -248,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # ... with 102,806 more rows</code></pre>
 <div id="fix-read-in-errors" class="section level3 unnumbered">
 <h3>Fix Read In Errors</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>()))</a></code></pre></div>
 <pre><code>## # A tibble: 102,816 x 22
 ##    playerID  yearID stint teamID lgID      G    AB     R     H  `2B`  `3B`    HR   RBI    SB    CS    BB    SO   IBB   HBP    SH    SF  GIDP
@@ -264,6 +269,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 barrofr01   1871     1 BS1    &lt;NA&gt;     18    86    13    13     2     1     0    11     1     0     0     0    NA    NA    NA    NA    NA
 ## # ... with 102,806 more rows</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>()))</a></code></pre></div>
+<pre><code>## # A tibble: 102,816 x 22
+##    playerID yearID stint teamID lgID      G    AB     R     H  `2B`  `3B`    HR
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 abercda~   1871     1 TRO    &lt;NA&gt;      1     4     0     0     0     0     0
+##  2 addybo01   1871     1 RC1    &lt;NA&gt;     25   118    30    32     6     0     0
+##  3 allisar~   1871     1 CL1    &lt;NA&gt;     29   137    28    40     4     5     0
+##  4 allisdo~   1871     1 WS3    &lt;NA&gt;     27   133    28    44    10     2     2
+##  5 ansonca~   1871     1 RC1    &lt;NA&gt;     25   120    29    39    11     3     0
+##  6 armstbo~   1871     1 FW1    &lt;NA&gt;     12    49     9    11     2     1     0
+##  7 barkeal~   1871     1 RC1    &lt;NA&gt;      1     4     0     1     0     0     0
+##  8 barnero~   1871     1 BS1    &lt;NA&gt;     31   157    66    63    10     9     0
+##  9 barrebi~   1871     1 FW1    &lt;NA&gt;      1     5     1     1     1     0     0
+## 10 barrofr~   1871     1 BS1    &lt;NA&gt;     18    86    13    13     2     1     0
+## # ... with 102,806 more rows, and 10 more variables: RBI &lt;dbl&gt;, SB &lt;dbl&gt;,
+## #   CS &lt;dbl&gt;, BB &lt;dbl&gt;, SO &lt;dbl&gt;, IBB &lt;dbl&gt;, HBP &lt;dbl&gt;, SH &lt;dbl&gt;, SF &lt;dbl&gt;,
+## #   GIDP &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">guess_max =</span> <span class="dv">10000</span>)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -289,7 +314,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="clean-column-names" class="section level3 unnumbered">
 <h3>Clean Column Names</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>())) <span class="op">%&gt;%</span><span class="st"> </span></a>
+=======
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>())) <span class="op">%&gt;%</span><span class="st"> </span></a>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw">clean_names</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 102,816 x 22
 ##    player_id year_id stint team_id lg_id     g    ab     r     h   x2b   x3b    hr   rbi    sb    cs    bb    so   ibb   hbp    sh    sf  gidp
@@ -312,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Who has the highest career slugging percentage?</p>
 <div id="select" class="section level3 unnumbered">
 <h3>Select</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">data =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>())) <span class="op">%&gt;%</span><span class="st"> </span></a>
+=======
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">data =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Batting.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">SF =</span> <span class="kw">col_double</span>(), <span class="dt">GIDP =</span> <span class="kw">col_double</span>())) <span class="op">%&gt;%</span><span class="st"> </span></a>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">clean_names</span>()</a></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g)</a></code></pre></div>
@@ -357,12 +390,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb20-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<<<<<<< HEAD
 <a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h), </a>
+=======
+<a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h),</a>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <a class="sourceLine" id="cb20-5" title="5">            <span class="dt">x2b =</span> <span class="kw">sum</span>(x2b),</a>
 <a class="sourceLine" id="cb20-6" title="6">            <span class="dt">x3b =</span> <span class="kw">sum</span>(x3b),</a>
 <a class="sourceLine" id="cb20-7" title="7">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
 <a class="sourceLine" id="cb20-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
+<<<<<<< HEAD
 <a class="sourceLine" id="cb20-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) </a></code></pre></div>
+=======
+<a class="sourceLine" id="cb20-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g))</a></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 18,915 x 7
 ##    player_id     h   x2b   x3b    hr    ab     g
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -380,6 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="filter" class="section level3 unnumbered">
 <h3>Filter</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -390,6 +433,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb22-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
 <a class="sourceLine" id="cb22-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-10" title="10"><span class="st">  </span><span class="kw">filter</span>(g<span class="op">&gt;</span><span class="dv">1000</span>) </a></code></pre></div>
+=======
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h), </a>
+<a class="sourceLine" id="cb23-5" title="5">            <span class="dt">x2b =</span> <span class="kw">sum</span>(x2b),</a>
+<a class="sourceLine" id="cb23-6" title="6">            <span class="dt">x3b =</span> <span class="kw">sum</span>(x3b),</a>
+<a class="sourceLine" id="cb23-7" title="7">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
+<a class="sourceLine" id="cb23-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
+<a class="sourceLine" id="cb23-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="st">  </span><span class="kw">filter</span>(g<span class="op">&gt;</span><span class="dv">1000</span>) </a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 7
 ##    player_id     h   x2b   x3b    hr    ab     g
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -407,6 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="mutate" class="section level3 unnumbered">
 <h3>Mutate</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -418,6 +474,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb24-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-10" title="10"><span class="st">  </span><span class="kw">filter</span>(g<span class="op">&gt;</span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb24-11" title="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">slg =</span> (h <span class="op">+</span><span class="st"> </span>x2b <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>x3b <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>hr)<span class="op">/</span>ab)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h), </a>
+<a class="sourceLine" id="cb25-5" title="5">            <span class="dt">x2b =</span> <span class="kw">sum</span>(x2b),</a>
+<a class="sourceLine" id="cb25-6" title="6">            <span class="dt">x3b =</span> <span class="kw">sum</span>(x3b),</a>
+<a class="sourceLine" id="cb25-7" title="7">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
+<a class="sourceLine" id="cb25-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
+<a class="sourceLine" id="cb25-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-10" title="10"><span class="st">  </span><span class="kw">filter</span>(g<span class="op">&gt;</span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-11" title="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">slg =</span> (h <span class="op">+</span><span class="st"> </span>x2b <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>x3b <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>hr)<span class="op">/</span>ab)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 8
 ##    player_id     h   x2b   x3b    hr    ab     g   slg
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -435,6 +504,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="arrange" class="section level3 unnumbered">
 <h3>Arrange</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">slgdata =<span class="st"> </span></a>
 <a class="sourceLine" id="cb26-2" title="2">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -450,6 +520,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb26-13" title="13"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(slg))</a>
 <a class="sourceLine" id="cb26-14" title="14"></a>
 <a class="sourceLine" id="cb26-15" title="15">slgdata</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">slgdata =<span class="st"> </span></a>
+<a class="sourceLine" id="cb27-2" title="2">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h), </a>
+<a class="sourceLine" id="cb27-6" title="6">            <span class="dt">x2b =</span> <span class="kw">sum</span>(x2b),</a>
+<a class="sourceLine" id="cb27-7" title="7">            <span class="dt">x3b =</span> <span class="kw">sum</span>(x3b),</a>
+<a class="sourceLine" id="cb27-8" title="8">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
+<a class="sourceLine" id="cb27-9" title="9">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
+<a class="sourceLine" id="cb27-10" title="10">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="st">  </span><span class="kw">filter</span>(g<span class="op">&gt;</span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">slg =</span> (h <span class="op">+</span><span class="st"> </span>x2b <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>x3b <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>hr)<span class="op">/</span>ab) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-13" title="13"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(slg))</a>
+<a class="sourceLine" id="cb27-14" title="14"></a>
+<a class="sourceLine" id="cb27-15" title="15">slgdata</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 8
 ##    player_id     h   x2b   x3b    hr    ab     g   slg
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -470,7 +557,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">2.3</span> Joins</h2>
 <div id="player-id-data" class="section level3 unnumbered">
 <h3>Player ID Data</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Master.csv&quot;</span>) </a></code></pre></div>
+=======
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Master.csv&quot;</span>) </a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_character(),
@@ -487,6 +578,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
 <pre><code>## # A tibble: 19,105 x 24
+<<<<<<< HEAD
 ##    playerID birthYear birthMonth birthDay birthCountry birthState birthCity deathYear deathMonth deathDay deathCountry deathState deathCity nameFirst nameLast nameGiven weight
 ##    &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;
 ##  1 aardsda~      1981         12       27 USA          CO         Denver           NA         NA       NA &lt;NA&gt;         &lt;NA&gt;       &lt;NA&gt;      David     Aardsma  David Al~    215
@@ -504,6 +596,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb32-2" title="2"><span class="st">  </span><span class="kw">select</span>(playerID, nameFirst, nameLast) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">paste</span>(nameFirst,nameLast)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb32-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">starts_with</span>(<span class="st">&quot;name&quot;</span>))</a></code></pre></div>
+=======
+##    playerID birthYear birthMonth birthDay birthCountry birthState birthCity
+##    &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;    
+##  1 aardsda~      1981         12       27 USA          CO         Denver   
+##  2 aaronha~      1934          2        5 USA          AL         Mobile   
+##  3 aaronto~      1939          8        5 USA          AL         Mobile   
+##  4 aasedo01      1954          9        8 USA          CA         Orange   
+##  5 abadan01      1972          8       25 USA          FL         Palm Bea~
+##  6 abadfe01      1985         12       17 D.R.         La Romana  La Romana
+##  7 abadijo~      1850         11        4 USA          PA         Philadel~
+##  8 abbated~      1877          4       15 USA          PA         Latrobe  
+##  9 abbeybe~      1869         11       11 USA          VT         Essex    
+## 10 abbeych~      1866         10       14 USA          NE         Falls Ci~
+## # ... with 19,095 more rows, and 17 more variables: deathYear &lt;dbl&gt;,
+## #   deathMonth &lt;dbl&gt;, deathDay &lt;dbl&gt;, deathCountry &lt;chr&gt;, deathState &lt;chr&gt;,
+## #   deathCity &lt;chr&gt;, nameFirst &lt;chr&gt;, nameLast &lt;chr&gt;, nameGiven &lt;chr&gt;,
+## #   weight &lt;dbl&gt;, height &lt;dbl&gt;, bats &lt;chr&gt;, throws &lt;chr&gt;, debut &lt;date&gt;,
+## #   finalGame &lt;date&gt;, retroID &lt;chr&gt;, bbrefID &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Master.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="st">  </span><span class="kw">select</span>(playerID, nameFirst, nameLast) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">paste</span>(nameFirst,nameLast)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">starts_with</span>(<span class="st">&quot;name&quot;</span>))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_character(),
@@ -533,11 +648,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abbeybe01 Bert Abbey    
 ## 10 abbeych01 Charlie Abbey 
 ## # ... with 19,095 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">master =<span class="st"> </span></a>
 <a class="sourceLine" id="cb36-2" title="2"><span class="kw">read_csv</span>(<span class="st">&quot;data_files/Master.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb36-3" title="3"><span class="st">  </span><span class="kw">select</span>(playerID, nameFirst, nameLast) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb36-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">paste</span>(nameFirst,nameLast)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb36-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">starts_with</span>(<span class="st">&quot;name&quot;</span>))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">master =<span class="st"> </span></a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="kw">read_csv</span>(<span class="st">&quot;data_sources/Master.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="st">  </span><span class="kw">select</span>(playerID, nameFirst, nameLast) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">paste</span>(nameFirst,nameLast)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">starts_with</span>(<span class="st">&quot;name&quot;</span>))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_character(),
@@ -556,8 +679,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="join-the-data" class="section level3 unnumbered">
 <h3>Join the Data</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">slgdata <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb39-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(master, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;player_id&quot;</span> =<span class="st"> &quot;playerID&quot;</span>))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">slgdata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(master, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;player_id&quot;</span> =<span class="st"> &quot;playerID&quot;</span>))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 9
 ##    player_id     h   x2b   x3b    hr    ab     g   slg player        
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;         
@@ -572,6 +700,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 dimagjo01  2214   389   131   361  6821  1736 0.579 Joe DiMaggio  
 ## 10 hornsro01  2930   541   169   301  8173  2259 0.577 Rogers Hornsby
 ## # ... with 1,554 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">slgname =<span class="st"> </span></a>
 <a class="sourceLine" id="cb41-2" title="2">slgdata <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb41-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(master, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;player_id&quot;</span> =<span class="st"> &quot;playerID&quot;</span>))</a></code></pre></div>
@@ -580,6 +709,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Rename Columns</h3>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb42-2" title="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">doubles =</span> x2b, <span class="dt">triples =</span> x3b)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">slgname =<span class="st"> </span></a>
+<a class="sourceLine" id="cb42-2" title="2">slgdata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb42-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(master, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;player_id&quot;</span> =<span class="st"> &quot;playerID&quot;</span>))</a></code></pre></div>
+</div>
+<div id="rename-columns" class="section level3 unnumbered">
+<h3>Rename Columns</h3>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">doubles =</span> x2b, <span class="dt">triples =</span> x3b)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 9
 ##    player_id     h doubles triples    hr    ab     g   slg player        
 ##    &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;         
@@ -594,6 +733,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 dimagjo01  2214     389     131   361  6821  1736 0.579 Joe DiMaggio  
 ## 10 hornsro01  2930     541     169   301  8173  2259 0.577 Rogers Hornsby
 ## # ... with 1,554 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">slgname =<span class="st"> </span></a>
 <a class="sourceLine" id="cb44-2" title="2">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb44-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">doubles =</span> x2b, <span class="dt">triples =</span> x3b)</a></code></pre></div>
@@ -602,6 +742,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Reorder Columns</h3>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb45-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id, player, <span class="kw">everything</span>())</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">slgname =<span class="st"> </span></a>
+<a class="sourceLine" id="cb45-2" title="2">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb45-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">doubles =</span> x2b, <span class="dt">triples =</span> x3b)</a></code></pre></div>
+</div>
+<div id="reorder-columns" class="section level3 unnumbered">
+<h3>Reorder Columns</h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id, player, <span class="kw">everything</span>())</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 1,564 x 9
 ##    player_id player             h doubles triples    hr    ab     g   slg
 ##    &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -616,15 +766,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 dimagjo01 Joe DiMaggio    2214     389     131   361  6821  1736 0.579
 ## 10 hornsro01 Rogers Hornsby  2930     541     169   301  8173  2259 0.577
 ## # ... with 1,554 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">slgname =</a>
 <a class="sourceLine" id="cb47-2" title="2">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb47-3" title="3"><span class="st">  </span><span class="kw">select</span>(player_id, player, <span class="kw">everything</span>())</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">slgname =</a>
+<a class="sourceLine" id="cb48-2" title="2">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-3" title="3"><span class="st">  </span><span class="kw">select</span>(player_id, player, <span class="kw">everything</span>())</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 </div>
 </div>
 <div id="other-dplyr-tricks" class="section level2">
 <h2><span class="header-section-number">2.4</span> Other dplyr Tricks</h2>
 <div id="count" class="section level3 unnumbered">
 <h3>Count</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">data</a></code></pre></div>
 <pre><code>## # A tibble: 102,816 x 22
 ##    player_id year_id stint team_id lg_id     g    ab     r     h   x2b   x3b    hr   rbi    sb    cs    bb    so   ibb   hbp    sh    sf  gidp
@@ -642,6 +799,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## # ... with 102,806 more rows</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb50-2" title="2"><span class="st">  </span><span class="kw">count</span>(player_id)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">data</a></code></pre></div>
+<pre><code>## # A tibble: 102,816 x 22
+##    player_id year_id stint team_id lg_id     g    ab     r     h   x2b   x3b
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 abercda01    1871     1 TRO     &lt;NA&gt;      1     4     0     0     0     0
+##  2 addybo01     1871     1 RC1     &lt;NA&gt;     25   118    30    32     6     0
+##  3 allisar01    1871     1 CL1     &lt;NA&gt;     29   137    28    40     4     5
+##  4 allisdo01    1871     1 WS3     &lt;NA&gt;     27   133    28    44    10     2
+##  5 ansonca01    1871     1 RC1     &lt;NA&gt;     25   120    29    39    11     3
+##  6 armstbo01    1871     1 FW1     &lt;NA&gt;     12    49     9    11     2     1
+##  7 barkeal01    1871     1 RC1     &lt;NA&gt;      1     4     0     1     0     0
+##  8 barnero01    1871     1 BS1     &lt;NA&gt;     31   157    66    63    10     9
+##  9 barrebi01    1871     1 FW1     &lt;NA&gt;      1     5     1     1     1     0
+## 10 barrofr01    1871     1 BS1     &lt;NA&gt;     18    86    13    13     2     1
+## # ... with 102,806 more rows, and 11 more variables: hr &lt;dbl&gt;, rbi &lt;dbl&gt;,
+## #   sb &lt;dbl&gt;, cs &lt;dbl&gt;, bb &lt;dbl&gt;, so &lt;dbl&gt;, ibb &lt;dbl&gt;, hbp &lt;dbl&gt;, sh &lt;dbl&gt;,
+## #   sf &lt;dbl&gt;, gidp &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb51-2" title="2"><span class="st">  </span><span class="kw">count</span>(player_id)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 18,915 x 2
 ##    player_id     n
 ##    &lt;chr&gt;     &lt;int&gt;
@@ -656,8 +834,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abbeybe01     6
 ## 10 abbeych01     5
 ## # ... with 18,905 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb52-2" title="2"><span class="st">  </span><span class="kw">count</span>(player_id, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="st">  </span><span class="kw">count</span>(player_id, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 18,915 x 2
 ##    player_id     n
 ##    &lt;chr&gt;     &lt;int&gt;
@@ -675,8 +858,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="uncount" class="section level3 unnumbered">
 <h3>Uncount</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb54-2" title="2"><span class="st">  </span><span class="kw">uncount</span>(triples)</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">slgname <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-2" title="2"><span class="st">  </span><span class="kw">uncount</span>(triples)</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 80,303 x 8
 ##    player_id player        h doubles    hr    ab     g   slg
 ##    &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -694,6 +882,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="summarise-1" class="section level3 unnumbered">
 <h3>Summarise</h3>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb56-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb56-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -703,6 +892,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb56-7" title="7">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
 <a class="sourceLine" id="cb56-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
 <a class="sourceLine" id="cb56-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) </a></code></pre></div>
+=======
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb57-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb57-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb57-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">h =</span> <span class="kw">sum</span>(h), </a>
+<a class="sourceLine" id="cb57-5" title="5">            <span class="dt">x2b =</span> <span class="kw">sum</span>(x2b),</a>
+<a class="sourceLine" id="cb57-6" title="6">            <span class="dt">x3b =</span> <span class="kw">sum</span>(x3b),</a>
+<a class="sourceLine" id="cb57-7" title="7">            <span class="dt">hr =</span> <span class="kw">sum</span>(hr),</a>
+<a class="sourceLine" id="cb57-8" title="8">            <span class="dt">ab =</span> <span class="kw">sum</span>(ab),</a>
+<a class="sourceLine" id="cb57-9" title="9">            <span class="dt">g =</span> <span class="kw">sum</span>(g)) </a></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 18,915 x 7
 ##    player_id     h   x2b   x3b    hr    ab     g
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -717,10 +918,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 abbeybe01    38     3     3     0   225    79
 ## 10 abbeych01   492    67    46    19  1751   451
 ## # ... with 18,905 more rows</code></pre>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb58-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb58-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb58-4" title="4"><span class="st">  </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(<span class="op">-</span>year_id),<span class="op">~</span><span class="kw">sum</span>(.))</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-2" title="2"><span class="st">  </span><span class="kw">select</span>(player_id,year_id,h,x2b,x3b,hr,ab, g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(player_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb60-4" title="4"><span class="st">  </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(<span class="op">-</span>year_id),<span class="op">~</span><span class="kw">sum</span>(.))</a></code></pre></div>
+>>>>>>> 7f0001a581d2099a496c30844c88b7e993e3ab43
 <pre><code>## # A tibble: 18,915 x 7
 ##    player_id     h   x2b   x3b    hr    ab     g
 ##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
