@@ -14,6 +14,8 @@ read_csv("data_sources/Batting.csv")
 
 ### Fix Read In Errors {-}
 
+`read_csv` Looks at the first 1000 rows of data to guess column types, so it often makes mistakes if those 1000 rows are empty for a specific column. We can specify the types of certain columns, or tell it to look at more rows before guessing data types.
+
 ```{r, cache = TRUE}
 read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double()))
 ```
@@ -24,6 +26,8 @@ read_csv("data_sources/Batting.csv", guess_max = 10000)
 
 ### Clean Column Names {-}
 
+`clean_names` provides some helpful processing, such as making column names lowercase and replacing spaces and periods with underscores.
+
 ```{r, cache = TRUE}
 read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
@@ -31,36 +35,55 @@ read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = 
 
 ## Analysis with `dplyr`
 
-Who has the highest career slugging percentage?
+Who has the highest career slugging percentage? Let's save the data we figured out how to correctly read in as an R object and start analyzing it.
 
 ### Select {-}
 
 ```{r, cache = TRUE}
-data = read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
 ```
 
+`select` allows you to keep only certain columns. While this isn't always necessary, it can be helpful to make it easier to glance at the data and see what you're interested in.
 
 ```{r, cache = TRUE}
 data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g)
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g)
+```
+
+There are a number of helper functions that can be used in `select` to make it easier to "search" for columns to pick.
+
+In addition, a minus sign can be used to deselect columns.
+
+```{r}
+data %>%
+  select(contains("id"))
+
+data %>%
+  select(ends_with("_id"), -lg_id)
 ```
 
 ### Group_by {-}
 
+One immediate challenge we can see in the data is that we have statistics for each year of each player's career. To get career stats, we'll need to add up all rows of data for each player.
+
+We can do this with the combination of `group_by` and `summarize`. The first step, `group_by`, doesn't actually do anything to change the data - it essentially sets a flag on the dataframe that lets future `dplyr` functions know that they should operate on the data by group, instead of operating on the entire dataframe at once.
+
 ```{r, cache = TRUE}
 data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
   group_by(player_id)
 ```
 
-### Summarise {-}
+### Summarize {-}
+
+Summarize runs the requested functions on the dataframe, by group, and returns a dataframe with one row per group and one column per specified summary. Here, we want to get each player's career hits, doubles, triples, home runs, at-bats, and games, so that we can calculate slugging percentage, so we group by player_id and sum each of those columns.
 
 ```{r, cache = TRUE}
 data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h),
+  summarize(h = sum(h),
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
@@ -70,43 +93,69 @@ data %>%
 
 ### Filter {-}
 
+We might only care about players with longer careers; players with very short but successful careers might bias our statistics.
+
+Filter allows us to only keep rows of our dataframe that return TRUE for a given logical statement. Here, we only keep rows (players) with more than 1000 career games. We filter *after* summarizing, so this refers to each player's career stats; filtering before summarizing, here, would remove all of our data, unless a player somehow figured out how to play 1000 games in a single season!
+
 ```{r, cache = TRUE}
 data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h), 
+  summarize(h = sum(h), 
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
             ab = sum(ab),
             g = sum(g)) %>% 
-  filter(g>1000) 
+  filter(g > 1000) 
 ```
 
 ### Mutate {-}
 
+Mutate allows us to create or modify columns of our dataframe. Here, we use it to calculate slugging percentage for each row (player). We can refer to other columns with bare column names and use them in our calculations.
+
 ```{r, cache = TRUE}
 data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h), 
+  summarize(h = sum(h), 
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
             ab = sum(ab),
             g = sum(g)) %>% 
-  filter(g>1000) %>% 
-  mutate(slg = (h + x2b + 2*x3b + 3*hr)/ab)
+  filter(g > 1000) %>% 
+  mutate(slg = (h + x2b + 2 * x3b + 3 * hr) / ab)
 ```
+
+To modify an existing column, just set the column name for the output of `mutate` to an existing column name. For instance, to round our new `slg` column to the conventional three digits:
+
+```{r}
+data %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
+  group_by(player_id) %>% 
+  summarize(h = sum(h), 
+            x2b = sum(x2b),
+            x3b = sum(x3b),
+            hr = sum(hr),
+            ab = sum(ab),
+            g = sum(g)) %>% 
+  filter(g > 1000) %>% 
+  mutate(slg = (h + x2b + 2 * x3b + 3 * hr) / ab) %>%
+  mutate(slg = round(slg, 3))
+
+```
+
 
 ### Arrange {-}
 
+`arrange` sorts dataframes by one or more columns. It sorts in ascending order by default; to sort descending, wrap a column name in `desc()`.
+
 ```{r, cache = TRUE}
-slgdata = 
-data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+slgdata <- data %>% 
+  select(player_id, year_id, h ,x2b, x3b, hr, ab, g) %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h), 
+  summarize(h = sum(h), 
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
@@ -114,6 +163,7 @@ data %>%
             g = sum(g)) %>% 
   filter(g>1000) %>% 
   mutate(slg = (h + x2b + 2*x3b + 3*hr)/ab) %>% 
+  mutate(slg = round(slg, 3)) %>%
   arrange(desc(slg))
 
 slgdata
@@ -121,42 +171,42 @@ slgdata
 
 ## Joins
 
+In many projects, you will not have all of the data you need contained in a single table. You can use `dplyr`'s SQL-style join functions to combine tables. This isn't always intuitive at first, especially with large amounts of data joining on multiple columns, but it's dramatically easier and quicker than tools like VLOOKUP once you're used to it.
+
 ### Player ID Data {-}
 
+Our existing player data only has player ids with partial names. However, we have a dataset with lots of additional player information.
+
 ```{r, cache = TRUE}
-read_csv("data_sources/Master.csv") 
+player_info <- read_csv("data_sources/Master.csv")
 ```
 
-```{r, cache = TRUE}
-read_csv("data_sources/Master.csv") %>% 
-  select(playerID, nameFirst, nameLast) %>% 
-  mutate(player = paste(nameFirst,nameLast)) %>% 
-  select(-starts_with("name"))
-```
-
+Let's create a single `player` column from the first and last name columns, and drop everything else besides our player id and name columns.
 
 ```{r, cache = TRUE}
-master = 
-read_csv("data_sources/Master.csv") %>% 
+player_names <- player_info %>% 
   select(playerID, nameFirst, nameLast) %>% 
-  mutate(player = paste(nameFirst,nameLast)) %>% 
+  mutate(player = str_c(nameFirst, " ", nameLast)) %>% 
   select(-starts_with("name"))
 ```
 
 ### Join the Data {-}
 
+A "left join" on dataframes A and B keeps all of table A and adds columns from table B, matching up rows based on one or more specified joining columns. Here, we want to add the player names from B, matching by player id. However, the player id columns in the two dataframes are not spelled exactly the same way, so we have to tell `left_join` precisely which two columns to match up between dataframes.
+
 ```{r, cache = TRUE}
 slgdata %>% 
-  left_join(master, by = c("player_id" = "playerID"))
+  left_join(player_names, by = c("player_id" = "playerID"))
 ```
 
 ```{r, cache = TRUE}
-slgname = 
-slgdata %>% 
-  left_join(master, by = c("player_id" = "playerID"))
+slgname <- slgdata %>% 
+  left_join(player_names, by = c("player_id" = "playerID"))
 ```
 
 ### Rename Columns {-}
+
+`rename` makes it easy to rename columns without changing anything else in a dataframe. It uses the format `newname = oldname`.
 
 ```{r, cache = TRUE}
 slgname %>% 
@@ -165,8 +215,7 @@ slgname %>%
 
 
 ```{r, cache = TRUE}
-slgname = 
-slgname %>% 
+slgname <- slgname %>% 
   rename(doubles = x2b, triples = x3b)
 ```
 
@@ -177,20 +226,28 @@ slgname %>%
   select(player_id, player, everything())
 ```
 
-```{r, cache = TRUE}
-slgname =
+As of dplyr 1.0.0, there is a new `relocate` function that moves the specified columns to the front by default.
+
+```{r}
 slgname %>% 
-  select(player_id, player, everything())
+  dplyr::relocate(contains("player"))
 ```
+
+We could also then move the `slg` column so that it's right after the player columns.
+
+```{r}
+slgname %>% 
+  dplyr::relocate(contains("player")) %>%
+  dplyr::relocate(slg, .after = player)
+```
+
 
 
 ## Other dplyr Tricks
 
 ### Count {-}
 
-```{r, cache = TRUE}
-data
-```
+`count` creates tidy-format frequency tables for a given combination of columns. It's a shortcut for `group_by(cols) %>% summarize(n = n())`.
 
 ```{r, cache = TRUE}
 data %>% 
@@ -202,31 +259,80 @@ data %>%
   count(player_id, sort = TRUE)
 ```
 
-### Uncount {-}
+### Grouped Mutate
 
-```{r, cache = TRUE}
-slgname %>% 
-  uncount(triples)
+`group_by` doesn't just allow you to summarize - it also allows you to do `mutate` calculations within each group. For example, to calculate the proportion of their career home runs that each player hit during each year of their career, we could do the following. The key here is that the `sum` inside the `mutate` only sums up home runs within each group.
+
+```{r}
+prop_hr <- data %>%
+  select(player_id, year_id, hr) %>%
+  group_by(player_id) %>%
+  mutate(prop_career_hr = hr/sum(hr))
+
+prop_hr %>%
+  filter(player_id == "ruthba01")
+  
 ```
 
-### Summarise {-}
+
+
+### Conditional verb variants {-}
+
+`dplyr` provides conditional variants of many of the main verbs, ending in `_at`, `_if`, and `_all`. These are most often used with `summarize`, `mutate`, or `rename` to operate on multiple columns at once.
+
+The rather wordy `summarize` that we used earlier can be replaced with a `summarize_at` that specifies the columns to be summarized and one or more functions to apply to each columns. Anything that would work in `select()` can be wrapped in `vars()` to select columns, and function names can be bare, base-R-style anonymous functions, or `purrr`-style formula notation, which will be covered in section 4.
 
 ```{r, cache = TRUE}
-data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+slg_summary <- data %>% 
   group_by(player_id) %>% 
-  summarise(h = sum(h), 
+  summarize(h = sum(h), 
             x2b = sum(x2b),
             x3b = sum(x3b),
             hr = sum(hr),
             ab = sum(ab),
             g = sum(g)) 
+
+head(slg_summary)
 ```
 
 
 ```{r, cache = TRUE}
-data %>% 
-  select(player_id,year_id,h,x2b,x3b,hr,ab, g) %>% 
+# single function with no additional arguments: bare function name
+concise_slg_summary <- data %>% 
   group_by(player_id) %>% 
-  summarise_at(vars(-year_id),~sum(.))
+  summarize_at(.vars = vars(h, x2b, x3b, hr, ab, g), .funs = sum)
+
+concise_slg_summary
 ```
+
+Passing a named list of functions as the `.funs` argument allows you to run multiple summary functions on each selected column and name the resulting summary columns.
+
+```{r, cache = TRUE}
+multi_summary <- data %>% 
+  group_by(player_id) %>% 
+  summarize_at(.vars = vars(h, x2b, x3b, hr, ab, g), .funs = list("sum" = sum, "sd" = sd))
+
+multi_summary
+```
+
+The `_if` variant allows the user to run a `dplyr` operation on all columns for which some function returns `TRUE`. For instance, to add the string "_numeric" to the names of all numeric columns, we could use `rename_if`. We'll run this on a subset of columns to simplify the display.
+
+```{r}
+numeric_rename <- data %>%
+  select(player_id, year_id, lg_id, g, ab) %>%
+  rename_if(is.numeric, ~str_c(.x, "_numeric"))
+
+numeric_rename
+```
+
+The `_all` variant simply runs the same operation on all columns. We'll select down to a set of numeric columns, and then multiply all of them by two.
+
+```{r}
+data %>%
+  select(hr, ab, g) %>%
+  mutate_all(~ .x * 2)
+```
+
+### `across()`
+
+
