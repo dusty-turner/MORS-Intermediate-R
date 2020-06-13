@@ -57,6 +57,13 @@ Its okay to struggle.
 3. We will ask for feedback to get a feel for understanding 
 4. We will try to answer questions in chat
 
+## Learning Recomendations
+
+1. Use RMD files provided in repo (will get this this later)
+2. Take notes with comments
+3. Execute code along with us
+4. Ask questions in chat.
+
 ## Class Introductions 
 
 Might pass on this given the classroom size.
@@ -131,7 +138,8 @@ https://github.com/dusty-turner/MORS-Intermediate-R.git
 
 ## Prerequisite Packages
 
-```{r}
+```{r eval=FALSE, include=TRUE}
+install.packages("tidyverse","janitor",dependencies = TRUE)
 
 ```
 

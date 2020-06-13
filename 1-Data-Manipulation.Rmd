@@ -8,7 +8,7 @@ library(janitor)
 
 ## Read in Data
 
-```{r, cache=TRUE, cache = TRUE}
+```{r, cache=TRUE}
 read_csv("data_sources/Batting.csv")
 ```
 
