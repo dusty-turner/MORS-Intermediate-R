@@ -1,6 +1,6 @@
 ---
 title: "Intermediate R"
-author: "MAJ Dusty Turner"
+author: "MAJ Dusty Turner and Robert Ward"
 date: "15 JUN 2020"
 output: bookdown::gitbook
 # output:
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 # Class Introduction
 
-Agenda
+Topics
 
 1. Data Manipulation
 2. Data Visulaization
@@ -33,20 +33,42 @@ Incorporateing Intermediate R Techniques
 
 In taking this course, I'm assuming you have a working knowledge of the following...
 
-1. Base R and possibly 'tidy' concepts
-2. Computer Coding 
-3. Statistics
+1. Base R and RStudio Functionality
+2. Basic 'tidy' concepts
+3. Introductory Statistics
 4. Dad Jokes
 
-## Class Introductions
+Give it a shot, if its too much or too little, will not be offended if you leave.
 
-Around the room:
+Its okay to struggle.
+
+## Distance Learning Challenges
+
+1. Expected to be in person
+2. Unkown number of students in class
+3. Asking Quesitons - both verbally and in chat
+4. Knowing if you are following along
+5. Speed of going through the material
+
+## Class Structure
+
+1. 7 HOURS!
+2. 50:10 Work to break
+3. We will ask for feedback to get a feel for understanding 
+4. We will try to answer questions in chat
+
+## Class Introductions 
+
+Might pass on this given the classroom size.
+
+Around the (virtual) room:
 
 - Where you are from:
 - Who you work for:
 - How you are involved in Data Science:
     (ie - statistics, coding, application buidling, manager, etc)
-- Why you sad in that seat:
+<!-- - Why you sat in that seat: -->
+- R Coding Experience
 - Favorite sports team:
 
 ## Instructors Introduction
@@ -85,18 +107,7 @@ Data Science
 - Ask questions at any point
 - Don't let me move too fast (or too slow)
 - Run the code with me
-
-## Get Course Documents
-
-[github repo]https://github.com/dusty-turner/MORS-Intermediate-R
-
-SSH:
-
-$git@github.com:dusty-turner/MORS-Intermediate-R.git$
-
-HTTPS:
-
-https://github.com/dusty-turner/MORS-Intermediate-R.git
+- Use course materials (we'll get to that in a second)
 
 ## Tidy Ecosystem
 
@@ -104,6 +115,19 @@ https://github.com/dusty-turner/MORS-Intermediate-R.git
 
 
 ![](images/tidymodels.png)
+
+## Get Course Documents
+
+[github repo]https://github.com/dusty-turner/MORS-Intermediate-R
+
+SSH:
+
+$git clone git@github.com:dusty-turner/MORS-Intermediate-R.git$
+
+HTTPS:
+
+https://github.com/dusty-turner/MORS-Intermediate-R.git
+
 
 ## Prerequisite Packages
 
