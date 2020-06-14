@@ -4,104 +4,148 @@
 
 ```{r, cache = TRUE}
 library(tidyverse)
-hitters <- read_csv("data_sources/Batting.csv", guess_max = 10000)
+data <- read_csv("data_sources/Batting.csv", guess_max = 10000) %>%
+  janitor::clean_names()
 ```
 
 ## An Interesting Question
 
-Who played the most games and hit the most home runs in the 90s in Texas?
+Who played the most games and hit the most home runs in the 90s in Texas? This question is fairly easy to answer with the tools we learned in the Data Manipulation chapter.
 
 ```{r, cache = TRUE}
 
-hitters %>% 
-  filter(yearID %in% 1990:1999) %>% 
-  filter(teamID %in% c("HOU","TEX")) %>% 
-  select(playerID,teamID, G,HR) %>% 
-  group_by(playerID, teamID) %>% 
-  summarise_all(.funs = sum) %>% 
-  arrange(desc(G,HR))
+data %>% 
+  filter(year_id %in% 1990:1999) %>% 
+  filter(team_id %in% c("HOU","TEX")) %>% 
+  group_by(player_id, team_id) %>% 
+  summarize(g = sum(g),
+            hr = sum(hr)) %>%
+  arrange(desc(g, hr))
 
 ```
 
 ## A More General Question
 
-Who, over a given set of years and teams, had the most of any statistical category?
+What if wanted to be able to easily answer this question for any range of years, teams, and statistics? We could pull out each of these variables, set them ahead of time, and then run a slightly modified version of the above code that uses our newly created variables.
+
+Note that this version of the code uses `across`, mentioned briefly in the Data Manipulation section; it could also be written with `summarize_at`, but using `across` makes our next step easier.
 
 ```{r, cache = TRUE}
-min_year <- 1990
-max_year <- 1999
-teams_chosen <- c("HOU","TEX")
-category <- c("G", "HR")
+years <- 1990:1999
+teams_chosen <- c("HOU", "TEX")
+category <- c("g", "hr")
 
-hitters %>% 
-  filter(yearID %in% min_year:max_year) %>% 
-  filter(teamID %in% teams_chosen) %>% 
-  select(playerID, teamID, category) %>% 
-  group_by(playerID, teamID) %>% 
-  summarise_all(.funs = sum) %>% 
-  arrange_at(desc({{ category }}))
-  # arrange_at(desc({{ category }}))
+data %>% 
+  filter(year_id %in% years) %>% 
+  filter(team_id %in% teams_chosen) %>%
+  group_by(player_id, team_id) %>% 
+  summarize(across(category, sum)) %>% # requires dplyr 1.0.0
+  arrange(desc(across(all_of(category)))) # requires dplyr 1.0.0
 
-var_quo = rlang::parse_quosures(category)
-
-library(dplyr)
-library(rlang)
-
-test_func = function(var){
-    var_quo = parse_quosure(var)
-    mtcars %>%
-      select(!!var_quo) %>%
-      arrange(!!var_quo)
-}
-
-test_func2 = function(var){
-  var_quo = enquo(var)
-  mtcars %>%
-    select(!!var_quo) %>%
-    arrange(!!var_quo)
-}
-```
-
-## Even more Genarally
-
-```{r, cache = TRUE}
-min_year <- 1990
-max_year <- 1999
-teams_chosen <- c("HOU","TEX")
-category <- c("G", "HR")
-
-baseball_fun <- function(min_year = 1990,
-                         max_year = 1999,
-                         teamID = c("HOU","TEX"),
-                         category = c("G", "HR")){
-hitters %>% 
-  filter(yearID %in% min_year:max_year) %>% 
-  filter(teamID %in% teams_chosen) %>% 
-  select(playerID,teamID, category) %>% 
-  group_by(playerID, teamID) %>% 
-  summarise_all(.funs = sum) %>% 
-  arrange(desc(!!!rlang::syms(category)))
-}
-
-baseball_fun()
 
 ```
 
-## Even more Genarally
+## Even More Generally: Writing a Function
+
+The format above works fine for occasional ad-hoc queries, but if we wanted to answer the question for multiple sets of parameters, we'd have to copy and paste all of this code - and then make sure, every time we edited it in the future, that those edits got made to every single instance in exactly the same way. One way to solve this problem would be to use a `for` loop, or nested `for` loops, with different sets of parameters, but even this quickly gets clunky. The most flexible solution is to turn our code into its own function.
+
+In the code below, we define a function. We:
+
+* Give it a name (`subset_batting_stats`);
+* Define the arguments - the inputs - that will be required;
+* Write the code that will be run, using the input names we've defined;
+* Define the value that the function returns;
+* Run it with various parameters to test it out.
+
 
 ```{r, cache = TRUE}
-hitters$teamID %>% unique() %>% sort()
-baseball_fun(min_year = 2000,max_year = 2009, teamID = "NYA") %>% 
-  arrange(desc(HR))
+subset_batting_stats <- function(batting_data, years, teams_chosen, category){
+  batting_data_subset_summary <- batting_data %>% 
+    filter(year_id %in% years) %>% 
+    filter(team_id %in% teams_chosen) %>% 
+    group_by(player_id, team_id) %>%
+    summarize(across(category, sum)) %>% # requires dplyr 1.0.0
+    arrange(desc(across(all_of(category)))) # requires dplyr 1.0.0
+    # summarize_at(vars(all_of(category)), sum) %>% # older/fancier/more general method
+    # arrange(desc(!!!rlang::syms(category))) # older/fancier/more general method
+  
+  return(batting_data_subset_summary)
+}
+
+
+# Texas in the 90s?
+subset_batting_stats(batting_data = data, years = 1990:1999, teams_chosen = c("HOU", "TEX"), category = c("g", "hr"))
+
+#Los Angeles in the 2010s?
+subset_batting_stats(batting_data = data, years = 2010:2019, teams_chosen = c("LAN", "LAA"), category = c("hr", "g"))
+
 ```
 
-## PURRR
+## Iteration with functions: `purrr`
+
+Now that we have our custom function, we can use functions from the package `purrr` to easily run it multiple times with different inputs. (You may have used various flavors of `apply` in the past - these also work well, and accomplish most of the same things, but `purrr` functions have a more convenient and consistent interface.)
+
+The most basic function that helps us do this is `map`. `map` allows us to run a function many times, varying *one* input between each of these runs. It takes two inputs: the list or vector of different values for your one varying input, and the function you want to run repeatedly, with values set for any other arguments.
+
+Functions from `purrr` allow us to use a special syntax for writing out the function we want to run, based on the R's formula syntax. Simply put a tilde (`~`) in front of the function name, and then replace the value to be iterated over with `.x`. Here, we use this syntax with `map` to find the Orioles' top home run hitters in each multiple decades. Our input is a list of numeric vectors, one for each decade, and our output is a list of dataframes.
 
 ```{r}
 library(purrr)
 
-map(c("TEX","NYA"), ~baseball_fun(teamID = .)) %>% 
-  map(~arrange(.x))
+decades <- 1950:2019 %>% split(sort(rep(1:7, 10)))
+
+bal_top_hr_decades <- map(decades, ~subset_batting_stats(batting_data = data, years = .x, teams_chosen = "BAL", category = "hr"))
+
+class(bal_top_hr_decades)
+length(bal_top_hr_decades)
+```
+
+This is still probably too much data to make use of: maybe it would be more helpful to just have the top home run hitter from each decade. We can take our list of output dataframes and map the function `head(1)` over each of them, to get the first row, since they're already sorted by `hr`. 
+
+At this point, we'll have a list of ten one-row dataframes, and we might as well row-bind them. Unlike base R's `rbind`, `dplyr::bind_rows` will accept a list of dataframes and bind them together. (Another option would have been to use `map_dfr`, which runs `bind_rows` on its list-formatted output.)
+
+```{r}
+bal_top1_hr <- bal_top_hr_decades %>%
+  map(~head(.x, 1)) %>%
+  bind_rows()
+
+bal_top1_hr
+
+```
+
+This is much more useful, but we do have a small problem: we've lost the information about which decade each one came from! One way to rectify this problem is to map a `mutate` after we run our custom function to add a column that shows which years each row came from. However, we'll need `map2` for this, since we're going to be iterating over both a list of dataframes and a list of decade vectors. `map2` works just like map, except it takes two lists/vectors as inputs, along with a function, and you can specify these inputs in your function as `.x` and `.y`.
+
+```{r}
+bal_top1_hr_yearcol <- bal_top_hr_decades %>%
+  map2(decades, ~mutate(.x, years = str_c(first(.y), "-", last(.y)))) %>%
+  map(~head(.x, 1)) %>%
+  bind_rows()
+
+bal_top1_hr_yearcol
+
+```
+
+What if we wanted to iterate over more than two arguments? We can use `pmap` for this; better yet, `pmap` will accept a list or dataframe of input combinations, which makes it easy to set up the right combinations of arguments to iterate over.
+
+```{r}
+input_combos <- tibble(batting_data = list(data), 
+                       years = decades[1:4],
+                       teams_chosen = c("BAL", "HOU", "TEX", "NYA"),
+                       category = c("hr", "rbi", "g", "ab"))
+
+pmap_out_top3 <- pmap(input_combos, subset_batting_stats) %>%
+  map2(input_combos$years, ~mutate(.x, years = str_c(first(.y), "-", last(.y)))) %>%
+  map_dfr(~head(.x, 3))
+
+# with decades added, as above, and top 3 taken from each dataframe
+pmap_out_top3
+
+## tidy up...
+pmap_out_top3 %>%
+  group_by(team_id) %>%
+  mutate(rank = row_number()) %>%
+  pivot_longer(c(rbi, g, ab, hr), names_to = "stat_type") %>%
+  filter(!is.na(value))
 
 ```
 

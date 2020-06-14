@@ -335,4 +335,23 @@ data %>%
 
 ### `across()`
 
+The newest version of `dplyr` (1.0.0) introduced a new, arguably simpler way to achieve the same goals as these conditional function variants: the `across` function. `across` can be used with many of the dplyr verbs to operate on a specific subset of columns, specified with the same language as `select`. For example, `across` could be used in similar ways as the conditional variants above:
 
+```{r across, cache = TRUE}
+multi_summary_across <- data %>% 
+  group_by(player_id) %>% 
+  summarize(across(c(h, x2b, x3b, hr, ab, g), .funs = list("sum" = sum, "sd" = sd)))
+
+multi_summary_across
+
+# multiply all selected numeric columns by 2
+mutate_numeric_across <- data %>%
+  select(player_id, hr, ab, g) %>%
+  mutate(across(where(is.numeric), ~ .x * 2))
+
+mutate_numeric_across
+```
+
+
+
+However, `across` is very new and occasionally has serious performance issues, so it is not used above. More information can be found (here)[https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/];
