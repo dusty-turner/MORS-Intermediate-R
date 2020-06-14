@@ -16,7 +16,7 @@ slgname <-
   read_csv("data_sources/saved_data/slgname.csv")
 ```
 
-To drive towards an end goal as we learn about `ggplot`, lets try to visually depect the players with the top 20 career hit totals.
+To drive towards an end goal as we learn about `ggplot`, lets create a visualization to depect the annual hit totals for players with the top 20 total career hits.
 
 ## Bar Chart
 

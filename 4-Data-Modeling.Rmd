@@ -1,5 +1,7 @@
 # Data Modeling
 
+In the last year or so, [Max Kuhn]("https://twitter.com/topepos"), working for RStudio, has developed `tidymodels()'.  Tidymodels is a modeling framework that follows tidy coding principles.  It provides a streamlined technique for preprocessing data, executing a model, and validating the output. 
+
 In this section, you will learn:
 
 1. A small amount of data exploration.
@@ -17,6 +19,8 @@ library(tidyverse)
 library(tidymodels)
 library(tune)
 library(janitor)
+library(doFuture)
+library(vip)
 
 data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
   clean_names()
@@ -43,15 +47,15 @@ hofdata <-
 
 hofdata %>%  count(inducted)
 
-retiredyear = 
+retiredyear <- 
 data %>% 
   group_by(player_id) %>% 
   summarise(lastyear = max(year_id))
 
 retiredyear
 
-hof =
-data %>% 
+hof <-
+  data %>% 
   group_by(player_id) %>% 
   summarise_at(vars(g:gidp), list(~sum(.,na.rm = TRUE))) %>%
   ungroup() %>%  
@@ -74,13 +78,13 @@ hof %>%
   filter(lastyear <= 2012) %>% 
   count(inducted) 
 
-hofmod =
+hofmod <-
 hof %>% 
   filter(lastyear <= 2012) %>% 
   select(-lastyear)
 hofmod
 
-hoftest = 
+hoftest <-
 hof %>% 
   filter(lastyear > 2012) %>% 
   select(-lastyear,-inducted)
@@ -117,19 +121,29 @@ hof %>%
   facet_wrap(~name, scales = "free")
 ```
 
-```{r}
+Well, won't players who are in the HOF had played longer?  Therefore they should have more hits, home runs, etc?
+
+```{r, cache=TRUE}
 hof %>% 
   select(g, inducted) %>%  
   ggplot(aes(x=g, fill = inducted)) +
-  geom_density()
+  geom_density() +
+  labs(x="Games", y = "", fill = "HOF",
+       title = "Density of Game / HOF Stats")
+```
 
+
+Lets look at this for every statistic
+
+```{r, cache=TRUE}
 hof %>% 
   select(g:gidp, inducted) %>%  
   pivot_longer(cols = g:gidp) %>% 
   ggplot(aes(x=value, fill = inducted)) +
   geom_density() +
-  facet_wrap(~name, scales = "free_x") +
-  labs(x="",y = "")
+  facet_wrap(~name, scales = "free") +
+  labs(x="",y = "", fill = "HOF",
+       title = "Density of Stats for Players In/Out of HOF")
   
 ```
 
@@ -137,15 +151,19 @@ hof %>%
 ## Split Data test/train
 
 ```{r, cache=TRUE}
-set.seed(as.numeric(as.factor("beatnavy")))
-hof_initial_split = initial_split(hofmod, prop = 0.80)
+set.seed(str_length("beatnavy"))
+hof_initial_split <- initial_split(hofmod, prop = 0.80)
 hof_initial_split
 ```
 
 ## Preprocess Data
 
+A recipe is a description of what steps should be applied to a data set in order to get it ready for data analysis.
+
+`tidymodels` / `recipes` currently offers about 30 'steps'.  More documentation for the `recipes` package is [here]("https://recipes.tidymodels.org/reference/index.html")
+
 ```{r, cache=TRUE}
-preprocessing_recipe =
+preprocessing_recipe <-
   recipe(inducted ~ ., data = training(hof_initial_split)) %>%
   step_knnimpute(all_numeric()) %>% 
   step_center(all_numeric()) %>% 
@@ -157,8 +175,10 @@ preprocessing_recipe
 
 ## Apply Preprocessing
 
+For a recipe with at least one preprocessing operations that has been trained by `recipe()`, apply the computations to the data.
+
 ```{r, cache=TRUE}
-hof_training_preprocessed_tbl = 
+hof_training_preprocessed_tbl <- 
   preprocessing_recipe %>% 
   bake(training(hof_initial_split))
 
@@ -167,9 +187,13 @@ hof_training_preprocessed_tbl
 
 ## Prepare Cross Validation
 
+This partitions our data into `v` folds.  In our case, 5.
+
+This yields a data frame with a nested list of training / testing data.
+
 ```{r, cache=TRUE}
-set.seed(as.numeric(as.factor("beatnavy")))
-hof_cv_folds =
+set.seed(str_length("beatnavy"))
+hof_cv_folds <-
   training(hof_initial_split) %>% 
     bake(preprocessing_recipe, new_data = .) %>%
     vfold_cv(v = 5)
@@ -178,10 +202,20 @@ hof_cv_folds
 
 ## Specify Models 
 
+Now that we've prepared our data, we must specifiy the models which want to compare.  We'll look at 2.
+
+You must first specify the model type (`logistic_reg()` and `rand_forest` in the examples below.)  There are many to choose from in the parsnip package.  Documentation can be found [here]("tidyverse.org/blog/2018/11/parsnip-0-0-1/").
+
+The motivation behind this package from the documentation, "Modeling functions across different R packages can have very different interfaces. If you would like to try different approaches, there is a lot of syntactical minutiae to remember. The problem worsens when you move in-between platforms.
+
+"`parsnip` tries to solve this by providing similar interfaces to models. For example, if you are fitting a random forest model and would like to adjust the number of trees in the forest there are different argument names to remember depending on the random forest package you chose..." (such as `rf` or `randomforest`).
+
+After you specify the model type, you can provide 
+
 ### GLM Model {-}
 
 ```{r, cache=TRUE}
-glmnet_model =
+glmnet_model <-
   logistic_reg(mode = "classification",
     penalty = tune(),
     mixture = tune()) %>%
@@ -192,8 +226,10 @@ glmnet_model
 
 ### Random Forest Model {-}
 
+Notice how in the previous model and in this model, I did not speciy the parameters such as `penalty`, `mixture`, `mode`, `mtry`, `trees`, and `min_n`.  I can specivy these values, but I have chose to 'tune' them through cross validation in later steps.
+
 ```{r, cache=TRUE}
-forest_model =
+forest_model <-
   rand_forest(
     mode = "classification",
     mtry = tune(),
@@ -207,13 +243,15 @@ forest_model
 
 ## Create Grid of Parameters to Validate Over
 
+Here we specify the tuning parameters for cross validation and take a look visually at the parameter space we are covering in efforts to reach the best model. 
+
 ### GLM Model {-}
 
 ```{r, cache=TRUE}
-glmnet_params = parameters(penalty(), mixture())
+glmnet_params <- parameters(penalty(), mixture())
 glmnet_params
 
-set.seed(as.numeric(as.factor("beatnavy")))
+set.seed(str_length("beatnavy"))
 glmnet_grid = grid_max_entropy(glmnet_params, size = 20)
 glmnet_grid
 
@@ -227,11 +265,11 @@ glmnet_grid %>%
 ### Random Forest Model {-}
 
 ```{r, cache=TRUE}
-forest_params = parameters(mtry(c(2,6)), trees(), min_n())
+forest_params <- parameters(mtry(c(2,6)), trees(), min_n())
 forest_params
 
-set.seed(as.numeric(as.factor("beatnavy")))
-forest_grid = grid_max_entropy(forest_params, size = 30)
+set.seed(str_length("beatnavy"))
+forest_grid <- grid_max_entropy(forest_params, size = 30)
 forest_grid
 
 ```
@@ -240,10 +278,13 @@ forest_grid
 
 ### Parallel Processing
 
+The great thing about cross validation is that it helps tune our parameters in efforts to find the model that performs the best on the out of sample test set.  The problem is that it can be compuationally intensive.  
+
+Thankfully `tidymodels` is capable of running over multiple cores.  You can see from the code below my computer has 4 cores.  Your milage may vary. 
+
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
 all_cores <- parallel::detectCores(logical = FALSE)
 
-library(doFuture)
 registerDoFuture()
 cl <- makeCluster(all_cores)
 plan(cluster, workers = cl)
@@ -251,29 +292,37 @@ plan(cluster, workers = cl)
 
 ### GLM Model {-}
 
+The code below kicks off the cross validation of your model.  You can see the time it took to run the code below.  
 
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
 
-library(tune)
+tictoc::tic()
+glmnet_stage_1_cv_results_tbl <- tune_grid(
+          object = glmnet_model, 
+          inducted ~ ., 
+          resamples = hof_cv_folds, 
+          grid = glmnet_grid, 
+          # grid = forest_grid, 
+          metrics = metric_set(accuracy, kap, roc_auc), 
+          control = control_grid(verbose = TRUE)
+          )
+tictoc::toc()
 
-glmnet_stage_1_cv_results_tbl = tune_grid(
-    formula   = inducted ~ .,
-    model     = glmnet_model,
-    resamples = hof_cv_folds,
-    grid      = glmnet_grid,
-    metrics   = metric_set(accuracy, kap, roc_auc),
-    control   = control_grid(verbose = TRUE)
-)
+glmnet_stage_1_cv_results_tbl
 
-glmnet_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10, maximize = FALSE)
-glmnet_stage_1_cv_results_tbl %>% show_best("kap", n = 10, maximize = FALSE)
-glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
+glmnet_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10)
+glmnet_stage_1_cv_results_tbl %>% show_best("kap", n = 10)
+glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10)
 ```
 
 ### Random Forest Model {-}
 
+This code took quite a bit of time - but would have been much longer if not parrallelized.
+
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
-forest_stage_1_cv_results_tbl = tune_grid(
+
+tictoc::tic()
+forest_stage_1_cv_results_tbl <- tune_grid(
     formula   = inducted ~ .,
     model     = forest_model,
     resamples = hof_cv_folds,
@@ -281,67 +330,80 @@ forest_stage_1_cv_results_tbl = tune_grid(
     metrics   = metric_set(accuracy, kap, roc_auc),
     control   = control_grid(verbose = TRUE)
 )
+tictoc::toc()
 
-forest_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10, maximize = FALSE)
-forest_stage_1_cv_results_tbl %>% show_best("kap", n = 10, maximize = FALSE)
-forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10, maximize = FALSE)
+forest_stage_1_cv_results_tbl
+
+forest_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10)
+forest_stage_1_cv_results_tbl %>% show_best("kap", n = 10)
+forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10)
 
 ```
 
 ## Select Best Parameters
 
+Now that both models are cross validated, we can select the tuning parameters which minimized our error metric.  
+
 ```{r, cache=TRUE}
-params_glmnet_best = glmnet_stage_1_cv_results_tbl %>% 
-    select_best("roc_auc", maximize = FALSE)
+params_glmnet_best <- 
+  glmnet_stage_1_cv_results_tbl %>% 
+  select_best("roc_auc")
+
 params_glmnet_best
 
-params_forest_best = forest_stage_1_cv_results_tbl %>% 
-    select_best("roc_auc", maximize = FALSE)
+params_forest_best <-
+  forest_stage_1_cv_results_tbl %>% 
+  select_best("roc_auc")
+
 params_forest_best
 ```
 
 ## Save Best Paramenters
 
 ```{r, cache=TRUE}
-glmnet_stage_2_model = glmnet_model %>% 
-    finalize_model(parameters = params_glmnet_best)
+glmnet_stage_2_model <-
+  glmnet_model %>% 
+  finalize_model(parameters = params_glmnet_best)
 
 glmnet_stage_2_model
 ```
 
 ```{r, cache=TRUE}
-forest_stage_2_model = forest_model %>% 
-    finalize_model(params_forest_best)
+forest_stage_2_model <-
+  forest_model %>% 
+  finalize_model(params_forest_best)
 
 forest_stage_2_model
 ```
 
 ## Compare Models
 
+No, we need to compare the models to see which one performs best on our error metric.
+
 ```{r, cache=TRUE}
-train_processed = 
+train_processed <-
   training(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
 
-test_processed  = 
+test_processed <-
   testing(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
     
-target_expr = 
+target_expr <-
   preprocessing_recipe %>% 
     pluck("last_term_info") %>%
     filter(role == "outcome") %>%
     pull(variable) %>%
     sym()
 
-glmnet_stage_2_metrics =    
+glmnet_stage_2_metrics <-
   glmnet_stage_2_model %>%
   fit(formula = inducted ~ ., data = train_processed) %>%
   predict(new_data = test_processed) %>%
   bind_cols(testing(hof_initial_split)) %>%
   metrics(!! target_expr, .pred_class)
 
-forest_stage_2_metrics =    
+forest_stage_2_metrics <-   
   forest_stage_2_model %>%
   fit(formula = inducted ~ ., data = train_processed) %>%
   predict(new_data = test_processed) %>%
@@ -363,13 +425,13 @@ Looks like the Random Forest is the better model.
 ## Run Best Model on All Data
 
 ```{r, cache=TRUE}
-model_final = forest_stage_2_model %>%
+model_final <-forest_stage_2_model %>%
     fit(inducted ~ . , data = bake(preprocessing_recipe, new_data = hofmod))
 ```
 
 ## Run Model on New Data
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, include=FALSE}
 hoftest %>%
   bake(preprocessing_recipe, new_data = .) %>%
   predict(model_final, new_data = .) %>% 

@@ -194,6 +194,8 @@ Our existing player data only has player ids with partial names. However, we hav
 
 ```{r, cache = TRUE}
 player_info <- read_csv("data_sources/Master.csv")
+
+player_info
 ```
 
 Let's create a single `player` column from the first and last name columns, and drop everything else besides our player id and name columns.
@@ -203,6 +205,8 @@ player_names <- player_info %>%
   select(playerID, nameFirst, nameLast) %>% 
   mutate(player = str_c(nameFirst, " ", nameLast)) %>% 
   select(-starts_with("name"))
+
+player_names
 ```
 
 ### Join the Data {-}
@@ -373,7 +377,7 @@ However, `across` is very new and occasionally has serious performance issues, s
 
 ### Write Data
 
-We will write this file to a folder so we can access it in later lessonse / chapters.
+We will write this file to a folder so we can access it in later lessons / chapters.
 
 ```{r}
 slgname %>% 

@@ -22,16 +22,16 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 Topics
 
 1. Data Manipulation
-2. Data Visulaization
+2. Data Visualization
 3. Functional Programming
 4. Data Modeling
 5. Text Analysis
 
-Incorporateing Intermediate R Techniques
+Incorporating Intermediate R Techniques
 
 ## Expectations
 
-In taking this course, I'm assuming you have a working knowledge of the following...
+By taking this course, we assume you have a working knowledge of the following...
 
 1. Base R and RStudio Functionality
 2. Basic 'tidy' concepts
@@ -45,24 +45,24 @@ Its okay to struggle.
 ## Distance Learning Challenges
 
 1. Expected to be in person
-2. Unkown number of students in class
-3. Asking Quesitons - both verbally and in chat
-4. Knowing if you are following along
+2. Unknown number of students in class
+3. Asking Questions - both verbally and in chat
+4. How to know if you are following along
 5. Speed of going through the material
 
 ## Class Structure
 
 1. 7 HOURS!
-2. 50:10 Work to break
+2. ~ 50:10 Work to break - 1 HR Lunch
 3. We will ask for feedback to get a feel for understanding 
 4. We will try to answer questions in chat
 
-## Learning Recomendations
+## Learning Recommendations
 
 1. Use RMD files provided in repo (will get this this later)
 2. Take notes with comments
 3. Execute code along with us
-4. Ask questions in chat.
+4. Ask questions in chat
 
 ## Class Introductions 
 
@@ -73,7 +73,7 @@ Around the (virtual) room:
 - Where you are from:
 - Who you work for:
 - How you are involved in Data Science:
-    (ie - statistics, coding, application buidling, manager, etc)
+    (ie - statistics, coding, application building, manager, etc)
 <!-- - Why you sat in that seat: -->
 - R Coding Experience
 - Favorite sports team:
@@ -139,7 +139,18 @@ https://github.com/dusty-turner/MORS-Intermediate-R.git
 ## Prerequisite Packages
 
 ```{r eval=FALSE, include=TRUE}
-install.packages("tidyverse","janitor",dependencies = TRUE)
-
+install.packages(
+  "tidyverse",
+  "janitor",
+  "gganimate",
+  "purrr",
+  "tidymodels",
+  "tune",
+  "doFuture",
+  "vip",
+  "stringi",
+  "topicmodels",
+  dependencies = TRUE
+  )
 ```
 

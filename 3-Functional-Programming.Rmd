@@ -10,14 +10,12 @@ In this section, we will use the following libraries and data:
 
 ```{r}
 library(tidyverse)
-<<<<<<< HEAD
 library(purrr)
 
 hitters <- read_csv("data_sources/Batting.csv", guess_max = 10000)
-=======
+
 data <- read_csv("data_sources/Batting.csv", guess_max = 10000) %>%
   janitor::clean_names()
->>>>>>> c364c019ce819454669a637a5cbdb4b33e045603
 ```
 
 
@@ -44,30 +42,6 @@ What if wanted to be able to easily answer this question for any range of years,
 Note that this version of the code uses `across`, mentioned briefly in the Data Manipulation section; it could also be written with `summarize_at`, but using `across` makes our next step easier.
 
 ```{r, cache = TRUE}
-<<<<<<< HEAD
-min_year <- 1990
-max_year <- 1999
-teams_chosen <- c("HOU","TEX")
-category <- c("G", "HR")
-
-hitters %>% 
-  filter(yearID %in% min_year:max_year) %>% 
-  filter(teamID %in% teams_chosen) %>% 
-  select(playerID, teamID, category) %>% 
-  group_by(playerID, teamID) %>% 
-  summarise_all(.funs = sum) %>% 
-  arrange_at(desc({{ category }}))
-  # arrange_at(desc({{ category }}))
-
-var_quo = rlang::parse_quosures(category)
-
-test_func = function(var){
-    var_quo = parse_quosure(var)
-    mtcars %>%
-      select(!!var_quo) %>%
-      arrange(!!var_quo)
-}
-=======
 years <- 1990:1999
 teams_chosen <- c("HOU", "TEX")
 category <- c("g", "hr")
@@ -78,8 +52,6 @@ data %>%
   group_by(player_id, team_id) %>% 
   summarize(across(category, sum)) %>% # requires dplyr 1.0.0
   arrange(desc(across(all_of(category)))) # requires dplyr 1.0.0
-
->>>>>>> c364c019ce819454669a637a5cbdb4b33e045603
 
 ```
 
@@ -119,9 +91,6 @@ subset_batting_stats(batting_data = data, years = 2010:2019, teams_chosen = c("L
 
 ```
 
-<<<<<<< HEAD
-## `purrr`
-=======
 ## Iteration with functions: `purrr`
 
 Now that we have our custom function, we can use functions from the package `purrr` to easily run it multiple times with different inputs. (You may have used various flavors of `apply` in the past - these also work well, and accomplish most of the same things, but `purrr` functions have a more convenient and consistent interface.)
@@ -129,7 +98,6 @@ Now that we have our custom function, we can use functions from the package `pur
 The most basic function that helps us do this is `map`. `map` allows us to run a function many times, varying *one* input between each of these runs. It takes two inputs: the list or vector of different values for your one varying input, and the function you want to run repeatedly, with values set for any other arguments.
 
 Functions from `purrr` allow us to use a special syntax for writing out the function we want to run, based on the R's formula syntax. Simply put a tilde (`~`) in front of the function name, and then replace the value to be iterated over with `.x`. Here, we use this syntax with `map` to find the Orioles' top home run hitters in each multiple decades. Our input is a list of numeric vectors, one for each decade, and our output is a list of dataframes.
->>>>>>> c364c019ce819454669a637a5cbdb4b33e045603
 
 ```{r}
 library(purrr)
