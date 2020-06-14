@@ -21,7 +21,7 @@ data <- read_csv("data_sources/Batting.csv", guess_max = 10000) %>%
 
 ## An Interesting Question
 
-Who played the most games and hit the most home runs in the 90s in Texas? This question is fairly easy to answer with the tools we learned in the Data Manipulation chapter.
+Who played the most games and hit the most home runs in the 90s in the state of Texas? This question is fairly easy to answer with the tools we learned in the Data Manipulation chapter.
 
 ```{r, cache = TRUE}
 
@@ -41,7 +41,7 @@ What if wanted to be able to easily answer this question for any range of years,
 
 Note that this version of the code uses `across`, mentioned briefly in the Data Manipulation section; it could also be written with `summarize_at`, but using `across` makes our next step easier.
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, message = FALSE, warning = FALSE}
 years <- 1990:1999
 teams_chosen <- c("HOU", "TEX")
 category <- c("g", "hr")
@@ -68,7 +68,7 @@ In the code below, we define a function. We:
 * Run it with various parameters to test it out.
 
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 subset_batting_stats <- function(batting_data, years, teams_chosen, category){
   batting_data_subset_summary <- batting_data %>% 
     filter(year_id %in% years) %>% 
@@ -85,7 +85,11 @@ subset_batting_stats <- function(batting_data, years, teams_chosen, category){
 
 # Texas in the 90s?
 subset_batting_stats(batting_data = data, years = 1990:1999, teams_chosen = c("HOU", "TEX"), category = c("g", "hr"))
+```
 
+This is nice and elegant, but it hasn't accomplished anything different than what we did before.  Below you can see the power of this function as we can easily change the parameters to answer a different question.
+
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 #Los Angeles in the 2010s?
 subset_batting_stats(batting_data = data, years = 2010:2019, teams_chosen = c("LAN", "LAA"), category = c("hr", "g"))
 
@@ -100,7 +104,6 @@ The most basic function that helps us do this is `map`. `map` allows us to run a
 Functions from `purrr` allow us to use a special syntax for writing out the function we want to run, based on the R's formula syntax. Simply put a tilde (`~`) in front of the function name, and then replace the value to be iterated over with `.x`. Here, we use this syntax with `map` to find the Orioles' top home run hitters in each multiple decades. Our input is a list of numeric vectors, one for each decade, and our output is a list of dataframes.
 
 ```{r}
-library(purrr)
 
 decades <- 1950:2019 %>% split(sort(rep(1:7, 10)))
 
@@ -142,6 +145,8 @@ input_combos <- tibble(batting_data = list(data),
                        years = decades[1:4],
                        teams_chosen = c("BAL", "HOU", "TEX", "NYA"),
                        category = c("hr", "rbi", "g", "ab"))
+
+input_combos
 
 pmap_out_top3 <- pmap(input_combos, subset_batting_stats) %>%
   map2(input_combos$years, ~mutate(.x, years = str_c(first(.y), "-", last(.y)))) %>%

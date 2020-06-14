@@ -135,6 +135,9 @@ HTTPS:
 
 https://github.com/dusty-turner/MORS-Intermediate-R.git
 
+### {-} R Markdown
+
+While we're here, lets do a quick overview of R Markdown.
 
 ## Prerequisite Packages
 
@@ -150,6 +153,8 @@ install.packages(
   "vip",
   "stringi",
   "topicmodels",
+  "yardstick",
+  "recipe",
   dependencies = TRUE
   )
 ```

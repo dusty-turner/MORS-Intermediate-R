@@ -24,9 +24,9 @@ book_raw %>% nchar()
 
 ## Find Chapter Splits
 
-To do the analysis, we need to parse the text.  The purpose of this section is not a lesson text parsing so we'll skip the detail.  But I will disuss it a little in class.
+To do the analysis, we need to parse the text.  The purpose of this section is not a lesson text parsing so we'll skip the detail.  But I will discuss it a little in class.
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 book <-
 book_raw %>% 
   separate_rows(value, sep = "\nCHAPTER") %>%
@@ -140,11 +140,11 @@ booktokens %>%
 
 ```{r, cache = TRUE}
 booktokens %>%
-  left_join(get_sentiments("bing")) %>%
+  left_join(get_sentiments("bing"), by = "word") %>%
   filter(!is.na(sentiment)) %>%
   count(word, sentiment, sort = TRUE) %>%
   group_by(sentiment) %>%
-  top_n(10) %>%
+  top_n(10, n) %>%
   ungroup() %>%
   ggplot(aes(x=fct_reorder(word,n), y = n, fill = sentiment)) +
   geom_col(show.legend = FALSE) +
@@ -279,7 +279,7 @@ booktokens %>%
   cast_dtm(document, term, count)
 ```
 
-Create a reproducable example of two topics
+Create a reproducible example of two topics
 
 ```{r, cache = TRUE}
 lda <- LDA(bookdtm, k = 2, control = list(seed = 1234))

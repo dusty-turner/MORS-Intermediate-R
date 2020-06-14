@@ -1,15 +1,15 @@
 # Data Modeling
 
-In the last year or so, [Max Kuhn]("https://twitter.com/topepos"), working for RStudio, has developed `tidymodels()'.  Tidymodels is a modeling framework that follows tidy coding principles.  It provides a streamlined technique for preprocessing data, executing a model, and validating the output. 
+In the last year or so, [Max Kuhn]("https://twitter.com/topepos"), working for RStudio, has developed `tidymodels`.  Tidymodels is a modeling framework that follows tidy coding principles.  It provides a streamlined technique for preprocessing, execution, and validation 
 
 In this section, you will learn:
 
 1. A small amount of data exploration.
 2. The basics of `tidymodels`
- - spliting data
- - runing multiple models
+ - splitting data
+ - running multiple models
  - cross validation
- - selective the best model
+ - selecting the best model
 3. How to parallelize your code
 
 In this section, we will use the following libraries and data:
@@ -17,9 +17,11 @@ In this section, we will use the following libraries and data:
 ```{r, cache=TRUE}
 library(tidyverse)
 library(tidymodels)
+library(recipes)
 library(tune)
 library(janitor)
 library(doFuture)
+library(yardstick)
 library(vip)
 
 data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
@@ -32,9 +34,11 @@ head(data)
 head(hofdata)
 ```
 
-Lets try to develop an informed answer to the question: What baseball statistics are important for a baseball player making the Hall of Fame?
+Lets try to develop an informed answer to the question: What baseball statistics help indicate whether or not a baseball player will make the Hall of Fame?
 
-## Prapare Data For Analysis
+## Prepare Data For Analysis
+
+For this analysis, lets organize our data to identify players who are in the hall of fame as well as those eligible.
 
 ```{r, cache=TRUE}
 
@@ -47,23 +51,25 @@ hofdata <-
 
 hofdata %>%  count(inducted)
 
-retiredyear <- 
+years_played <- 
 data %>% 
   group_by(player_id) %>% 
-  summarise(lastyear = max(year_id))
+  summarise(across(year_id, .fns = c("min" = min, "max" = max))) %>%  # dplyr 1.0.0
+  mutate(total_years = year_id_max - year_id_min)
 
-retiredyear
+years_played
 
 hof <-
   data %>% 
   group_by(player_id) %>% 
   summarise_at(vars(g:gidp), list(~sum(.,na.rm = TRUE))) %>%
   ungroup() %>%  
-  left_join(retiredyear) %>% 
-  left_join(hofdata) %>% 
+  left_join(years_played, by = "player_id") %>% 
+  left_join(hofdata, by = "player_id") %>% 
   mutate(inducted = if_else(inducted=="Y",1,0)) %>% 
   mutate(inducted = replace_na(inducted, 0)) %>% 
-  filter(g>=1000) %>% 
+  filter(total_years >= 10) %>% 
+  # filter(g>=1000) %>% 
   mutate(inducted = as.factor(inducted)) %>% 
   select(-hof)
 
@@ -71,23 +77,23 @@ hof
 
 ```
 
-### Filter for HOF Eligable Players {-}
+### Filter for HOF Eligible Players {-}
 
 ```{r, cache=TRUE}
 hof %>% 
-  filter(lastyear <= 2012) %>% 
+  filter(year_id_max <= 2012) %>% 
   count(inducted) 
 
 hofmod <-
 hof %>% 
-  filter(lastyear <= 2012) %>% 
-  select(-lastyear)
+  filter(year_id_max <= 2012) %>% 
+  select(-contains("year"))
 hofmod
 
 hoftest <-
 hof %>% 
-  filter(lastyear > 2012) %>% 
-  select(-lastyear,-inducted)
+  filter(year_id_max > 2012) %>% 
+  select(-contains("year"),-inducted)
 hoftest
 
 ```
@@ -97,7 +103,7 @@ hoftest
 Percentage of players in the dataset who are in the HOF
 
 ```{r, cache=TRUE}
-hofmod %>% count(inducted)
+hofmod %>% count(inducted) %>% mutate(prop = n/sum(n))
 ```
 
 Visual difference in statistics between HOF and non HOF
@@ -122,6 +128,8 @@ hof %>%
 ```
 
 Well, won't players who are in the HOF had played longer?  Therefore they should have more hits, home runs, etc?
+
+Lets compare the number of games of players in the HOF vs out of the HOF.
 
 ```{r, cache=TRUE}
 hof %>% 
@@ -150,6 +158,8 @@ hof %>%
 
 ## Split Data test/train
 
+To begin modeling, we'll need to split our data into a testing, training, and validation set.
+
 ```{r, cache=TRUE}
 set.seed(str_length("beatnavy"))
 hof_initial_split <- initial_split(hofmod, prop = 0.80)
@@ -160,7 +170,17 @@ hof_initial_split
 
 A recipe is a description of what steps should be applied to a data set in order to get it ready for data analysis.
 
-`tidymodels` / `recipes` currently offers about 30 'steps'.  More documentation for the `recipes` package is [here]("https://recipes.tidymodels.org/reference/index.html")
+`tidymodels` / `recipes` currently offers about 30 'steps'.  More documentation for the `recipes` package is [here](https://recipes.tidymodels.org/reference/index.html)
+
+We first specify the "recipe" or specify what we are trying to model and with what data.
+
+```{r}
+recipe(inducted ~ ., data = training(hof_initial_split))
+```
+
+From here, we need to specify other preprocessing steps.  We will add these to the recipe.   
+
+Once we complete these steps, we 'prep' the data.
 
 ```{r, cache=TRUE}
 preprocessing_recipe <-
@@ -202,9 +222,9 @@ hof_cv_folds
 
 ## Specify Models 
 
-Now that we've prepared our data, we must specifiy the models which want to compare.  We'll look at 2.
+Now that we've prepared our data, we must specify the models which want to compare.  We'll look at 2.
 
-You must first specify the model type (`logistic_reg()` and `rand_forest` in the examples below.)  There are many to choose from in the parsnip package.  Documentation can be found [here]("tidyverse.org/blog/2018/11/parsnip-0-0-1/").
+You must first specify the model type (`logistic_reg()` and `rand_forest` in the examples below).  There are many to choose from in the parsnip package.  Documentation can be found [here](tidyverse.org/blog/2018/11/parsnip-0-0-1/).
 
 The motivation behind this package from the documentation, "Modeling functions across different R packages can have very different interfaces. If you would like to try different approaches, there is a lot of syntactical minutiae to remember. The problem worsens when you move in-between platforms.
 
@@ -226,7 +246,7 @@ glmnet_model
 
 ### Random Forest Model {-}
 
-Notice how in the previous model and in this model, I did not speciy the parameters such as `penalty`, `mixture`, `mode`, `mtry`, `trees`, and `min_n`.  I can specivy these values, but I have chose to 'tune' them through cross validation in later steps.
+Notice how in the previous model and in this model, I specified several tuning parameters.  Other than `penalty`, and `mixture`, there are many to chose from.  These include `mode`, `mtry`, `trees`, and `min_n` among others..  I can specify these values, but I have chose to 'tune' them through cross validation in later steps.
 
 ```{r, cache=TRUE}
 forest_model <-
@@ -278,12 +298,15 @@ forest_grid
 
 ### Parallel Processing
 
-The great thing about cross validation is that it helps tune our parameters in efforts to find the model that performs the best on the out of sample test set.  The problem is that it can be compuationally intensive.  
+The great thing about cross validation is that tunes parameters to find the model which performs the best on the out-of-sample test data.  
 
-Thankfully `tidymodels` is capable of running over multiple cores.  You can see from the code below my computer has 4 cores.  Your milage may vary. 
+The problem is that this can be computationally intensive.  
+
+Thankfully `tidymodels` is capable of running over multiple cores.  You can see from the code below my computer has 4 cores.  Your mileage may vary. 
 
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
 all_cores <- parallel::detectCores(logical = FALSE)
+all_cores
 
 registerDoFuture()
 cl <- makeCluster(all_cores)
@@ -292,7 +315,7 @@ plan(cluster, workers = cl)
 
 ### GLM Model {-}
 
-The code below kicks off the cross validation of your model.  You can see the time it took to run the code below.  
+The code below kicks off the cross validation of your model.  You can see the time it takes to run the code over multiple cores  
 
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
 
@@ -307,17 +330,27 @@ glmnet_stage_1_cv_results_tbl <- tune_grid(
           control = control_grid(verbose = TRUE)
           )
 tictoc::toc()
+```
 
+The output of the cross validation is a tibble with nested columns.  Of note, in the columns are the data and the performance. 
+
+```{r message=FALSE, warning=FALSE, cache=TRUE}
 glmnet_stage_1_cv_results_tbl
+```
 
-glmnet_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10)
-glmnet_stage_1_cv_results_tbl %>% show_best("kap", n = 10)
-glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10)
+We can manipulate the dataframe to extract the data we need, however, the `tune` package provides a function to help us out.
+
+```{r message=FALSE, warning=FALSE, cache=TRUE}
+glmnet_stage_1_cv_results_tbl %>% show_best("accuracy", n = 5) %>% bind_rows(
+glmnet_stage_1_cv_results_tbl %>% show_best("kap", n = 5)) %>% bind_rows(
+glmnet_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 5))
 ```
 
 ### Random Forest Model {-}
 
-This code took quite a bit of time - but would have been much longer if not parrallelized.
+This following code took quite a bit of time - but would have taken about 5 times as long if not parallelized.  
+
+Since we explained the code above, we will not break up this code below.
 
 ```{r message=FALSE, warning=FALSE, cache=TRUE}
 
@@ -332,11 +365,11 @@ forest_stage_1_cv_results_tbl <- tune_grid(
 )
 tictoc::toc()
 
-forest_stage_1_cv_results_tbl
+forest_stage_1_cv_results_tbl 
 
-forest_stage_1_cv_results_tbl %>% show_best("accuracy", n = 10)
-forest_stage_1_cv_results_tbl %>% show_best("kap", n = 10)
-forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 10)
+forest_stage_1_cv_results_tbl %>% show_best("accuracy", n = 5) %>% bind_rows(
+forest_stage_1_cv_results_tbl %>% show_best("kap", n = 5)) %>% bind_rows(
+forest_stage_1_cv_results_tbl %>% show_best("roc_auc", n = 5))
 
 ```
 
@@ -358,7 +391,7 @@ params_forest_best <-
 params_forest_best
 ```
 
-## Save Best Paramenters
+## Execute Models With Best Parameters
 
 ```{r, cache=TRUE}
 glmnet_stage_2_model <-
@@ -378,7 +411,9 @@ forest_stage_2_model
 
 ## Compare Models
 
-No, we need to compare the models to see which one performs best on our error metric.
+Now we need to compare the 'winning' specifications from our two models to see which one performs best on our error metric.
+
+First we apply our preprocessing recipe to our training and test sets.
 
 ```{r, cache=TRUE}
 train_processed <-
@@ -388,7 +423,12 @@ train_processed <-
 test_processed <-
   testing(hof_initial_split) %>% 
   bake(preprocessing_recipe, new_data = .)
-    
+```
+
+Next, we are identifying the variable in which we are predicting (inducted in this instance), then using the `metrics` function from the `yardstick` library to estimate the performance of each model.
+
+```{r, cache=TRUE}
+
 target_expr <-
   preprocessing_recipe %>% 
     pluck("last_term_info") %>%
@@ -409,7 +449,11 @@ forest_stage_2_metrics <-
   predict(new_data = test_processed) %>%
   bind_cols(testing(hof_initial_split)) %>%
   metrics(!! target_expr, .pred_class)
+```
 
+Here, we pretty up the code for easy consumption.
+
+```{r, cache=TRUE}
 glmnet_stage_2_metrics %>% 
   mutate(mod = "glmnet") %>% 
   bind_rows(
@@ -431,7 +475,7 @@ model_final <-forest_stage_2_model %>%
 
 ## Run Model on New Data
 
-```{r, cache=TRUE, include=FALSE}
+```{r echo=TRUE, include=FALSE, cache=TRUE}
 hoftest %>%
   bake(preprocessing_recipe, new_data = .) %>%
   predict(model_final, new_data = .) %>% 

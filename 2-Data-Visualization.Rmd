@@ -16,7 +16,7 @@ slgname <-
   read_csv("data_sources/saved_data/slgname.csv")
 ```
 
-To drive towards an end goal as we learn about `ggplot`, lets create a visualization to depect the annual hit totals for players with the top 20 total career hits.
+To drive towards an end goal as we learn about `ggplot`, lets create a visualization to depict the annual hit totals for players with the top 20 total career hits.
 
 ## Bar Chart
 
@@ -72,7 +72,7 @@ slgname %>%
 
 ### Coordinate Flip {-}
 
-Bar plots often suffere from difficult to read x axes.  We can fix that with a coordinate flip.
+Bar plots often suffer from difficult to read x axes.  We can fix that with a coordinate flip.
 
 ```{r, cache = TRUE}
 slgname %>% 
@@ -131,24 +131,27 @@ Next, lets show the functionality of the scatter plot.
 
 Lets explore the trajectory of the home runs per season since 1990
 
-Lets start with our origional data:
+Lets start with our original data:
 
 ```{r, cache = TRUE}
 data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
   clean_names()
+
+data
 ```
 
 
 ```{r, cache = TRUE}
-scatterdat <- 
+scatterdat <-
   data %>% 
   filter(lg_id == "AL") %>% 
-  filter(year_id>1990) %>% 
+  filter(year_id >= 1990) %>% 
   mutate(team_id = fct_lump(team_id, n = 12)) %>%
   filter(team_id != "Other") %>% 
   filter(complete.cases(.)) %>%
   group_by(team_id,year_id) %>% 
-  summarise_at(.vars = vars(g:gidp),.funs = list(sum))
+  summarise(across(.cols = c(g:gidp),.fns = sum)) ## dplyr 1.0.0
+
 
 scatterdat
 ```
@@ -191,7 +194,7 @@ scatterdat %>%
 
 We can stack layers to help tell the story of our data.
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -208,7 +211,7 @@ Controlled by the term `span`.  Smaller equals more "wigglyness"
 
 `span = 1`
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -217,16 +220,16 @@ scatterdat %>%
 
 `span = .1`
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
-  geom_smooth(span = 1)
+  geom_smooth(span = .1)
 ```
 
 Both
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
@@ -236,7 +239,7 @@ scatterdat %>%
 
 ### Facet Plots {-}
 
-`ggplot` offers the ability to 'facet' plots by a variable.  This can help show contrats between different factors.
+`ggplot` offers the ability to 'facet' plots by a variable.  This can help show contrast between different factors.
 
 ```{r, cache = TRUE}
 scatterdat %>% 
@@ -250,14 +253,14 @@ scatterdat %>%
 
 As before, we can update the labels.
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
   geom_point(aes(color = fct_reorder(team_id,-hr))) +
   geom_smooth() +
   facet_wrap(~team_id) +
   labs(title = "Home Run Changes Over Time",
-       subtitle = paste("From", min(scatterdat$year_id), "to", max(scatterdat$year_id)),
+       subtitle = str_c("From ", min(scatterdat$year_id), " to ", max(scatterdat$year_id)),
        color = "Team",
        x = "Season", y = "Season Home Run Total")
 ```
@@ -287,18 +290,19 @@ animdata <-
   data %>%
   filter(!is.na(lg_id)) %>%
   group_by(year_id, team_id) %>%
-  summarise_at(vars(hr, so, bb, ab), ~ sum(., na.rm = TRUE)) %>%
+  summarise(across(.cols = c(hr, so, bb, ab), .fns =  ~ sum(., na.rm = TRUE))) %>%
   ungroup() %>%
   inner_join(data %>%
                select(year_id, team_id, lg_id) %>%
-               distinct()) 
+               distinct()
+             ) 
 
 animdata
 ```
 
 We'll talk through the code below.  While it does not render in the book, we'll run it in console and talk through the process.
 
-There are many gganimate options and you can explore further [here]("https://gganimate.com/articles/gganimate.html")
+There are many gganimate options and you can explore further [here](https://gganimate.com/articles/gganimate.html)
 
 ```{r animate_run, eval=FALSE, cache=TRUE}
 p <- animdata %>% 
