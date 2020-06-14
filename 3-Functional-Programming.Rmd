@@ -1,11 +1,20 @@
 # Functional Programming
 
-## Iteration
+In this section, you will learn:
 
-```{r, cache = TRUE}
+1. How to write a basic function.
+2. How to run this function for many inputs.
+
+
+In this section, we will use the following libraries and data:
+
+```{r}
 library(tidyverse)
+library(purrr)
+
 hitters <- read_csv("data_sources/Batting.csv", guess_max = 10000)
 ```
+
 
 ## An Interesting Question
 
@@ -43,9 +52,6 @@ hitters %>%
   # arrange_at(desc({{ category }}))
 
 var_quo = rlang::parse_quosures(category)
-
-library(dplyr)
-library(rlang)
 
 test_func = function(var){
     var_quo = parse_quosure(var)
@@ -95,7 +101,7 @@ baseball_fun(min_year = 2000,max_year = 2009, teamID = "NYA") %>%
   arrange(desc(HR))
 ```
 
-## PURRR
+## `purrr`
 
 ```{r}
 library(purrr)

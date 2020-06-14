@@ -1,8 +1,23 @@
 # Data Manipulation
 
+In this section, you will learn:
+
+1. Some nuances of reading in data.
+2. The basics of `dplyr` to manipulate data.
+  - `select`
+  - `mutate`
+  - `filter`
+  - `group_by`
+  - `summarize`
+  - `arrange`
+3. A few more advanced `dplyr` concepts.
+4. How to do 'joins'.
+
+
+In this section, we will use the following libraries:
+
 ```{r, cache = TRUE}
 library(tidyverse)
-library(tidymodels)
 library(janitor)
 ```
 
@@ -335,4 +350,13 @@ data %>%
 
 ### `across()`
 
+
+### Write Data
+
+We will write this file to a folder so we can access it in later lessonse / chapters.
+
+```{r}
+slgname %>% 
+  write_csv("data_sources/saved_data/slgname.csv")
+```
 

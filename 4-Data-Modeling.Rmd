@@ -1,32 +1,41 @@
 # Data Modeling
 
-## Load Packages
+In this section, you will learn:
 
-```{r, cache=TRUE, warning=FALSE, message=FALSE}
-library(tidymodels)
-library(tune)
-library(dials)
-library(parsnip)
-library(rsample)
-library(recipes)
-library(textrecipes)
-library(yardstick)
-library(vip)
-library(gghighlight)
-library(patchwork)
-library(tidyverse)
-library(tidyquant)
-library(knitr)
-library(janitor)
-```
+1. A small amount of data exploration.
+2. The basics of `tidymodels`
+ - spliting data
+ - runing multiple models
+ - cross validation
+ - selective the best model
+3. How to parallelize your code
 
-## Read Data
+In this section, we will use the following libraries and data:
 
 ```{r, cache=TRUE}
-data = read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
+library(tidyverse)
+library(tidymodels)
+library(tune)
+library(janitor)
+
+data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>%
   clean_names()
 
-hofdata = read_csv("data_sources/HallOfFame.csv") %>% 
+hofdata <- read_csv("data_sources/HallOfFame.csv") 
+
+head(data)
+
+head(hofdata)
+```
+
+Lets try to develop an informed answer to the question: What baseball statistics are important for a baseball player making the Hall of Fame?
+
+## Prapare Data For Analysis
+
+```{r, cache=TRUE}
+
+hofdata <-
+  hofdata %>% 
   clean_names() %>% 
   select(player_id, inducted) %>% 
   mutate(hof = ifelse(inducted=="Y",1,0)) %>% 
@@ -38,6 +47,7 @@ retiredyear =
 data %>% 
   group_by(player_id) %>% 
   summarise(lastyear = max(year_id))
+
 retiredyear
 
 hof =
@@ -54,6 +64,7 @@ data %>%
   select(-hof)
 
 hof
+
 ```
 
 ### Filter for HOF Eligable Players {-}
@@ -79,15 +90,49 @@ hoftest
 
 ## Data Exploration
 
+Percentage of players in the dataset who are in the HOF
+
 ```{r, cache=TRUE}
-hofmod %>% 
-  select(g:inducted) %>%  
+hofmod %>% count(inducted)
+```
+
+Visual difference in statistics between HOF and non HOF
+
+```{r, cache=TRUE}
+
+hof %>% 
+  select(g:gidp, inducted) %>%  
   pivot_longer(cols = g:gidp) %>% 
-  ggplot(aes(x=value,y=as.factor(inducted),color = name)) +
+  group_by(inducted,name) %>% 
+  summarise(
+    lwr_quantile = quantile(value, c(.025)),
+    median = quantile(value, c(.5)),
+    upper_quantile = quantile(value, c(.975)),
+            ) %>% 
+  ggplot(aes(x=inducted,y=median)) +
   geom_point() +
+  geom_errorbar(aes(ymin = lwr_quantile, ymax = upper_quantile)) +
   theme(legend.position = "none") +
+  labs(x= "",y = "", title = "Differences Between HOF and non-HOF") +
   facet_wrap(~name, scales = "free")
 ```
+
+```{r}
+hof %>% 
+  select(g, inducted) %>%  
+  ggplot(aes(x=g, fill = inducted)) +
+  geom_density()
+
+hof %>% 
+  select(g:gidp, inducted) %>%  
+  pivot_longer(cols = g:gidp) %>% 
+  ggplot(aes(x=value, fill = inducted)) +
+  geom_density() +
+  facet_wrap(~name, scales = "free_x") +
+  labs(x="",y = "")
+  
+```
+
 
 ## Split Data test/train
 

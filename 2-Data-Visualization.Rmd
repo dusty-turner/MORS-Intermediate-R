@@ -1,5 +1,23 @@
 # Data Visualization
 
+In this section, you will learn:
+
+1. The structure of `ggplot`.
+2. A few techniques to make your plots better.
+3. A taste of animation.
+
+In this section, we will use the following libraries and data:
+
+```{r}
+library(tidyverse)
+library(gganimate)
+
+slgname <-
+  read_csv("data_sources/saved_data/slgname.csv")
+```
+
+To drive towards an end goal as we learn about `ggplot`, lets try to visually depect the players with the top 20 career hit totals.
+
 ## Bar Chart
 
 ```{r, cache = TRUE}
@@ -8,12 +26,18 @@ slgname
 
 ### Canvas {-}
 
+The base layer of any ggplot object is simply the "canvas" in which you will build your plot.
+
 ```{r, cache = TRUE}
 slgname %>% 
   ggplot()
 ```
 
 ### Mapping {-}
+
+We will "map" each element of the data to the canvas.
+
+Elements which can be mapped include `x`, `y`, `color`, `fill`, `size`, `alpha`, and a few others.
 
 ```{r, cache = TRUE}
 slgname %>% 
@@ -22,26 +46,37 @@ slgname %>%
 
 ### Filter Data {-}
 
+To keep the plot clean, we'll filter for the top 20 players by career hits.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>% 
+  # top_n(20, h) %>% 
   ggplot(aes(x=player, y = hr)) 
 ```
 
 ### Plot 'mechanism' {-}
 
+Next we add the type of plot.  There are a *ton* and can be explored [here](https://ggplot2.tidyverse.org/reference/).  
+
+We will only explore a couple.
+
+Also, we should point out the simplicity of ggplot.  Each 'layer' is added sequentially.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>%  
   ggplot(aes(x=player, y = hr)) +
   geom_col()
 ```
 
 ### Coordinate Flip {-}
 
+Bar plots often suffere from difficult to read x axes.  We can fix that with a coordinate flip.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>%  
   ggplot(aes(x=player, y = hr)) +
   geom_col() +
   coord_flip()
@@ -49,9 +84,11 @@ slgname %>%
 
 ### Reorder Factors {-}
 
+This is nice, but it doesn't easily present the information we are trying to convey.  Lets reorder the factors of the barplot.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>%  
   ggplot(aes(x=fct_reorder(player,hr), y = hr)) +
   geom_col() +
   coord_flip()
@@ -59,9 +96,11 @@ slgname %>%
 
 ### Color Bars {-}
 
+Lets add some more information to the plot by coloring the bars by the players slugging percentage.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>%  
   ggplot(aes(x=fct_reorder(player,hr), y = hr, fill = slg)) +
   geom_col() +
   coord_flip()
@@ -69,9 +108,13 @@ slgname %>%
 
 ### Update Labels {-}
 
+Lets update our plot labels to help the plot tell the story of the data.
+
+Notice in the `labs()` function, you simply provide the information you would like to present to the mapped value.
+
 ```{r, cache = TRUE}
 slgname %>% 
-  top_n(20, h) %>% 
+  slice_max(order_by = h, n = 20) %>%  
   ggplot(aes(x=fct_reorder(player,hr), y = hr, fill = slg)) +
   geom_col() +
   coord_flip() +
@@ -82,18 +125,30 @@ slgname %>%
        caption = "*Among Players Who've Played at least 1000 games")
 ```
 
-## Scatter Plot {-}
+## Scatter Plot
+
+Next, lets show the functionality of the scatter plot.  
+
+Lets explore the trajectory of the home runs per season since 1990
+
+Lets start with our origional data:
 
 ```{r, cache = TRUE}
-scatterdat = 
-data %>% 
+data <- read_csv("data_sources/Batting.csv", col_types = cols(SF = col_double(), GIDP = col_double())) %>% 
+  clean_names()
+```
+
+
+```{r, cache = TRUE}
+scatterdat <- 
+  data %>% 
   filter(lg_id == "AL") %>% 
-  mutate(team_id = fct_lump(team_id, n = 12)) %>% 
+  filter(year_id>1990) %>% 
+  mutate(team_id = fct_lump(team_id, n = 12)) %>%
   filter(team_id != "Other") %>% 
   filter(complete.cases(.)) %>%
-  filter(year_id>1990) %>% 
   group_by(team_id,year_id) %>% 
-  summarise_at(vars(g:gidp), ~sum(.))  
+  summarise_at(.vars = vars(g:gidp),.funs = list(sum))
 
 scatterdat
 ```
@@ -109,10 +164,22 @@ scatterdat %>%
 
 ```{r, cache = TRUE}
 scatterdat %>% 
-  ggplot(aes(x=year_id,y=hr,color = fct_reorder(team_id,-hr)))
+  ggplot(aes(x=year_id,y=hr,color = team_id))
 ```
 
 ### Plot 'mechanism': geom_point() {-}
+
+`geom_point()` creates a scatterplot.
+
+```{r, cache = TRUE}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr,color = team_id)) +
+  geom_point() 
+```
+
+### Arrange Teams by Least to Most Home Runs
+
+Using `fct_reorder`, we can order the teams by most to least home runs.
 
 ```{r, cache = TRUE}
 scatterdat %>% 
@@ -122,6 +189,8 @@ scatterdat %>%
 
 ### Plot 'mechanism': geom_smooth() {-}
 
+We can stack layers to help tell the story of our data.
+
 ```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
@@ -129,7 +198,45 @@ scatterdat %>%
   geom_smooth()
 ```
 
+How does `ggplot` determine that line?
+
+LOWESS - LOcally WEighted Scatterplot Smoothing
+
+LOESS - LOcally Estimated Scatterplot Smoothing
+
+Controlled by the term `span`.  Smaller equals more "wigglyness"
+
+`span = 1`
+
+```{r, cache = TRUE}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr)) +
+  geom_point(aes(color = fct_reorder(team_id,-hr))) +
+  geom_smooth(span = 1)
+```
+
+`span = .1`
+
+```{r, cache = TRUE}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr)) +
+  geom_point(aes(color = fct_reorder(team_id,-hr))) +
+  geom_smooth(span = 1)
+```
+
+Both
+
+```{r, cache = TRUE}
+scatterdat %>% 
+  ggplot(aes(x=year_id,y=hr)) +
+  geom_point(aes(color = fct_reorder(team_id,-hr))) +
+  geom_smooth(span = .1) +
+  geom_smooth(span = 1, color = "red")
+```
+
 ### Facet Plots {-}
+
+`ggplot` offers the ability to 'facet' plots by a variable.  This can help show contrats between different factors.
 
 ```{r, cache = TRUE}
 scatterdat %>% 
@@ -140,6 +247,8 @@ scatterdat %>%
 ```
 
 ### Update Labels {-}
+
+As before, we can update the labels.
 
 ```{r, cache = TRUE}
 scatterdat %>% 
@@ -155,6 +264,8 @@ scatterdat %>%
 
 ### Change Smoothing Line {-}
 
+Earlier, we talked about the LOESS smoother.  We can change the line type we impose on our scatter plots.  In this instance, we can apply a best fit linear regression line. 
+
 ```{r, cache = TRUE}
 scatterdat %>% 
   ggplot(aes(x=year_id,y=hr)) +
@@ -169,10 +280,10 @@ scatterdat %>%
 
 ## Animation
 
-```{r animate_data, echo=TRUE, message=FALSE, warning=FALSE, cache = TRUE}
-library(gganimate)
+While not rendered here, we will briefly display the ability to animate a ggplot.  We've created some new data to support animation showing the change in the number of home runs and strike outs over the years.
 
-animdata =
+```{r animate_data, echo=TRUE, message=FALSE, warning=FALSE, cache = TRUE}
+animdata <-
   data %>%
   filter(!is.na(lg_id)) %>%
   group_by(year_id, team_id) %>%
@@ -185,18 +296,23 @@ animdata =
 animdata
 ```
 
+We'll talk through the code below.  While it does not render in the book, we'll run it in console and talk through the process.
+
+There are many gganimate options and you can explore further [here]("https://gganimate.com/articles/gganimate.html")
 
 ```{r animate_run, eval=FALSE, cache=TRUE}
-p = animdata %>% 
+p <- animdata %>% 
   ggplot(aes(x = so,y = hr, color = bb,size = ab,group = year_id)) +
   geom_point() +
   facet_wrap(~ lg_id) +
   transition_states(year_id,transition_length = 1,state_length = 30) +
-  labs(title = 'Year: {closest_state, cache = TRUE}') +
+  labs(title = "The Change in Home Runs and Strike Outs Over The Years", subtitle = 'Year: {closest_state}', x = "Strike Outs", y = "Home Runs") +
+  # labs(title = 'Year: {closest_state, cache = TRUE}') +
   enter_fade() +
   exit_fade()
 
 animate(p,nframes = length(unique(data$year_id)) * 2)
+
 ```
 
 

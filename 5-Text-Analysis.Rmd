@@ -1,5 +1,11 @@
 # Text Analysis
 
+In this section, you will learn.
+
+1. More `dplyr`
+2. More `ggplot`
+3. The basics of `tidytext`
+
 ## The Adventures of Tom Sawyer
 
 

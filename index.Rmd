@@ -125,11 +125,11 @@ Data Science
 
 ## Get Course Documents
 
-[github repo]https://github.com/dusty-turner/MORS-Intermediate-R
+[github repo](https://github.com/dusty-turner/MORS-Intermediate-R)
 
 SSH:
 
-$git clone git@github.com:dusty-turner/MORS-Intermediate-R.git$
+```git clone git@github.com:dusty-turner/MORS-Intermediate-R.git```
 
 HTTPS:
 
