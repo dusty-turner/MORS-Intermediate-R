@@ -8,4 +8,4 @@ Instructors:
 Center for Army Analysis  
 FT Belvoir, VA  
 
-Please reach out to me at dusty.s.turner@gmail.com or robert.w.ward134.civ@mail.mil
+Please reach out to us at dusty.s.turner@gmail.com or robert.w.ward134.civ@mail.mil
