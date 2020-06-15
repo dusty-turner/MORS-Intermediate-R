@@ -107,6 +107,19 @@ Data Science
 
 ### Robert Ward
 
+Education
+
+- University of Chicago, '13
+  - Political Science & English, BA
+- Columbia University School of International and Public Affairs, '18
+  - Master of International Affairs, Specialization in Advanced Policy and Economic Analysis
+  
+Data Science
+
+- R user since 2011; also know some python and forgot some Stata
+- Worked for GAO Applied Research & Methods
+- ORSA at CAA and Army Leader Dashboard/Vantage PM team
+
 
 ## Course Intent
 
