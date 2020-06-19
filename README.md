@@ -5,6 +5,7 @@ This repo supports the MORS Intermediate R Course.
 Instructors: 
  - Major Dusty Turner  
  - Mr Robert Ward
+ 
 Center for Army Analysis  
 FT Belvoir, VA  
 
